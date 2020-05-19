@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "arrow-erp2"
+  },
+  "targets": {
+    "arrow-erp2": {
+      "hosting": {
+        "angularlight": [
+          "arrow-erp2"
+        ]
+      }
+    }
+  }
+}
