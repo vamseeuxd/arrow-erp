@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {
   Event,
   Router,
@@ -6,7 +6,9 @@ import {
   NavigationEnd,
   RouterEvent
 } from '@angular/router';
-import { PlatformLocation } from '@angular/common';
+import {PlatformLocation} from '@angular/common';
+import {BusyIndicatorService} from './layout/busy-indicator.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -15,7 +17,11 @@ import { PlatformLocation } from '@angular/common';
 export class AppComponent {
   currentUrl: string;
   showLoadingIndicatior = true;
-  constructor(public _router: Router, location: PlatformLocation) {
+
+  constructor(
+    public _router: Router,
+    public busyIndicator: BusyIndicatorService,
+    location: PlatformLocation) {
     this._router.events.subscribe((routerEvent: Event) => {
       if (routerEvent instanceof NavigationStart) {
         this.showLoadingIndicatior = true;

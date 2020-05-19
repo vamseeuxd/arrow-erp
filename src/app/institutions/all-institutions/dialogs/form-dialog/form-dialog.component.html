@@ -13,6 +13,11 @@
         </button>
     </div>
     <div mat-dialog-content>
-        <app-add-school [isPage]="false" [school]="school" class="d-block mt-3" (save)="saveData($event)" (cancel)="dialogRef.close()"></app-add-school>
+        <app-add-institution [isPage]="false"
+                             [institution]="institution"
+                             class="d-block mt-3"
+                             (save)="saveData($event)"
+                             (cancel)="dialogRef.close()">
+        </app-add-institution>
     </div>
 </div>

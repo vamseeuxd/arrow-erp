@@ -1,6 +1,6 @@
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Component, Inject} from '@angular/core';
-import {Schools, SchoolsInterface} from '../../schools.model';
+import {InstitutionsInterface} from '../../institutions.model';
 
 @Component({
   selector: 'app-form-dialog',
@@ -10,21 +10,21 @@ import {Schools, SchoolsInterface} from '../../schools.model';
 export class FormDialogComponent {
   action: string;
   dialogTitle: string;
-  school: SchoolsInterface;
+  institution: InstitutionsInterface;
 
   constructor(
     public dialogRef: MatDialogRef<FormDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { school: SchoolsInterface, action: string },
+    @Inject(MAT_DIALOG_DATA) public data: { institution: InstitutionsInterface, action: string },
   ) {
     // Set the defaults
     this.action = data.action;
     if (this.action === 'edit') {
-      this.dialogTitle = data.school.institutionName;
-      this.school = JSON.parse(JSON.stringify(data.school));
+      this.dialogTitle = data.institution.institutionName;
+      this.institution = JSON.parse(JSON.stringify(data.institution));
     }
     else {
-      this.dialogTitle = 'New Schools';
-      this.school = null;
+      this.dialogTitle = 'New Institutions';
+      this.institution = null;
     }
   }
 
@@ -32,7 +32,7 @@ export class FormDialogComponent {
     this.dialogRef.close();
   }
 
-  saveData(data: SchoolsInterface) {
+  saveData(data: InstitutionsInterface) {
     this.dialogRef.close({data});
   }
 }

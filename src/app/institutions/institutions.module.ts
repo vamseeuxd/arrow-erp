@@ -15,27 +15,23 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import {SchoolsRoutingModule} from './schools-routing.module';
-import {AllSchoolsComponent} from './all-schools/all-schools.component';
-import {DeleteDialogComponent} from './all-schools/dialogs/delete/delete.component';
-import {FormDialogComponent} from './all-schools/dialogs/form-dialog/form-dialog.component';
-import {AddSchoolsComponent} from './add-schools/add-schools.component';
-import {EditSchoolComponent} from './edit-schools/edit-professor.component';
-import {AboutSchoolsComponent} from './about-schools/about-schools.component';
+import {InstitutionsRoutingModule} from './institutions-routing.module';
+import {AllInstitutionsComponent} from './all-institutions/all-institutions.component';
+import {DeleteDialogComponent} from './all-institutions/dialogs/delete/delete.component';
+import {FormDialogComponent} from './all-institutions/dialogs/form-dialog/form-dialog.component';
+import {AddInstitutionComponent} from './add-institution/add-institution.component';
 import {MaterialFileInputModule} from 'ngx-material-file-input';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatMenuModule} from '@angular/material/menu';
-import {SchoolsService} from './all-schools/schools.service';
+import {InstitutionsService} from './all-institutions/institutions.service';
 import {ArrowFirebaseModule} from '../arrow-firebase.module';
 
 @NgModule({
   declarations: [
-    AllSchoolsComponent,
+    AllInstitutionsComponent,
     DeleteDialogComponent,
     FormDialogComponent,
-    AddSchoolsComponent,
-    EditSchoolComponent,
-    AboutSchoolsComponent
+    AddInstitutionComponent,
   ],
   imports: [
     CommonModule,
@@ -58,12 +54,12 @@ import {ArrowFirebaseModule} from '../arrow-firebase.module';
     MatTabsModule,
     MaterialFileInputModule,
     MatMenuModule,
-    SchoolsRoutingModule,
+    InstitutionsRoutingModule,
     ArrowFirebaseModule,
   ],
   providers: [
-    SchoolsService
+    InstitutionsService
   ]
 })
-export class SchoolsModule {
+export class InstitutionsModule {
 }

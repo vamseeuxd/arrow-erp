@@ -5,3 +5,8 @@
 <app-sidebar *ngIf="!_router.url.includes('/authentication')"></app-sidebar>
 <app-right-sidebar></app-right-sidebar>
 <router-outlet></router-outlet>
+<div *ngIf="busyIndicator.isBusyIndicator()" class="mmm-busy-indicator fixed-top vw-100 vh-100 d-flex justify-content-center align-items-center"
+     style="background-color: rgba(255,255,255,0.6) !important;z-index: 10000000000000000000;">
+  <img src="./assets/images/loader.gif" style="width: 250px;margin-top: -125px;">
+  <label style="color: black;position: absolute;margin-top: -25px;">Please wait...</label>
+</div>

@@ -1,0 +1,192 @@
+<section [class.content]="isPage">
+  <div class="container-fluid">
+    <div *ngIf="isPage"
+         class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">Add Institution</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a routerLink="/dashboard/main">
+                <i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="breadcrumb-item bcrumb-2">
+              <a href="#"
+                 onClick="return false;">Institutions</a>
+            </li>
+            <li class="breadcrumb-item active">Add</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row clearfix">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card" [class.shadow-none]="!isPage">
+          <div class="shadow-none header" *ngIf="isPage">
+            <h2>Add Institution</h2>
+            <ul class="header-dropdown m-r--5">
+              <li class="dropdown">
+                <a href="#"
+                   onClick="return false;"
+                   data-toggle="dropdown"
+                   role="button"
+                   aria-haspopup="true"
+                   aria-expanded="false"><i class="material-icons">more_vert</i></a>
+                <ul class="dropdown-menu pull-right">
+                  <li><a href="#"
+                         onClick="return false;">Action</a></li>
+                  <li><a href="#"
+                         onClick="return false;">Another action</a></li>
+                  <li><a href="#"
+                         onClick="return false;">Something else here</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <div class="body" [class.shadow-none]="!isPage">
+
+            <form [formGroup]="institutionForm"
+                  (ngSubmit)="onSubmit()"
+                  *ngIf="showForm">
+              <div class="row">
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width mb-3"
+                                  appearance="outline">
+                    <mat-label>Institution Name</mat-label>
+                    <input autocomplete="off"
+                           type="text"
+                           matInput
+                           required
+                           formControlName="institutionName">
+                    <mat-error>Institution is required</mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width mb-3"
+                                  appearance="outline">
+                    <mat-label>Contact Person</mat-label>
+                    <input autocomplete="off"
+                           type="text"
+                           matInput
+                           required
+                           formControlName="contactPerson">
+                    <mat-error>Contact Person is required</mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width mb-3"
+                                  appearance="outline">
+                    <mat-label>Contact Phone Number</mat-label>
+                    <input autocomplete="off"
+                           type="tel"
+                           prefix="+91"
+                           mask="00 000 00 000"
+                           matInput
+                           required
+                           formControlName="contactPhone">
+                    <mat-error>Valid Contact Phone is required</mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width mb-3"
+                                  appearance="outline">
+                    <mat-label>Contact Email</mat-label>
+                    <input autocomplete="off"
+                           type="email"
+                           email
+                           matInput
+                           required
+                           formControlName="contactEmail">
+                    <mat-error>Valid Contact Email is required</mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width mb-3"
+                                  appearance="outline">
+                    <mat-label>Member Ship</mat-label>
+                    <mat-select formControlName="memberShip"
+                                required>
+                      <mat-option [value]="'Basic'">Basic</mat-option>
+                      <mat-option [value]="'Premium'">Premium</mat-option>
+                      <mat-option [value]="'Gold'">Gold</mat-option>
+                    </mat-select>
+                    <mat-error>Member Ship is required</mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width mb-3"
+                                  appearance="outline">
+                    <mat-label>Status</mat-label>
+                    <mat-select formControlName="status"
+                                required>
+                      <mat-option [value]="'active'">Active</mat-option>
+                      <mat-option [value]="'in-active'">Inactive</mat-option>
+                    </mat-select>
+                    <mat-error>Status is required</mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width mb-3"
+                                  appearance="outline">
+                    <mat-label>Institution ID</mat-label>
+                    <input autocomplete="off"
+                           type="text"
+                           matInput
+                           class="text-lowercase"
+                           required
+                           minlength="3"
+                           formControlName="institutionId">
+                    <mat-error *ngIf="institutionId.invalid && (institutionId.errors.required || institutionId.errors.minlength)">
+                      Institution ID is required minimum 3 Charters
+                    </mat-error>
+                    <mat-error *ngIf="institutionId.invalid && institutionId.errors.notAvailable">
+                      <strong>{{ institutionId.value }}</strong> is already taken
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+
+                <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width mb-3">
+                    <mat-label>Address</mat-label>
+                    <textarea autocomplete="off"
+                              matInput
+                              required
+                              placeholder="Address"
+                              formControlName="address"></textarea>
+                    <mat-error>Address is required</mat-error>
+                  </mat-form-field>
+                </div>
+
+
+              </div>
+
+              <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
+                  <button class="mr-3"
+                          [disabled]="!institutionForm.valid "
+                          mat-raised-button
+                          color="primary">Save
+                  </button>
+                  <button type="reset"
+                          (click)="cancel.emit()"
+                          mat-button>Cancel
+                  </button>
+                </div>
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
