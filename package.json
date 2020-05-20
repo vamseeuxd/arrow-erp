@@ -81,6 +81,7 @@
     "simple-line-icons": "^2.4.1",
     "sweetalert2": "^9.10.12",
     "tslib": "^1.11.1",
+    "webrtc-adapter": "^7.6.0",
     "zone.js": "~0.10.3"
   },
   "devDependencies": {

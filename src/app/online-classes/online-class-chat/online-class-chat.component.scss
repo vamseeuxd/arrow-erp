@@ -1,0 +1,23 @@
+:host {
+  #chat-conversation {
+    position: relative;
+    height: calc(100vh - 330px);
+    max-height: calc(100vh - 330px);
+  }
+
+  #chat_user {
+    position: relative;
+    height: calc(100vh - 195px);
+    max-height: calc(100vh - 195px);
+  }
+
+  .open-chat-button {
+    position: fixed;
+    top: 63px;
+    right: 15px;
+    background-color: #fdfdfd;
+    border: 2px solid #eeeeee;
+    padding: 7px 12px;
+    border-bottom: 2px solid #00bcd4;
+  }
+}

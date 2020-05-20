@@ -81,6 +81,10 @@ const routes: Routes = [
     loadChildren: () => import('./media/media.module').then(m => m.MediaModule)
   },
   {
+    path: 'online-classes',
+    loadChildren: () => import('./online-classes/online-classes.module').then(m => m.OnlineClassesModule)
+  },
+  {
     path: 'charts',
     loadChildren: () =>
       import('./charts/charts.module').then(m => m.ChartsModule)

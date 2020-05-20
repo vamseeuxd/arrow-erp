@@ -77,6 +77,25 @@ export const ROUTES: RouteInfo[] = [
   },
   {
     path: '',
+    title: 'online-classes',
+    iconType: 'material-icons-two-tone',
+    icon: 'person',
+    class: 'menu-toggle',
+    groupTitle: false,
+    submenu: [
+      {
+        path: '/online-classes',
+        title: 'Start Online Class',
+        iconType: '',
+        icon: '',
+        class: 'ml-menu',
+        groupTitle: false,
+        submenu: [],
+      }
+    ],
+  },
+  {
+    path: '',
     title: 'Institutions',
     iconType: 'material-icons-two-tone',
     icon: 'business',
@@ -828,7 +847,7 @@ export const ROUTES: RouteInfo[] = [
         submenu: [],
       },
       {
-        path: '/media/carousel',
+        path: '/media/online-classes',
         title: 'Carousel',
         iconType: '',
         icon: '',

@@ -1,24 +1,19 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { GalleryComponent } from './gallery/gallery.component';
-import { CarouselComponent } from './carousel/carousel.component';
+import { OnlineClassesComponent } from './online-classes/online-classes.component';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'gallery',
+    redirectTo: 'online-classes',
     pathMatch: 'full'
   },
   {
-    path: 'gallery',
-    component: GalleryComponent
-  },
-  {
     path: 'online-classes',
-    component: CarouselComponent
+    component: OnlineClassesComponent
   }
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class MediaRoutingModule {}
+export class OnlineClassesRoutingModule {}

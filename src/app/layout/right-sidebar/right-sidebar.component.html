@@ -1,6 +1,6 @@
 <!-- Right Sidebar -->
 <aside id="rightsidebar" class="right-sidebar" [ngClass]="isOpenSidebar ? 'open' : 'close'"
-    (clickOutside)="onClickedOutside($event)">
+    (clickOutside)="onClickedOutside($event)" style="z-index: 1000 !important;">
     <div class="rightSidebarClose" (click)="toggleRightSidebar()"><i class="far fa-times-circle"></i></div>
     <ul class="nav nav-tabs tab-nav-right" role="tablist">
         <li role="presentation">
