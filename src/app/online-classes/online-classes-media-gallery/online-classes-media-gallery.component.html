@@ -1,0 +1,44 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Images ( <code>{{onlineClassMediaDetailsList.length}}</code> )</mat-card-title>
+    <mat-card-subtitle>
+      Images to show while Online Class
+    </mat-card-subtitle>
+    <mat-card-subtitle *ngIf="onlineClassMediaDetailsList.length===0">
+      No Images or added, add Images by clicking on
+      <code>Add Image</code> button
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content *ngIf="onlineClassMediaDetailsList.length>0">
+
+    <div cdkDropList cdkDropListOrientation="horizontal" class="images-videos-gallery" (cdkDropListDropped)="drop($event)">
+      <div class="images-videos-gallery-item" *ngFor="let mediaDetails of onlineClassMediaDetailsList" cdkDrag>
+        <mat-card class="images-videos-gallery-item-card">
+          <mat-card-header>
+            <mat-card-subtitle>{{mediaDetails.mediaTitle}}</mat-card-subtitle>
+          </mat-card-header>
+          <img mat-card-image [src]="mediaDetails.mediaUrl">
+          <mat-card-actions class="d-flex flex-row">
+            <button mat-button type="button" color="warn" (click)="deleteMediaDetails(mediaDetails)">Delete</button>
+            <button mat-button type="button" color="primary" (click)="editMediaDetails(mediaDetails, OnlineClassAction.UPDATE_IMAGE)">Edit</button>
+          </mat-card-actions>
+        </mat-card>
+
+
+        <div class="images-videos-gallery-handle" cdkDragHandle>
+          <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
+            <path d="M0 0h24v24H0z" fill="none"></path>
+          </svg>
+        </div>
+
+      </div>
+    </div>
+
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button type="button" (click)="openDialog(OnlineClassAction.ADD_IMAGE)">Add Image</button>
+    <!--<button mat-button (click)="openDialog(OnlineClassAction.ADD_VIDEO)">Add Video</button>-->
+  </mat-card-actions>
+</mat-card>

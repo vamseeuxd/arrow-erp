@@ -1,0 +1,101 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style ">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">Manage Online Classes</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a routerLink="/dashboard/main">
+                <i class="fas fa-home"></i> Home</a>
+            </li>
+            <li class="breadcrumb-item bcrumb-2">
+              <a href="#" onClick="return false;">online-classes</a>
+            </li>
+            <li class="breadcrumb-item active">manage-online-classes</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="header">
+            <h2>Manage Online Classes </h2>
+          </div>
+          <div class="body">
+            <form #arrowForm="ngForm" class="row">
+              <!--Class Title-->
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Class Title</mat-label>
+                  <span matPrefix><mat-icon class="mr-2">format_color_text</mat-icon></span>
+                  <input name="classTitle" required ngModel matInput placeholder="Class Title" type="text"/>
+                </mat-form-field>
+              </div>
+
+              <!--Teacher-->
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Teacher</mat-label>
+                  <span matPrefix><mat-icon class="mr-2">person_add</mat-icon></span>
+                  <mat-select name="teacher" required ngModel placeholder="Teacher">
+                    <mat-option [value]="'teacher1'">Teacher 1</mat-option>
+                    <mat-option [value]="'teacher2'">Teacher 2</mat-option>
+                    <mat-option [value]="'teacher3'">Teacher 3</mat-option>
+                    <mat-option [value]="'teacher4'">Teacher 4</mat-option>
+                    <mat-option [value]="'teacher5'">Teacher 5</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <!--Students-->
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Students ({{arrowForm?.value?.students?.length}} selected)</mat-label>
+                  <span matPrefix><mat-icon class="mr-2">group_add</mat-icon></span>
+                  <mat-select multiple name="students" required ngModel placeholder="Students">
+                    <mat-option [value]="'student1'">Student 1</mat-option>
+                    <mat-option [value]="'student2'">Student 2</mat-option>
+                    <mat-option [value]="'student3'">Student 3</mat-option>
+                    <mat-option [value]="'student4'">Student 4</mat-option>
+                    <mat-option [value]="'student5'">Student 5</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+              </div>
+
+              <!--Class Data and Time-->
+              <div class="col-md-6">
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <mat-label>Class Date and Time</mat-label>
+                  <!--<span matPrefix><mat-icon class="mr-2">date_range</mat-icon></span>
+                  <input name="dateAndTime" required ngModel matInput placeholder="EX: DD/MM/YYYY hh:mm:ss" mask="00/00/0000 00:00:00" />-->
+
+                  <input matInput name="dateAndTime" required ngModel [min]="minDate" [max]="maxDate" [matDatepicker]="classDate">
+                  <mat-datepicker-toggle matSuffix [for]="classDate"></mat-datepicker-toggle>
+                  <mat-datepicker [dateClass]="dateClass" #classDate></mat-datepicker>
+
+                </mat-form-field>
+              </div>
+
+              <div class="col-12">
+                <app-online-classes-media-gallery name="mediaGallery" ngModel></app-online-classes-media-gallery>
+              </div>
+
+              <div class="col-12 text-right">
+                <button color="warn" type="reset" mat-button mat-dialog-close>Cancel</button>
+                <button color="primary" mat-button (click)="saveOnlineClass(arrowForm)" [disabled]="arrowForm.invalid" cdkFocusInitial>Save</button>
+              </div>
+            </form>
+
+            <pre>{{arrowForm.value|json}}</pre>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -14,11 +14,30 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatInputModule} from '@angular/material/input';
 import {MatTabsModule} from '@angular/material/tabs';
 import {ClickOutsideModule} from 'ng-click-outside';
+import {OnlineClassVideoCallComponent} from './online-class-video-call/online-class-video-call.component';
+import {ManageOnlineClassesComponent} from './manage-online-classes/manage-online-classes.component';
+import {DropzoneModule} from 'ngx-dropzone-wrapper';
+import {NgxMaskModule} from 'ngx-mask';
+import {OnlineClassesMediaGalleryComponent} from './online-classes-media-gallery/online-classes-media-gallery.component';
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import {MatCardModule} from '@angular/material/card';
+import {OnlineClassesAddMediaComponent} from './online-classes-add-media/online-classes-add-media.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import {YouTubePlayerModule} from '@angular/youtube-player';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {OnlineClassesService} from './online-classes.service';
+import {ArrowFirebaseModule} from '../arrow-firebase.module';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
     OnlineClassChatComponent,
-    OnlineClassesComponent
+    OnlineClassesComponent,
+    OnlineClassVideoCallComponent,
+    ManageOnlineClassesComponent,
+    OnlineClassesMediaGalleryComponent,
+    OnlineClassesAddMediaComponent
   ],
   imports: [
     CommonModule,
@@ -33,9 +52,24 @@ import {ClickOutsideModule} from 'ng-click-outside';
     MatSelectModule,
     MatCheckboxModule,
     MatInputModule,
-    FormsModule,
     MatTabsModule,
     ClickOutsideModule,
+    DropzoneModule,
+    NgxMaskModule,
+    DragDropModule,
+    MatCardModule,
+    MatDialogModule,
+    YouTubePlayerModule,
+    MatChipsModule,
+    MatAutocompleteModule,
+    ArrowFirebaseModule,
+    MatDatepickerModule,
+  ],
+  entryComponents: [
+    OnlineClassesAddMediaComponent
+  ],
+  providers: [
+    OnlineClassesService
   ]
 })
 export class OnlineClassesModule {
