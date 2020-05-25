@@ -1,31 +1,31 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 @Component({
-  selector: 'app-edit-fees',
-  templateUrl: './edit-fees.component.html',
-  styleUrls: ['./edit-fees.component.sass']
+  selector: "app-edit-fees",
+  templateUrl: "./edit-fees.component.html",
+  styleUrls: ["./edit-fees.component.sass"],
 })
 export class EditFeesComponent {
   feesForm: FormGroup;
   formdata = {
-    rollNo: '99',
-    sName: 'Jenish Shah	',
-    fType: 'annual',
-    department: 'mathematics',
-    date: '2020-01-04T14:22:18Z',
-    invoiceNo: 'IN-434454',
-    pType: 'cheque',
-    status: 'paid',
-    amount: '320$',
-    duration: 'yearly',
-    details: 'Annual Tution Fees'
+    rollNo: "99",
+    sName: "Jenish Shah	",
+    fType: "annual",
+    department: "mathematics",
+    date: "2020-01-04T14:22:18Z",
+    invoiceNo: "IN-434454",
+    pType: "cheque",
+    status: "paid",
+    amount: "320$",
+    duration: "yearly",
+    details: "Annual Tution Fees",
   };
   constructor(private fb: FormBuilder) {
     this.feesForm = this.createContactForm();
   }
   onSubmit() {
-    console.log('Form Value', this.feesForm.value);
+    console.log("Form Value", this.feesForm.value);
   }
   createContactForm(): FormGroup {
     return this.fb.group({
@@ -39,7 +39,7 @@ export class EditFeesComponent {
       status: [this.formdata.status, [Validators.required]],
       amount: [this.formdata.amount, [Validators.required]],
       duration: [this.formdata.duration, [Validators.required]],
-      details: [this.formdata.details]
+      details: [this.formdata.details],
     });
   }
 }

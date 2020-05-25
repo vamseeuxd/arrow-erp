@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { ManageOnlineClassesComponent } from './manage-online-classes.component';
+import { ManageOnlineClassesComponent } from "./manage-online-classes.component";
 
-describe('ManageOnlineClassesComponent', () => {
+describe("ManageOnlineClassesComponent", () => {
   let component: ManageOnlineClassesComponent;
   let fixture: ComponentFixture<ManageOnlineClassesComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ManageOnlineClassesComponent ]
-    })
-    .compileComponents();
+      declarations: [ManageOnlineClassesComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('ManageOnlineClassesComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -12,7 +12,11 @@
   .navbar.active {
     // background-color: $theme-cyan !important;
     background: #4cb8c4; /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #0fdbdc, #1ab5b9); /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(
+      to right,
+      #0fdbdc,
+      #1ab5b9
+    ); /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(
       to right,
       #0fdbdc,
@@ -31,7 +35,7 @@
     .collapse-menu-icon .mat-icon {
       color: #fff;
     }
-   .navbar-right .nav-notification-icons .mat-icon {
+    .navbar-right .nav-notification-icons .mat-icon {
       color: #fff;
     }
   }

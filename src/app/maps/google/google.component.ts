@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { MouseEvent } from '@agm/core';
+import { Component, OnInit } from "@angular/core";
+import { MouseEvent } from "@agm/core";
 interface marker {
   lat: number;
   lng: number;
@@ -7,9 +7,9 @@ interface marker {
   draggable: boolean;
 }
 @Component({
-  selector: 'app-google',
-  templateUrl: './google.component.html',
-  styleUrls: ['./google.component.scss']
+  selector: "app-google",
+  templateUrl: "./google.component.html",
+  styleUrls: ["./google.component.scss"],
 })
 export class GoogleComponent {
   // google maps zoom level
@@ -24,30 +24,30 @@ export class GoogleComponent {
     this.markers.push({
       lat: $event.coords.lat,
       lng: $event.coords.lng,
-      draggable: true
+      draggable: true,
     });
   }
   markerDragEnd(m: marker, $event: MouseEvent) {
-    console.log('dragEnd', m, $event);
+    console.log("dragEnd", m, $event);
   }
   markers: marker[] = [
     {
       lat: 51.673858,
       lng: 7.815982,
-      label: 'A',
-      draggable: true
+      label: "A",
+      draggable: true,
     },
     {
       lat: 51.373858,
       lng: 7.215982,
-      label: 'B',
-      draggable: false
+      label: "B",
+      draggable: false,
     },
     {
       lat: 51.723858,
       lng: 7.895982,
-      label: 'C',
-      draggable: true
-    }
+      label: "C",
+      draggable: true,
+    },
   ];
 }

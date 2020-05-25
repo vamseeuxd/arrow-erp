@@ -1,18 +1,18 @@
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Component, Inject } from '@angular/core';
-import { StaffService } from '../../staff.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { Component, Inject } from "@angular/core";
+import { StaffService } from "../../staff.service";
 import {
   FormControl,
   Validators,
   FormGroup,
-  FormBuilder
-} from '@angular/forms';
-import { Staff } from '../../staff.model';
-import { formatDate } from '@angular/common';
+  FormBuilder,
+} from "@angular/forms";
+import { Staff } from "../../staff.model";
+import { formatDate } from "@angular/common";
 @Component({
-  selector: 'app-form-dialog',
-  templateUrl: './form-dialog.component.html',
-  styleUrls: ['./form-dialog.component.sass']
+  selector: "app-form-dialog",
+  templateUrl: "./form-dialog.component.html",
+  styleUrls: ["./form-dialog.component.sass"],
 })
 export class FormDialogComponent {
   action: string;
@@ -27,25 +27,25 @@ export class FormDialogComponent {
   ) {
     // Set the defaults
     this.action = data.action;
-    if (this.action === 'edit') {
+    if (this.action === "edit") {
       this.dialogTitle = data.staff.name;
       this.staff = data.staff;
     } else {
-      this.dialogTitle = 'New Staff';
+      this.dialogTitle = "New Staff";
       this.staff = new Staff({});
     }
     this.staffForm = this.createContactForm();
   }
-  formControl = new FormControl('', [
-    Validators.required
+  formControl = new FormControl("", [
+    Validators.required,
     // Validators.email,
   ]);
   getErrorMessage() {
-    return this.formControl.hasError('required')
-      ? 'Required field'
-      : this.formControl.hasError('email')
-      ? 'Not a valid email'
-      : '';
+    return this.formControl.hasError("required")
+      ? "Required field"
+      : this.formControl.hasError("email")
+      ? "Not a valid email"
+      : "";
   }
   createContactForm(): FormGroup {
     return this.fb.group({
@@ -54,15 +54,15 @@ export class FormDialogComponent {
       name: [this.staff.name],
       email: [
         this.staff.email,
-        [Validators.required, Validators.email, Validators.minLength(5)]
+        [Validators.required, Validators.email, Validators.minLength(5)],
       ],
       date: [
-        formatDate(this.staff.date, 'yyyy-MM-dd', 'en'),
-        [Validators.required]
+        formatDate(this.staff.date, "yyyy-MM-dd", "en"),
+        [Validators.required],
       ],
       designation: [this.staff.designation],
       address: [this.staff.address],
-      mobile: [this.staff.mobile]
+      mobile: [this.staff.mobile],
     });
   }
   submit() {

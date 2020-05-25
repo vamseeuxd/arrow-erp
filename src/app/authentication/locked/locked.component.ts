@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from "@angular/core";
+import { Router, ActivatedRoute } from "@angular/router";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 @Component({
-  selector: 'app-locked',
-  templateUrl: './locked.component.html',
-  styleUrls: ['./locked.component.scss']
+  selector: "app-locked",
+  templateUrl: "./locked.component.html",
+  styleUrls: ["./locked.component.scss"],
 })
 export class LockedComponent implements OnInit {
   loginForm: FormGroup;
@@ -18,10 +18,10 @@ export class LockedComponent implements OnInit {
   ) {}
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      password: ['', Validators.required]
+      password: ["", Validators.required],
     });
     // get return url from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/";
   }
   get f() {
     return this.loginForm.controls;
@@ -32,7 +32,7 @@ export class LockedComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     } else {
-      this.router.navigate(['/dashboard/main']);
+      this.router.navigate(["/dashboard/main"]);
     }
   }
 }

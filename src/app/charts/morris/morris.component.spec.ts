@@ -1,11 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MorrisComponent } from './morris.component';
-describe('MorrisComponent', () => {
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { MorrisComponent } from "./morris.component";
+describe("MorrisComponent", () => {
   let component: MorrisComponent;
   let fixture: ComponentFixture<MorrisComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MorrisComponent]
+      declarations: [MorrisComponent],
     }).compileComponents();
   }));
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('MorrisComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

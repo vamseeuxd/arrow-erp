@@ -14,25 +14,15 @@
         "dist/img/vimeo-play.png",
         "dist/img/youtube-play.png"
     ],
-    "keywords": [
-        "gallery",
-        "lightbox",
-        "image",
-        "youtube",
-        "vimeo"
-    ],
-    "authors": [
-        "Sachin N <sachi77n@gmail.com>"
-    ],
+    "keywords": ["gallery", "lightbox", "image", "youtube", "vimeo"],
+    "authors": ["Sachin N <sachi77n@gmail.com>"],
     "homepage": "http://sachinchoolur.github.io/lightGallery/",
     "repository": {
         "type": "git",
         "url": "git://github.com/sachinchoolur/lightGallery.git"
     },
     "license": "GPLv3",
-    "ignore": [
-        "README.md"
-    ],
+    "ignore": ["README.md"],
     "dependencies": {
         "jquery": ">=1.7.0"
     },

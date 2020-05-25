@@ -12,7 +12,11 @@
   .navbar.active {
     // background-color: $theme-green !important;
     background: #11998e; /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #10bf52, #11998e); /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(
+      to right,
+      #10bf52,
+      #11998e
+    ); /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(
       to right,
       #10bf52,
@@ -34,7 +38,7 @@
     .navbar-right .nav-notification-icons .mat-icon {
       color: #fff;
     }
-   }
+  }
 
   .nav {
     > li {

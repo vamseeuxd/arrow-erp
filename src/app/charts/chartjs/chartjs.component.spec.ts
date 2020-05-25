@@ -1,11 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ChartjsComponent } from './chartjs.component';
-describe('ChartjsComponent', () => {
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ChartjsComponent } from "./chartjs.component";
+describe("ChartjsComponent", () => {
   let component: ChartjsComponent;
   let fixture: ComponentFixture<ChartjsComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ChartjsComponent]
+      declarations: [ChartjsComponent],
     }).compileComponents();
   }));
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('ChartjsComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { FormDialogComponent } from './form-dialog.component';
+import { FormDialogComponent } from "./form-dialog.component";
 
-describe('FormDialogComponent', () => {
+describe("FormDialogComponent", () => {
   let component: FormDialogComponent;
   let fixture: ComponentFixture<FormDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FormDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [FormDialogComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('FormDialogComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

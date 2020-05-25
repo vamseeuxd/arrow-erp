@@ -1,10 +1,10 @@
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Component, Inject } from '@angular/core';
-import { StaffService } from '../../staff.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { Component, Inject } from "@angular/core";
+import { StaffService } from "../../staff.service";
 @Component({
-  selector: 'app-delete',
-  templateUrl: './delete.component.html',
-  styleUrls: ['./delete.component.sass']
+  selector: "app-delete",
+  templateUrl: "./delete.component.html",
+  styleUrls: ["./delete.component.sass"],
 })
 export class DeleteDialogComponent {
   constructor(

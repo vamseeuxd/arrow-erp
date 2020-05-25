@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { Library } from './library.model';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
+import { Library } from "./library.model";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 @Injectable()
 export class LibraryService {
-  private readonly API_URL = 'assets/data/library.json';
+  private readonly API_URL = "assets/data/library.json";
   dataChange: BehaviorSubject<Library[]> = new BehaviorSubject<Library[]>([]);
   // Temporarily stores data from dialogs
   dialogData: any;
@@ -18,11 +18,11 @@ export class LibraryService {
   /** CRUD METHODS */
   getAllLibrarys(): void {
     this.httpClient.get<Library[]>(this.API_URL).subscribe(
-      data => {
+      (data) => {
         this.dataChange.next(data);
       },
       (error: HttpErrorResponse) => {
-        console.log(error.name + ' ' + error.message);
+        console.log(error.name + " " + error.message);
       }
     );
   }

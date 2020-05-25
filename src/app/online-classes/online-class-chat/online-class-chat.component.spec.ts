@@ -1,11 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { OnlineClassChatComponent } from './online-class-chat.component';
-describe('ChatComponent', () => {
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { OnlineClassChatComponent } from "./online-class-chat.component";
+describe("ChatComponent", () => {
   let component: OnlineClassChatComponent;
   let fixture: ComponentFixture<OnlineClassChatComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [OnlineClassChatComponent]
+      declarations: [OnlineClassChatComponent],
     }).compileComponents();
   }));
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('ChatComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

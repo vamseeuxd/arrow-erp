@@ -1,20 +1,20 @@
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Component, Inject } from '@angular/core';
-import { LibraryService } from '../../library.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { Component, Inject } from "@angular/core";
+import { LibraryService } from "../../library.service";
 import {
   FormControl,
   Validators,
   FormGroup,
-  FormBuilder
-} from '@angular/forms';
-import { Library } from '../../library.model';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
-import { formatDate } from '@angular/common';
+  FormBuilder,
+} from "@angular/forms";
+import { Library } from "../../library.model";
+import { MAT_DATE_LOCALE } from "@angular/material/core";
+import { formatDate } from "@angular/common";
 @Component({
-  selector: 'app-form-dialog',
-  templateUrl: './form-dialog.component.html',
-  styleUrls: ['./form-dialog.component.sass'],
-  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }]
+  selector: "app-form-dialog",
+  templateUrl: "./form-dialog.component.html",
+  styleUrls: ["./form-dialog.component.sass"],
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: "en-GB" }],
 })
 export class FormDialogComponent {
   action: string;
@@ -29,26 +29,26 @@ export class FormDialogComponent {
   ) {
     // Set the defaults
     this.action = data.action;
-    if (this.action === 'edit') {
+    if (this.action === "edit") {
       console.log(data.library.date);
       this.dialogTitle = data.library.title;
       this.library = data.library;
     } else {
-      this.dialogTitle = 'New Library Asset';
+      this.dialogTitle = "New Library Asset";
       this.library = new Library({});
     }
     this.libraryForm = this.createContactForm();
   }
-  formControl = new FormControl('', [
-    Validators.required
+  formControl = new FormControl("", [
+    Validators.required,
     // Validators.email,
   ]);
   getErrorMessage() {
-    return this.formControl.hasError('required')
-      ? 'Required field'
-      : this.formControl.hasError('email')
-      ? 'Not a valid email'
-      : '';
+    return this.formControl.hasError("required")
+      ? "Required field"
+      : this.formControl.hasError("email")
+      ? "Not a valid email"
+      : "";
   }
   createContactForm(): FormGroup {
     return this.fb.group({
@@ -57,12 +57,12 @@ export class FormDialogComponent {
       title: [this.library.title, [Validators.required]],
       subject: [this.library.subject, [Validators.required]],
       date: [
-        formatDate(this.library.date, 'yyyy-MM-dd', 'en'),
-        [Validators.required]
+        formatDate(this.library.date, "yyyy-MM-dd", "en"),
+        [Validators.required],
       ],
       department: [this.library.department, [Validators.required]],
       type: [this.library.type, [Validators.required]],
-      status: [this.library.status, [Validators.required]]
+      status: [this.library.status, [Validators.required]],
     });
   }
   submit() {

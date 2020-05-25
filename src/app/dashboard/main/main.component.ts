@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from "@angular/core";
 import {
   ChartComponent,
   ApexAxisChartSeries,
@@ -11,8 +11,8 @@ import {
   ApexResponsive,
   ApexStroke,
   ApexLegend,
-  ApexFill
-} from 'ng-apexcharts';
+  ApexFill,
+} from "ng-apexcharts";
 declare const $: any;
 export type areaChartOptions = {
   series: ApexAxisChartSeries;
@@ -38,34 +38,34 @@ export type barChartOptions = {
 };
 
 @Component({
-  selector: 'app-main',
-  templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss']
+  selector: "app-main",
+  templateUrl: "./main.component.html",
+  styleUrls: ["./main.component.scss"],
 })
 export class MainComponent implements OnInit {
-  @ViewChild('chart') chart: ChartComponent;
+  @ViewChild("chart") chart: ChartComponent;
   public areaChartOptions: Partial<areaChartOptions>;
   public barChartOptions: Partial<barChartOptions>;
   constructor() {}
 
   ngOnInit() {
-    $('#sparkline').sparkline([5, 6, 7, 2, 0, -4, -2, 4], {
-      type: 'bar'
+    $("#sparkline").sparkline([5, 6, 7, 2, 0, -4, -2, 4], {
+      type: "bar",
     });
-    $('#sparkline2').sparkline([5, 6, 7, 9, 9, 5, 3, 2, 2, 4, 6, 7], {
-      type: 'line'
+    $("#sparkline2").sparkline([5, 6, 7, 9, 9, 5, 3, 2, 2, 4, 6, 7], {
+      type: "line",
     });
-    $('#sparkline3').sparkline([5, 6, 7, 9, 9, 5, 3, 2, 2, 4, 6, 7], {
-      type: 'line'
+    $("#sparkline3").sparkline([5, 6, 7, 9, 9, 5, 3, 2, 2, 4, 6, 7], {
+      type: "line",
     });
-    $('#sparkline4').sparkline([4, 6, 7, 7, 4, 3, 2, 1, 4, 4], {
-      type: 'discrete'
+    $("#sparkline4").sparkline([4, 6, 7, 7, 4, 3, 2, 1, 4, 4], {
+      type: "discrete",
     });
-    $('#sparkline5').sparkline([1, 1, 2], {
-      type: 'pie'
+    $("#sparkline5").sparkline([1, 1, 2], {
+      type: "pie",
     });
-    $('#sparkline6').sparkline([2, -4, 5, 2, 0, 4, -2, 4], {
-      type: 'bar'
+    $("#sparkline6").sparkline([2, -4, 5, 2, 0, 4, -2, 4], {
+      type: "bar",
     });
     this.chart1();
     this.chart2();
@@ -74,54 +74,54 @@ export class MainComponent implements OnInit {
     this.areaChartOptions = {
       series: [
         {
-          name: 'new patients',
-          data: [31, 40, 28, 51, 42, 85, 77]
+          name: "new patients",
+          data: [31, 40, 28, 51, 42, 85, 77],
         },
         {
-          name: 'old patients',
-          data: [11, 32, 45, 32, 34, 52, 41]
-        }
+          name: "old patients",
+          data: [11, 32, 45, 32, 34, 52, 41],
+        },
       ],
       chart: {
         height: 350,
-        type: 'area',
+        type: "area",
         toolbar: {
-          show: false
+          show: false,
         },
-        foreColor: '#9aa0ac'
+        foreColor: "#9aa0ac",
       },
-      colors: ['#9F8DF1', '#E79A3B'],
+      colors: ["#9F8DF1", "#E79A3B"],
       dataLabels: {
-        enabled: false
+        enabled: false,
       },
       stroke: {
-        curve: 'smooth'
+        curve: "smooth",
       },
       xaxis: {
-        type: 'datetime',
+        type: "datetime",
         categories: [
-          '2018-09-19T00:00:00.000Z',
-          '2018-09-19T01:30:00.000Z',
-          '2018-09-19T02:30:00.000Z',
-          '2018-09-19T03:30:00.000Z',
-          '2018-09-19T04:30:00.000Z',
-          '2018-09-19T05:30:00.000Z',
-          '2018-09-19T06:30:00.000Z'
-        ]
+          "2018-09-19T00:00:00.000Z",
+          "2018-09-19T01:30:00.000Z",
+          "2018-09-19T02:30:00.000Z",
+          "2018-09-19T03:30:00.000Z",
+          "2018-09-19T04:30:00.000Z",
+          "2018-09-19T05:30:00.000Z",
+          "2018-09-19T06:30:00.000Z",
+        ],
       },
       legend: {
         show: true,
-        position: 'top',
-        horizontalAlign: 'center',
+        position: "top",
+        horizontalAlign: "center",
         offsetX: 0,
-        offsetY: 0
+        offsetY: 0,
       },
 
       tooltip: {
         x: {
-          format: 'dd/MM/yy HH:mm'
-        }
-      }
+          format: "dd/MM/yy HH:mm",
+        },
+      },
     };
   }
 
@@ -129,106 +129,106 @@ export class MainComponent implements OnInit {
     this.barChartOptions = {
       series: [
         {
-          name: 'percent',
-          data: [5, 8, 10, 14, 9, 7, 11, 5, 9, 16, 7, 5]
-        }
+          name: "percent",
+          data: [5, 8, 10, 14, 9, 7, 11, 5, 9, 16, 7, 5],
+        },
       ],
       chart: {
         height: 320,
-        type: 'bar',
+        type: "bar",
         toolbar: {
-          show: false
-        }
+          show: false,
+        },
       },
       plotOptions: {
         bar: {
           dataLabels: {
-            position: 'top' // top, center, bottom
-          }
-        }
+            position: "top", // top, center, bottom
+          },
+        },
       },
       dataLabels: {
         enabled: true,
-        formatter: function(val) {
-          return val + '%';
+        formatter: function (val) {
+          return val + "%";
         },
         offsetY: -20,
         style: {
-          fontSize: '12px',
-          colors: ['#304758']
-        }
+          fontSize: "12px",
+          colors: ["#304758"],
+        },
       },
 
       xaxis: {
         categories: [
-          'Jan',
-          'Feb',
-          'Mar',
-          'Apr',
-          'May',
-          'Jun',
-          'Jul',
-          'Aug',
-          'Sep',
-          'Oct',
-          'Nov',
-          'Dec'
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
         ],
-        position: 'bottom',
+        position: "bottom",
         labels: {
-          offsetY: 0
+          offsetY: 0,
         },
         axisBorder: {
-          show: false
+          show: false,
         },
         axisTicks: {
-          show: false
+          show: false,
         },
         crosshairs: {
           fill: {
-            type: 'gradient',
+            type: "gradient",
             gradient: {
-              colorFrom: '#D8E3F0',
-              colorTo: '#BED1E6',
+              colorFrom: "#D8E3F0",
+              colorTo: "#BED1E6",
               stops: [0, 100],
               opacityFrom: 0.4,
-              opacityTo: 0.5
-            }
-          }
+              opacityTo: 0.5,
+            },
+          },
         },
         tooltip: {
           enabled: true,
-          offsetY: -35
-        }
+          offsetY: -35,
+        },
       },
       fill: {
-        type: 'gradient',
-        colors: ['#4F86F8', '#4F86F8'],
+        type: "gradient",
+        colors: ["#4F86F8", "#4F86F8"],
         gradient: {
-          shade: 'light',
-          type: 'horizontal',
+          shade: "light",
+          type: "horizontal",
           shadeIntensity: 0.25,
           gradientToColors: undefined,
           inverseColors: true,
           opacityFrom: 1,
           opacityTo: 1,
-          stops: [50, 0, 100, 100]
-        }
+          stops: [50, 0, 100, 100],
+        },
       },
       yaxis: {
         axisBorder: {
-          show: false
+          show: false,
         },
         axisTicks: {
-          show: false
+          show: false,
         },
         labels: {
           show: false,
-          formatter: function(val) {
-            return val + '%';
-          }
-        }
-      }
+          formatter: function (val) {
+            return val + "%";
+          },
+        },
+      },
     };
   }
 }

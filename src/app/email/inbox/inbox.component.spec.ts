@@ -1,11 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { InboxComponent } from './inbox.component';
-describe('InboxComponent', () => {
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { InboxComponent } from "./inbox.component";
+describe("InboxComponent", () => {
   let component: InboxComponent;
   let fixture: ComponentFixture<InboxComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [InboxComponent]
+      declarations: [InboxComponent],
     }).compileComponents();
   }));
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('InboxComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

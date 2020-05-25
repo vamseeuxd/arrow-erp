@@ -19,12 +19,12 @@
         }
       }
     }
-      .collapse-menu-icon .mat-icon {
-        color: #3a2c70;
-      }
-      .nav-notification-icons .mat-icon {
-        color: #3a2c70;
-      }
+    .collapse-menu-icon .mat-icon {
+      color: #3a2c70;
+    }
+    .nav-notification-icons .mat-icon {
+      color: #3a2c70;
+    }
   }
 
   .navbar-brand {
@@ -136,7 +136,8 @@
     border-color: $theme-white-active-color;
     border-radius: 50%;
     margin: 5px;
-    box-shadow: 0 4px 5px 0 #d4d8da, 0 1px 10px 0 #d4d8da, 0 2px 4px -1px #d4d8da;
+    box-shadow: 0 4px 5px 0 #d4d8da, 0 1px 10px 0 #d4d8da,
+      0 2px 4px -1px #d4d8da;
     padding: 0px 12px;
     min-width: 30px;
     line-height: 30px;

@@ -1,31 +1,31 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 @Component({
-  selector: 'app-edit-asset',
-  templateUrl: './edit-asset.component.html',
-  styleUrls: ['./edit-asset.component.sass']
+  selector: "app-edit-asset",
+  templateUrl: "./edit-asset.component.html",
+  styleUrls: ["./edit-asset.component.sass"],
 })
 export class EditAssetComponent {
   libraryForm: FormGroup;
   formdata = {
-    no: 'BN5343534',
-    title: 'Master In Java',
-    subject: 'java',
-    autherName: 'John Deo',
-    publisher: 'xyz Publisher',
-    department: 'computer',
-    aType: 'book',
-    date: '2020-02-17T14:22:18Z',
-    price: '25$',
-    status: 'in stock',
-    details: 'Master in java is a good book for java learner.'
+    no: "BN5343534",
+    title: "Master In Java",
+    subject: "java",
+    autherName: "John Deo",
+    publisher: "xyz Publisher",
+    department: "computer",
+    aType: "book",
+    date: "2020-02-17T14:22:18Z",
+    price: "25$",
+    status: "in stock",
+    details: "Master in java is a good book for java learner.",
   };
   constructor(private fb: FormBuilder) {
     this.libraryForm = this.createContactForm();
   }
   onSubmit() {
-    console.log('Form Value', this.libraryForm.value);
+    console.log("Form Value", this.libraryForm.value);
   }
   createContactForm(): FormGroup {
     return this.fb.group({
@@ -39,7 +39,7 @@ export class EditAssetComponent {
       date: [this.formdata.date, [Validators.required]],
       price: [this.formdata.price, [Validators.required]],
       status: [this.formdata.status],
-      details: [this.formdata.details]
+      details: [this.formdata.details],
     });
   }
 }

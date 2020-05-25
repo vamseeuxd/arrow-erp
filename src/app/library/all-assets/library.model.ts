@@ -1,4 +1,4 @@
-import { formatDate } from '@angular/common';
+import { formatDate } from "@angular/common";
 export class Library {
   id: number;
   no: string;
@@ -11,13 +11,13 @@ export class Library {
   constructor(library) {
     {
       this.id = library.id || this.getRandomID();
-      this.no = library.no || '';
-      this.title = library.title || '';
-      this.subject = library.subject || '';
-      this.date = formatDate(new Date(), 'yyyy-MM-dd', 'en') || '';
-      this.department = library.department || '';
-      this.type = library.type || '';
-      this.status = library.status || '';
+      this.no = library.no || "";
+      this.title = library.title || "";
+      this.subject = library.subject || "";
+      this.date = formatDate(new Date(), "yyyy-MM-dd", "en") || "";
+      this.department = library.department || "";
+      this.type = library.type || "";
+      this.status = library.status || "";
     }
   }
   public getRandomID(): string {

@@ -7,7 +7,9 @@
         z-index: $zindex-thumbnail;
         max-height: 350px;
         @include translate3d(0, 100%, 0);
-        @include transitionCustom(transform 0.25s cubic-bezier(0, 0, 0.25, 1) 0s);
+        @include transitionCustom(
+            transform 0.25s cubic-bezier(0, 0, 0.25, 1) 0s
+        );
 
         &.lg-grab {
             .lg-thumb-item {
@@ -27,7 +29,7 @@
             }
         }
     }
-    &.lg-thumb-open{
+    &.lg-thumb-open {
         .lg-thumb-outer {
             @include translate3d(0, 0%, 0);
         }
@@ -45,14 +47,15 @@
         float: left;
         overflow: hidden;
         height: 100%;
-        border: 2px solid #FFF;
+        border: 2px solid #fff;
         border-radius: 4px;
         margin-bottom: 5px;
         @media (min-width: 1025px) {
             @include transition(border-color 0.25s ease);
         }
 
-        &.active, &:hover {
+        &.active,
+        &:hover {
             border-color: $lg-theme-highlight;
         }
 
@@ -74,11 +77,11 @@
             padding-bottom: 0;
         }
     }
-    &.lg-pull-caption-up{
+    &.lg-pull-caption-up {
         .lg-sub-html {
             @include transition(bottom 0.25s ease);
         }
-        &.lg-thumb-open{
+        &.lg-thumb-open {
             .lg-sub-html {
                 bottom: 100px;
             }

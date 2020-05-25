@@ -1,11 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { GoogleComponent } from './google.component';
-describe('GoogleComponent', () => {
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { GoogleComponent } from "./google.component";
+describe("GoogleComponent", () => {
   let component: GoogleComponent;
   let fixture: ComponentFixture<GoogleComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [GoogleComponent]
+      declarations: [GoogleComponent],
     }).compileComponents();
   }));
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('GoogleComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

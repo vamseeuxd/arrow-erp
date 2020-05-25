@@ -3,13 +3,14 @@
     <div class="block-header">
       <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-          <ul class="breadcrumb breadcrumb-style ">
+          <ul class="breadcrumb breadcrumb-style">
             <li class="breadcrumb-item">
               <h4 class="page-title">Start Online Class</h4>
             </li>
             <li class="breadcrumb-item bcrumb-1">
               <a routerLink="dashboard/main">
-                <i class="fas fa-home"></i> Home</a>
+                <i class="fas fa-home"></i> Home</a
+              >
             </li>
             <li class="breadcrumb-item bcrumb-2">
               <a href="#" onClick="return false;">online-classes</a>
@@ -26,16 +27,45 @@
   </div>
   <div class="container-fluid" *ngIf="false">
     <!--  ***********************************************************   -->
-    <h1><a href="//webrtc.github.io/samples/" title="WebRTC samples homepage">WebRTC samples</a>
-      <span>getUserMedia</span></h1>
+    <h1>
+      <a href="//webrtc.github.io/samples/" title="WebRTC samples homepage"
+        >WebRTC samples</a
+      >
+      <span>getUserMedia</span>
+    </h1>
 
     <video id="gum-local" autoplay playsinline #myVideo></video>
     <video id="recorded" playsinline loop #recordedVideo></video>
 
-    <button class="btn btn-primary" [disabled]="disableShowVideoButton" (click)="showCamera($event)">Start camera</button>
-    <button class="btn btn-success" [disabled]="disableRecordButton" (click)="recordingButtonClick($event)">{{isRecording ? 'Stop' : 'Start' }} Recording</button>
-    <button class="btn btn-info" [disabled]="disablePlayButton" (click)="playVideo($event)">Play</button>
-    <button class="btn btn-warning" id="download" (click)="downLoadVideo($event)" [disabled]="disableDownloadButton">Download</button>
+    <button
+      class="btn btn-primary"
+      [disabled]="disableShowVideoButton"
+      (click)="showCamera($event)"
+    >
+      Start camera
+    </button>
+    <button
+      class="btn btn-success"
+      [disabled]="disableRecordButton"
+      (click)="recordingButtonClick($event)"
+    >
+      {{ isRecording ? "Stop" : "Start" }} Recording
+    </button>
+    <button
+      class="btn btn-info"
+      [disabled]="disablePlayButton"
+      (click)="playVideo($event)"
+    >
+      Play
+    </button>
+    <button
+      class="btn btn-warning"
+      id="download"
+      (click)="downLoadVideo($event)"
+      [disabled]="disableDownloadButton"
+    >
+      Download
+    </button>
 
     <div id="errorMsg" [innerHTML]="errorMessages"></div>
 
@@ -44,7 +74,10 @@
       if you're not using headphones, pressing play will cause feedback.
     </p>
 
-    <p>Display the video stream from <code>getUserMedia()</code> in a video element.</p>
+    <p>
+      Display the video stream from <code>getUserMedia()</code> in a video
+      element.
+    </p>
 
     <p>
       The
@@ -56,11 +89,12 @@
       callback is in global scope, so you can inspect it from the console.
     </p>
 
-    <a href="https://github.com/webrtc/samples/tree/gh-pages/src/content/getusermedia/gum" title="View source for this page on GitHub" id="viewSource">View source on GitHub</a>
+    <a
+      href="https://github.com/webrtc/samples/tree/gh-pages/src/content/getusermedia/gum"
+      title="View source for this page on GitHub"
+      id="viewSource"
+      >View source on GitHub</a
+    >
     <!--  ***********************************************************   -->
   </div>
 </section>
-
-
-
-

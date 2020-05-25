@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 @Component({
-  selector: 'app-labels',
-  templateUrl: './labels.component.html',
-  styleUrls: ['./labels.component.scss']
+  selector: "app-labels",
+  templateUrl: "./labels.component.html",
+  styleUrls: ["./labels.component.scss"],
 })
 export class LabelsComponent implements OnInit {
   constructor() {}

@@ -1,27 +1,24 @@
 /*! lg-autoplay - v1.0.4 - 2017-03-28
-* http://sachinchoolur.github.io/lightGallery
-* Copyright (c) 2017 Sachin N; Licensed GPLv3 */
+ * http://sachinchoolur.github.io/lightGallery
+ * Copyright (c) 2017 Sachin N; Licensed GPLv3 */
 
 (function (root, factory) {
-    if (typeof define === 'function' && define.amd) {
+    if (typeof define === "function" && define.amd) {
         // AMD. Register as an anonymous module unless amdModuleId is set
-        define(['jquery'], function (a0) {
-            return (factory(a0));
+        define(["jquery"], function (a0) {
+            return factory(a0);
         });
-    } else if (typeof exports === 'object') {
+    } else if (typeof exports === "object") {
         // Node. Does not work with strict CommonJS, but
         // only CommonJS-like environments that support module.exports,
         // like Node.
-        module.exports = factory(require('jquery'));
+        module.exports = factory(require("jquery"));
     } else {
         factory(jQuery);
     }
-}(this, function ($) {
-
-
+})(this, function ($) {
     (function () {
-
-        'use strict';
+        "use strict";
 
         var defaults = {
             autoplay: false,
@@ -29,7 +26,7 @@
             progressBar: true,
             fourceAutoplay: false,
             autoplayControls: true,
-            appendAutoplayControlsTo: '.lg-toolbar'
+            appendAutoplayControlsTo: ".lg-toolbar",
         };
 
         /**
@@ -37,8 +34,7 @@
          * @param {object} element - lightGallery element
          */
         var Autoplay = function (element) {
-
-            this.core = $(element).data('lightGallery');
+            this.core = $(element).data("lightGallery");
 
             this.$el = $(element);
 
@@ -79,7 +75,11 @@
 
             // Create progress bar
             if (_this.core.s.progressBar) {
-                _this.core.$outer.find('.lg').append('<div class="lg-progress-bar"><div class="lg-progress"></div></div>');
+                _this.core.$outer
+                    .find(".lg")
+                    .append(
+                        '<div class="lg-progress-bar"><div class="lg-progress"></div></div>'
+                    );
             }
 
             // set progress
@@ -87,13 +87,13 @@
 
             // Start autoplay
             if (_this.core.s.autoplay) {
-                _this.$el.one('onSlideItemLoad.lg.tm', function () {
+                _this.$el.one("onSlideItemLoad.lg.tm", function () {
                     _this.startlAuto();
                 });
             }
 
             // cancel interval on touchstart and dragstart
-            _this.$el.on('onDragstart.lg.tm touchstart.lg.tm', function () {
+            _this.$el.on("onDragstart.lg.tm touchstart.lg.tm", function () {
                 if (_this.interval) {
                     _this.cancelAuto();
                     _this.canceledOnTouch = true;
@@ -101,33 +101,38 @@
             });
 
             // restore autoplay if autoplay canceled from touchstart / dragstart
-            _this.$el.on('onDragend.lg.tm touchend.lg.tm onSlideClick.lg.tm', function () {
-                if (!_this.interval && _this.canceledOnTouch) {
-                    _this.startlAuto();
-                    _this.canceledOnTouch = false;
+            _this.$el.on(
+                "onDragend.lg.tm touchend.lg.tm onSlideClick.lg.tm",
+                function () {
+                    if (!_this.interval && _this.canceledOnTouch) {
+                        _this.startlAuto();
+                        _this.canceledOnTouch = false;
+                    }
                 }
-            });
-
+            );
         };
 
         Autoplay.prototype.progress = function () {
-
             var _this = this;
             var _$progressBar;
             var _$progress;
 
-            _this.$el.on('onBeforeSlide.lg.tm', function () {
-
+            _this.$el.on("onBeforeSlide.lg.tm", function () {
                 // start progress bar animation
                 if (_this.core.s.progressBar && _this.fromAuto) {
-                    _$progressBar = _this.core.$outer.find('.lg-progress-bar');
-                    _$progress = _this.core.$outer.find('.lg-progress');
+                    _$progressBar = _this.core.$outer.find(".lg-progress-bar");
+                    _$progress = _this.core.$outer.find(".lg-progress");
                     if (_this.interval) {
-                        _$progress.removeAttr('style');
-                        _$progressBar.removeClass('lg-start');
+                        _$progress.removeAttr("style");
+                        _$progressBar.removeClass("lg-start");
                         setTimeout(function () {
-                            _$progress.css('transition', 'width ' + (_this.core.s.speed + _this.core.s.pause) + 'ms ease 0s');
-                            _$progressBar.addClass('lg-start');
+                            _$progress.css(
+                                "transition",
+                                "width " +
+                                    (_this.core.s.speed + _this.core.s.pause) +
+                                    "ms ease 0s"
+                            );
+                            _$progressBar.addClass("lg-start");
                         }, 20);
                     }
                 }
@@ -138,7 +143,6 @@
                 }
 
                 _this.fromAuto = false;
-
             });
         };
 
@@ -150,26 +154,36 @@
             // Append autoplay controls
             $(this.core.s.appendAutoplayControlsTo).append(_html);
 
-            _this.core.$outer.find('.lg-autoplay-button').on('click.lg', function () {
-                if ($(_this.core.$outer).hasClass('lg-show-autoplay')) {
-                    _this.cancelAuto();
-                    _this.core.s.fourceAutoplay = false;
-                } else {
-                    if (!_this.interval) {
-                        _this.startlAuto();
-                        _this.core.s.fourceAutoplay = _this.fourceAutoplayTemp;
+            _this.core.$outer
+                .find(".lg-autoplay-button")
+                .on("click.lg", function () {
+                    if ($(_this.core.$outer).hasClass("lg-show-autoplay")) {
+                        _this.cancelAuto();
+                        _this.core.s.fourceAutoplay = false;
+                    } else {
+                        if (!_this.interval) {
+                            _this.startlAuto();
+                            _this.core.s.fourceAutoplay =
+                                _this.fourceAutoplayTemp;
+                        }
                     }
-                }
-            });
+                });
         };
 
         // Autostart gallery
         Autoplay.prototype.startlAuto = function () {
             var _this = this;
 
-            _this.core.$outer.find('.lg-progress').css('transition', 'width ' + (_this.core.s.speed + _this.core.s.pause) + 'ms ease 0s');
-            _this.core.$outer.addClass('lg-show-autoplay');
-            _this.core.$outer.find('.lg-progress-bar').addClass('lg-start');
+            _this.core.$outer
+                .find(".lg-progress")
+                .css(
+                    "transition",
+                    "width " +
+                        (_this.core.s.speed + _this.core.s.pause) +
+                        "ms ease 0s"
+                );
+            _this.core.$outer.addClass("lg-show-autoplay");
+            _this.core.$outer.find(".lg-progress-bar").addClass("lg-start");
 
             _this.interval = setInterval(function () {
                 if (_this.core.index + 1 < _this.core.$items.length) {
@@ -179,7 +193,7 @@
                 }
 
                 _this.fromAuto = true;
-                _this.core.slide(_this.core.index, false, false, 'next');
+                _this.core.slide(_this.core.index, false, false, "next");
             }, _this.core.s.speed + _this.core.s.pause);
         };
 
@@ -187,20 +201,16 @@
         Autoplay.prototype.cancelAuto = function () {
             clearInterval(this.interval);
             this.interval = false;
-            this.core.$outer.find('.lg-progress').removeAttr('style');
-            this.core.$outer.removeClass('lg-show-autoplay');
-            this.core.$outer.find('.lg-progress-bar').removeClass('lg-start');
+            this.core.$outer.find(".lg-progress").removeAttr("style");
+            this.core.$outer.removeClass("lg-show-autoplay");
+            this.core.$outer.find(".lg-progress-bar").removeClass("lg-start");
         };
 
         Autoplay.prototype.destroy = function () {
-
             this.cancelAuto();
-            this.core.$outer.find('.lg-progress-bar').remove();
+            this.core.$outer.find(".lg-progress-bar").remove();
         };
 
         $.fn.lightGallery.modules.autoplay = Autoplay;
-
     })();
-
-
-}));
+});

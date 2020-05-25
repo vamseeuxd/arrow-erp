@@ -1,4 +1,4 @@
-import { formatDate } from '@angular/common';
+import { formatDate } from "@angular/common";
 export class Staff {
   id: number;
   img: string;
@@ -11,13 +11,13 @@ export class Staff {
   constructor(staff) {
     {
       this.id = staff.id || this.getRandomID();
-      this.img = staff.avatar || 'assets/images/user/user1.jpg';
-      this.name = staff.name || '';
-      this.designation = staff.designation || '';
-      this.email = staff.email || '';
-      this.date = formatDate(new Date(), 'yyyy-MM-dd', 'en') || '';
-      this.address = staff.address || '';
-      this.mobile = staff.mobile || '';
+      this.img = staff.avatar || "assets/images/user/user1.jpg";
+      this.name = staff.name || "";
+      this.designation = staff.designation || "";
+      this.email = staff.email || "";
+      this.date = formatDate(new Date(), "yyyy-MM-dd", "en") || "";
+      this.address = staff.address || "";
+      this.mobile = staff.mobile || "";
     }
   }
   public getRandomID(): string {

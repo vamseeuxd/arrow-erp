@@ -1,31 +1,73 @@
 <mat-card>
   <mat-card-header>
     <!--<mat-card-title>Images ( <code>{{onlineClassMediaDetailsList.length}}</code> )</mat-card-title>-->
-    <mat-card-subtitle *ngIf="onlineClassMediaDetailsList.length!=0">
-      Images to show while Online Class ( <code>{{onlineClassMediaDetailsList.length}}</code> )
+    <mat-card-subtitle *ngIf="onlineClassMediaDetailsList.length != 0">
+      Images to show while Online Class (
+      <code>{{ onlineClassMediaDetailsList.length }}</code> )
     </mat-card-subtitle>
-    <mat-card-subtitle *ngIf="onlineClassMediaDetailsList.length===0">
-      No Images or added, add Images by clicking on <code>Add Image</code> button
+    <mat-card-subtitle *ngIf="onlineClassMediaDetailsList.length === 0">
+      No Images or added, add Images by clicking on
+      <code>Add Image</code> button
     </mat-card-subtitle>
-    <button mat-button type="button" style="margin-top: -15px;" (click)="openDialog(OnlineClassAction.ADD_IMAGE)">Add Image</button>
+    <button
+      mat-button
+      type="button"
+      style="margin-top: -15px;"
+      (click)="openDialog(OnlineClassAction.ADD_IMAGE)"
+    >
+      Add Image
+    </button>
   </mat-card-header>
 
-  <mat-card-content *ngIf="onlineClassMediaDetailsList.length>0">
-
+  <mat-card-content *ngIf="onlineClassMediaDetailsList.length > 0">
     <div class="example-container" cdkDropListGroup>
-      <div cdkDropList class="p-0" [cdkDropListEnterPredicate]="enter" (cdkDropListDropped)="drop()" #placeholder></div>
-      <div cdkDropList *ngFor="let mediaDetails of onlineClassMediaDetailsList; let ind = index;"
-           [cdkDropListEnterPredicate]="enter" (cdkDropListDropped)="drop()">
+      <div
+        cdkDropList
+        class="p-0"
+        [cdkDropListEnterPredicate]="enter"
+        (cdkDropListDropped)="drop()"
+        #placeholder
+      ></div>
+      <div
+        cdkDropList
+        *ngFor="
+          let mediaDetails of onlineClassMediaDetailsList;
+          let ind = index
+        "
+        [cdkDropListEnterPredicate]="enter"
+        (cdkDropListDropped)="drop()"
+      >
         <div cdkDrag class="example-box">
           <mat-card class="example-card d-inline-block position-relative">
-            <h1 class="p-0 m-0 image-index">{{ind+1}}</h1>
+            <h1 class="p-0 m-0 image-index">{{ ind + 1 }}</h1>
             <mat-card-header>
-              <mat-card-subtitle>{{mediaDetails.mediaTitle}}</mat-card-subtitle>
+              <mat-card-subtitle>{{
+                mediaDetails.mediaTitle
+              }}</mat-card-subtitle>
             </mat-card-header>
-            <img class="border" matTooltip="Info about the action" [src]="mediaDetails.mediaUrl" cdkDragHandle>
+            <img
+              class="border"
+              matTooltip="Info about the action"
+              [src]="mediaDetails.mediaUrl"
+              cdkDragHandle
+            />
             <mat-card-actions>
-              <button mat-button><mat-icon (click)="editMediaDetails(mediaDetails, OnlineClassAction.UPDATE_IMAGE)">edit</mat-icon></button>
-              <button mat-button><mat-icon (click)="deleteMediaDetails(mediaDetails)">delete</mat-icon></button>
+              <button mat-button>
+                <mat-icon
+                  (click)="
+                    editMediaDetails(
+                      mediaDetails,
+                      OnlineClassAction.UPDATE_IMAGE
+                    )
+                  "
+                  >edit</mat-icon
+                >
+              </button>
+              <button mat-button>
+                <mat-icon (click)="deleteMediaDetails(mediaDetails)"
+                  >delete</mat-icon
+                >
+              </button>
             </mat-card-actions>
           </mat-card>
           <!--<h1 class="p-0 m-0 image-index">{{ind+1}}</h1>
@@ -33,7 +75,6 @@
         </div>
       </div>
     </div>
-
 
     <!--<div cdkDropList
          cdkDropListOrientation="horizontal"
@@ -63,7 +104,6 @@
 
       </div>
     </div>-->
-
   </mat-card-content>
   <!--<mat-card-actions>
     <button mat-button type="button" (click)="openDialog(OnlineClassAction.ADD_IMAGE)">Add Image</button>

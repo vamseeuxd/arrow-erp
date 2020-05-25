@@ -1,6 +1,7 @@
 // default theme
 .lg-actions {
-    .lg-next, .lg-prev {
+    .lg-next,
+    .lg-prev {
         background-color: $lg-next-prev-bg;
         border-radius: $lg-border-radius-base;
         color: $lg-next-prev-color;
@@ -56,7 +57,6 @@
     }
 }
 
-
 @include keyframes(lg-left-end) {
     0% {
         left: 0;
@@ -70,7 +70,6 @@
         left: 0;
     }
 }
-
 
 .lg-outer {
     &.lg-right-end {
@@ -165,9 +164,15 @@
 }
 
 // for idle state
-.lg-toolbar, .lg-prev, .lg-next {
+.lg-toolbar,
+.lg-prev,
+.lg-next {
     opacity: 1;
-    @include transitionCustom(transform 0.35s cubic-bezier(0, 0, 0.25, 1) 0s, opacity 0.35s cubic-bezier(0, 0, 0.25, 1) 0s, color 0.2s linear);
+    @include transitionCustom(
+        transform 0.35s cubic-bezier(0, 0, 0.25, 1) 0s,
+        opacity 0.35s cubic-bezier(0, 0, 0.25, 1) 0s,
+        color 0.2s linear
+    );
 }
 
 .lg-hide-items {
@@ -188,17 +193,20 @@
 }
 
 // Starting effect
-body:not(.lg-from-hash){
+body:not(.lg-from-hash) {
     .lg-outer {
-        &.lg-start-zoom{
-            .lg-object{
+        &.lg-start-zoom {
+            .lg-object {
                 @include scale3d(0.5, 0.5, 0.5);
                 opacity: 0;
-                @include transitionCustom(transform 250ms cubic-bezier(0, 0, 0.25, 1) 0s, opacity 250ms cubic-bezier(0, 0, 0.25, 1) !important);
+                @include transitionCustom(
+                    transform 250ms cubic-bezier(0, 0, 0.25, 1) 0s,
+                    opacity 250ms cubic-bezier(0, 0, 0.25, 1) !important
+                );
                 @include transform-origin(50% 50%);
             }
-            .lg-item.lg-complete{
-                .lg-object{
+            .lg-item.lg-complete {
+                .lg-object {
                     @include scale3d(1, 1, 1);
                     opacity: 1;
                 }

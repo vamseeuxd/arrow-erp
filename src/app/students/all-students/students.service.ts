@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { Students } from './students.model';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
+import { Students } from "./students.model";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 @Injectable()
 export class StudentsService {
-  private readonly API_URL = 'assets/data/students.json';
+  private readonly API_URL = "assets/data/students.json";
   dataChange: BehaviorSubject<Students[]> = new BehaviorSubject<Students[]>([]);
   // Temporarily stores data from dialogs
   dialogData: any;
@@ -18,11 +18,11 @@ export class StudentsService {
   /** CRUD METHODS */
   getAllStudentss(): void {
     this.httpClient.get<Students[]>(this.API_URL).subscribe(
-      data => {
+      (data) => {
         this.dataChange.next(data);
       },
       (error: HttpErrorResponse) => {
-        console.log(error.name + ' ' + error.message);
+        console.log(error.name + " " + error.message);
       }
     );
   }

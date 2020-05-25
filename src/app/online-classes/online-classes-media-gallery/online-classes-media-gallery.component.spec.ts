@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { OnlineClassesMediaGalleryComponent } from './online-classes-media-gallery.component';
+import { OnlineClassesMediaGalleryComponent } from "./online-classes-media-gallery.component";
 
-describe('OnlineClassesMediaGalleryComponent', () => {
+describe("OnlineClassesMediaGalleryComponent", () => {
   let component: OnlineClassesMediaGalleryComponent;
   let fixture: ComponentFixture<OnlineClassesMediaGalleryComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OnlineClassesMediaGalleryComponent ]
-    })
-    .compileComponents();
+      declarations: [OnlineClassesMediaGalleryComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('OnlineClassesMediaGalleryComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

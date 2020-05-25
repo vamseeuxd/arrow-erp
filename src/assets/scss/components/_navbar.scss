@@ -34,8 +34,8 @@
     margin-right: 17px;
 
     &:before {
-      content: '\E8D5';
-      font-family: 'Material Icons';
+      content: "\E8D5";
+      font-family: "Material Icons";
       font-size: 26px;
     }
   }
@@ -76,7 +76,7 @@
   .bars {
     &:after,
     &:before {
-      font-family: 'Material Icons';
+      font-family: "Material Icons";
       font-size: 24px;
       position: absolute;
       left: 10px;
@@ -88,7 +88,7 @@
     }
 
     &:before {
-      content: '\E5D2';
+      content: "\E5D2";
       @include transform(scale(1));
     }
 
@@ -168,7 +168,7 @@
     padding: 0;
     border-radius: 5px;
     &::before {
-      content: '';
+      content: "";
       position: absolute;
       top: -7px;
       right: 19px;
@@ -179,7 +179,7 @@
       border-bottom-color: rgba(0, 0, 0, 0.2);
     }
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       top: -6px;
       right: 20px;
@@ -343,7 +343,7 @@ nav.navbar {
           .menu-toggle {
             &:before,
             &:after {
-              content: '';
+              content: "";
             }
           }
           span {
@@ -399,10 +399,10 @@ nav.navbar {
           li {
             .menu-toggle {
               &:before {
-                content: '+';
+                content: "+";
               }
               &:after {
-                content: '\2013';
+                content: "\2013";
               }
             }
             span {

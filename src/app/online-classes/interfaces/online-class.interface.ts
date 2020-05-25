@@ -1,4 +1,4 @@
-import {OnlineClassMediaDetails} from './online-class-media-details.interface';
+import { OnlineClassMediaDetails } from "./online-class-media-details.interface";
 
 export interface OnlineClassInterface {
   id?: string;

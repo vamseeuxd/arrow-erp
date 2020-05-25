@@ -3,47 +3,52 @@
     <div class="row">
       <div class="col-6">
         <div class="input-group mb-3">
-          <input type="text"
-                 class="form-control w-100 bg-white"
-                 #myUserName
-                 [ngModel]="myPeerId"
-                 readonly
-                 placeholder="Your Username">
+          <input
+            type="text"
+            class="form-control w-100 bg-white"
+            #myUserName
+            [ngModel]="myPeerId"
+            readonly
+            placeholder="Your Username"
+          />
           <div class="input-group-append">
-            <button class="btn btn-primary" (click)="setUpChart(myUserName.value)">Start Online Class</button>
+            <button
+              class="btn btn-primary"
+              (click)="setUpChart(myUserName.value)"
+            >
+              Start Online Class
+            </button>
           </div>
         </div>
       </div>
       <div class="col-6">
         <div class="input-group mb-3">
-          <input type="text"
-                 class="form-control w-100"
-                 #otherUserName
-                 placeholder="Caller Username">
+          <input
+            type="text"
+            class="form-control w-100"
+            #otherUserName
+            placeholder="Caller Username"
+          />
           <div class="input-group-append">
-            <button class="btn btn-primary" (click)="startCamera(otherUserName.value)">Start Camera</button>
+            <button
+              class="btn btn-primary"
+              (click)="startCamera(otherUserName.value)"
+            >
+              Start Camera
+            </button>
           </div>
         </div>
       </div>
     </div>
-
-
   </div>
   <div class="col-5">
     <div class="embed-responsive embed-responsive-16by9">
-      <video #myCamera
-             autoplay
-             playsinline></video>
+      <video #myCamera autoplay playsinline></video>
     </div>
   </div>
   <div class="col-3">
     <div class="embed-responsive embed-responsive-16by9">
-      <video #otherCamera
-             autoplay
-             playsinline></video>
+      <video #otherCamera autoplay playsinline></video>
     </div>
   </div>
-
 </div>
-
-

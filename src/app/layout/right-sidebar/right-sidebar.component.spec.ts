@@ -1,11 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { RightSidebarComponent } from './right-sidebar.component';
-describe('RightSidebarComponent', () => {
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { RightSidebarComponent } from "./right-sidebar.component";
+describe("RightSidebarComponent", () => {
   let component: RightSidebarComponent;
   let fixture: ComponentFixture<RightSidebarComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [RightSidebarComponent]
+      declarations: [RightSidebarComponent],
     }).compileComponents();
   }));
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('RightSidebarComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

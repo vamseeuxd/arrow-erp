@@ -113,7 +113,6 @@ $color_silver_approx: #ccc;
 }
 */
 
-
 .example-list {
   list-style-type: none;
   padding: 0;
@@ -149,7 +148,7 @@ $color_silver_approx: #ccc;
     color: rgba(0, 0, 0, 0.1);
   }
 
-  img{
+  img {
     width: 130px;
     height: 80px;
   }
@@ -157,9 +156,8 @@ $color_silver_approx: #ccc;
 
 .example-box:active {
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
-  0 8px 10px 1px rgba(0, 0, 0, 0.14),
-  0 3px 14px 2px rgba(0, 0, 0, 0.12);
-  opacity: .6;
+    0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  opacity: 0.6;
 }
 
 .cdk-drop-list {
@@ -173,12 +171,11 @@ $color_silver_approx: #ccc;
   box-sizing: border-box;
   border-radius: 4px;
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
-  0 8px 10px 1px rgba(0, 0, 0, 0.14),
-  0 3px 14px 2px rgba(0, 0, 0, 0.12);
+    0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
 }
 
 .cdk-drag-placeholder {
-  opacity: .3;
+  opacity: 0.3;
 }
 
 .cdk-drag-animating {
@@ -188,4 +185,3 @@ $color_silver_approx: #ccc;
 .cdk-drag {
   z-index: 10000000000000000000 !important;
 }
-

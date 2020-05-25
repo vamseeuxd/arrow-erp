@@ -1,11 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { EchartComponent } from './echart.component';
-describe('EchartComponent', () => {
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { EchartComponent } from "./echart.component";
+describe("EchartComponent", () => {
   let component: EchartComponent;
   let fixture: ComponentFixture<EchartComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [EchartComponent]
+      declarations: [EchartComponent],
     }).compileComponents();
   }));
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('EchartComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

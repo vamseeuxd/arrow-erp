@@ -1,11 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MediaObjectComponent } from './media-object.component';
-describe('MediaObjectComponent', () => {
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { MediaObjectComponent } from "./media-object.component";
+describe("MediaObjectComponent", () => {
   let component: MediaObjectComponent;
   let fixture: ComponentFixture<MediaObjectComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [MediaObjectComponent]
+      declarations: [MediaObjectComponent],
     }).compileComponents();
   }));
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('MediaObjectComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

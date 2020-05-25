@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { Department } from './department.model';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
+import { Department } from "./department.model";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 @Injectable()
 export class DepartmentService {
-  private readonly API_URL = 'assets/data/department.json';
+  private readonly API_URL = "assets/data/department.json";
   dataChange: BehaviorSubject<Department[]> = new BehaviorSubject<Department[]>(
     []
   );
@@ -20,11 +20,11 @@ export class DepartmentService {
   /** CRUD METHODS */
   getAllDepartments(): void {
     this.httpClient.get<Department[]>(this.API_URL).subscribe(
-      data => {
+      (data) => {
         this.dataChange.next(data);
       },
       (error: HttpErrorResponse) => {
-        console.log(error.name + ' ' + error.message);
+        console.log(error.name + " " + error.message);
       }
     );
   }

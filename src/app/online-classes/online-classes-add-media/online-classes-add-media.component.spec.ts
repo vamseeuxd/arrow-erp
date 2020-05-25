@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { OnlineClassesAddMediaComponent } from './online-classes-add-media.component';
+import { OnlineClassesAddMediaComponent } from "./online-classes-add-media.component";
 
-describe('OnlineClassesAddMediaComponent', () => {
+describe("OnlineClassesAddMediaComponent", () => {
   let component: OnlineClassesAddMediaComponent;
   let fixture: ComponentFixture<OnlineClassesAddMediaComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OnlineClassesAddMediaComponent ]
-    })
-    .compileComponents();
+      declarations: [OnlineClassesAddMediaComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('OnlineClassesAddMediaComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

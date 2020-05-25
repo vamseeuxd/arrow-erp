@@ -1,11 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { ExpansionPanelComponent } from './expansion-panel.component';
-describe('ExpansionPanelComponent', () => {
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ExpansionPanelComponent } from "./expansion-panel.component";
+describe("ExpansionPanelComponent", () => {
   let component: ExpansionPanelComponent;
   let fixture: ComponentFixture<ExpansionPanelComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ExpansionPanelComponent]
+      declarations: [ExpansionPanelComponent],
     }).compileComponents();
   }));
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('ExpansionPanelComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

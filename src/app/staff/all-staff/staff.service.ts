@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { Staff } from './staff.model';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
+import { Staff } from "./staff.model";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 @Injectable()
 export class StaffService {
-  private readonly API_URL = 'assets/data/staff.json';
+  private readonly API_URL = "assets/data/staff.json";
   dataChange: BehaviorSubject<Staff[]> = new BehaviorSubject<Staff[]>([]);
   // Temporarily stores data from dialogs
   dialogData: any;
@@ -18,11 +18,11 @@ export class StaffService {
   /** CRUD METHODS */
   getAllStaffs(): void {
     this.httpClient.get<Staff[]>(this.API_URL).subscribe(
-      data => {
+      (data) => {
         this.dataChange.next(data);
       },
       (error: HttpErrorResponse) => {
-        console.log(error.name + ' ' + error.message);
+        console.log(error.name + " " + error.message);
       }
     );
   }

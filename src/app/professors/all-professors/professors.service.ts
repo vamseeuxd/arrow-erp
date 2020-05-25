@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { Professors } from './professors.model';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
+import { Professors } from "./professors.model";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 @Injectable()
 export class ProfessorsService {
-  private readonly API_URL = 'assets/data/professors.json';
+  private readonly API_URL = "assets/data/professors.json";
   dataChange: BehaviorSubject<Professors[]> = new BehaviorSubject<Professors[]>(
     []
   );
@@ -20,11 +20,11 @@ export class ProfessorsService {
   /** CRUD METHODS */
   getAllProfessorss(): void {
     this.httpClient.get<Professors[]>(this.API_URL).subscribe(
-      data => {
+      (data) => {
         this.dataChange.next(data);
       },
       (error: HttpErrorResponse) => {
-        console.log(error.name + ' ' + error.message);
+        console.log(error.name + " " + error.message);
       }
     );
   }

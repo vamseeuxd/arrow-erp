@@ -4,7 +4,7 @@
  *  Description: This scss file for checkbox and radio button style classes
  */
 [type="checkbox"] {
-  +label {
+  + label {
     padding-left: 26px;
     height: 25px;
     line-height: 21px;
@@ -14,7 +14,7 @@
   }
 
   &:checked {
-    +label {
+    + label {
       &:before {
         top: -4px;
         left: -2px;
@@ -24,10 +24,9 @@
     }
   }
 
-  @each $key,
-  $val in $colors {
+  @each $key, $val in $colors {
     &:checked.chk-col-#{$key} {
-      +label {
+      + label {
         &:before {
           border-right: 2px solid $val;
           border-bottom: 2px solid $val;
@@ -37,10 +36,9 @@
   }
 }
 
-@each $key,
-$val in $colors {
+@each $key, $val in $colors {
   :checked.chk-col-#{$key} {
-    +span {
+    + span {
       &:after {
         color: $val;
       }
@@ -50,7 +48,7 @@ $val in $colors {
 
 [type="checkbox"].filled-in {
   &:checked {
-    +label {
+    + label {
       &:after {
         top: 0;
         width: 20px;
@@ -67,10 +65,9 @@ $val in $colors {
     }
   }
 
-  @each $key,
-  $val in $colors {
+  @each $key, $val in $colors {
     &:checked.chk-col-#{$key} {
-      +label {
+      + label {
         &:after {
           border: 2px solid $val;
           background-color: $val;
@@ -82,7 +79,7 @@ $val in $colors {
 
 [type="radio"] {
   &:not(:checked) {
-    +label {
+    + label {
       padding-left: 26px;
       height: 25px;
       line-height: 25px;
@@ -92,7 +89,7 @@ $val in $colors {
   }
 
   &:checked {
-    +label {
+    + label {
       padding-left: 26px;
       height: 25px;
       line-height: 25px;
@@ -101,16 +98,15 @@ $val in $colors {
     }
   }
 
-  +label {
+  + label {
     vertical-align: middle;
   }
 }
 
-@each $key,
-$val in $colors {
+@each $key, $val in $colors {
   [type="radio"].radio-col-#{$key} {
     &:checked {
-      +label {
+      + label {
         &:after {
           background-color: $val;
           border-color: $val;
@@ -120,11 +116,10 @@ $val in $colors {
   }
 }
 
-@each $key,
-$val in $colors {
+@each $key, $val in $colors {
   [type="radio"].with-gap.radio-col-#{$key} {
     &:checked {
-      +label {
+      + label {
         &:before {
           border: 2px solid $val;
         }

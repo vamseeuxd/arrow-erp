@@ -1,18 +1,18 @@
-import {Component} from '@angular/core';
+import { Component } from "@angular/core";
 import {
   Event,
   Router,
   NavigationStart,
   NavigationEnd,
-  RouterEvent
-} from '@angular/router';
-import {PlatformLocation} from '@angular/common';
-import {BusyIndicatorService} from './layout/busy-indicator.service';
+  RouterEvent,
+} from "@angular/router";
+import { PlatformLocation } from "@angular/common";
+import { BusyIndicatorService } from "./layout/busy-indicator.service";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: ["./app.component.scss"],
 })
 export class AppComponent {
   currentUrl: string;
@@ -21,7 +21,8 @@ export class AppComponent {
   constructor(
     public _router: Router,
     public busyIndicator: BusyIndicatorService,
-    location: PlatformLocation) {
+    location: PlatformLocation
+  ) {
     this._router.events.subscribe((routerEvent: Event) => {
       if (routerEvent instanceof NavigationStart) {
         this.showLoadingIndicatior = true;
@@ -29,7 +30,7 @@ export class AppComponent {
           window.location.reload();
         });
         this.currentUrl = routerEvent.url.substring(
-          routerEvent.url.lastIndexOf('/') + 1
+          routerEvent.url.lastIndexOf("/") + 1
         );
       }
       if (routerEvent instanceof NavigationEnd) {

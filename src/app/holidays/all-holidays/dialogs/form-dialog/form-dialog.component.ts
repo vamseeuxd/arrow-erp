@@ -1,20 +1,20 @@
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Component, Inject } from '@angular/core';
-import { HolidayService } from '../../holiday.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { Component, Inject } from "@angular/core";
+import { HolidayService } from "../../holiday.service";
 import {
   FormControl,
   Validators,
   FormGroup,
-  FormBuilder
-} from '@angular/forms';
-import { Holiday } from '../../holiday.model';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
-import { formatDate } from '@angular/common';
+  FormBuilder,
+} from "@angular/forms";
+import { Holiday } from "../../holiday.model";
+import { MAT_DATE_LOCALE } from "@angular/material/core";
+import { formatDate } from "@angular/common";
 @Component({
-  selector: 'app-form-dialog',
-  templateUrl: './form-dialog.component.html',
-  styleUrls: ['./form-dialog.component.sass'],
-  providers: [{ provide: MAT_DATE_LOCALE, useValue: 'en-GB' }]
+  selector: "app-form-dialog",
+  templateUrl: "./form-dialog.component.html",
+  styleUrls: ["./form-dialog.component.sass"],
+  providers: [{ provide: MAT_DATE_LOCALE, useValue: "en-GB" }],
 })
 export class FormDialogComponent {
   action: string;
@@ -29,26 +29,26 @@ export class FormDialogComponent {
   ) {
     // Set the defaults
     this.action = data.action;
-    if (this.action === 'edit') {
+    if (this.action === "edit") {
       console.log(data.holiday.date);
       this.dialogTitle = data.holiday.title;
       this.holiday = data.holiday;
     } else {
-      this.dialogTitle = 'New Holiday';
+      this.dialogTitle = "New Holiday";
       this.holiday = new Holiday({});
     }
     this.holidayForm = this.createContactForm();
   }
-  formControl = new FormControl('', [
-    Validators.required
+  formControl = new FormControl("", [
+    Validators.required,
     // Validators.email,
   ]);
   getErrorMessage() {
-    return this.formControl.hasError('required')
-      ? 'Required field'
-      : this.formControl.hasError('email')
-      ? 'Not a valid email'
-      : '';
+    return this.formControl.hasError("required")
+      ? "Required field"
+      : this.formControl.hasError("email")
+      ? "Not a valid email"
+      : "";
   }
   createContactForm(): FormGroup {
     return this.fb.group({
@@ -56,15 +56,15 @@ export class FormDialogComponent {
       no: [this.holiday.no, [Validators.required]],
       title: [this.holiday.title, [Validators.required]],
       sDate: [
-        formatDate(this.holiday.sDate, 'yyyy-MM-dd', 'en'),
-        [Validators.required]
+        formatDate(this.holiday.sDate, "yyyy-MM-dd", "en"),
+        [Validators.required],
       ],
       eDate: [
-        formatDate(this.holiday.eDate, 'yyyy-MM-dd', 'en'),
-        [Validators.required]
+        formatDate(this.holiday.eDate, "yyyy-MM-dd", "en"),
+        [Validators.required],
       ],
       type: [this.holiday.type, [Validators.required]],
-      details: [this.holiday.details]
+      details: [this.holiday.details],
     });
   }
   submit() {

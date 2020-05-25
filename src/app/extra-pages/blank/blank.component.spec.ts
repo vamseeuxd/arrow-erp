@@ -1,11 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { BlankComponent } from './blank.component';
-describe('BlankComponent', () => {
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { BlankComponent } from "./blank.component";
+describe("BlankComponent", () => {
   let component: BlankComponent;
   let fixture: ComponentFixture<BlankComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [BlankComponent]
+      declarations: [BlankComponent],
     }).compileComponents();
   }));
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('BlankComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

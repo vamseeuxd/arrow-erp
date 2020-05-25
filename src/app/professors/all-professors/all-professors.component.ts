@@ -1,36 +1,36 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { ProfessorsService } from './professors.service';
-import { HttpClient } from '@angular/common/http';
-import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { Professors } from './professors.model';
-import { DataSource } from '@angular/cdk/collections';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { FormDialogComponent } from './dialogs/form-dialog/form-dialog.component';
-import { DeleteDialogComponent } from './dialogs/delete/delete.component';
-import { MatMenuTrigger } from '@angular/material/menu';
-import { SelectionModel } from '@angular/cdk/collections';
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { ProfessorsService } from "./professors.service";
+import { HttpClient } from "@angular/common/http";
+import { MatDialog } from "@angular/material/dialog";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort } from "@angular/material/sort";
+import { Professors } from "./professors.model";
+import { DataSource } from "@angular/cdk/collections";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { BehaviorSubject, fromEvent, merge, Observable } from "rxjs";
+import { map } from "rxjs/operators";
+import { FormDialogComponent } from "./dialogs/form-dialog/form-dialog.component";
+import { DeleteDialogComponent } from "./dialogs/delete/delete.component";
+import { MatMenuTrigger } from "@angular/material/menu";
+import { SelectionModel } from "@angular/cdk/collections";
 
 @Component({
-  selector: 'app-all-professors',
-  templateUrl: './all-professors.component.html',
-  styleUrls: ['./all-professors.component.sass'],
+  selector: "app-all-professors",
+  templateUrl: "./all-professors.component.html",
+  styleUrls: ["./all-professors.component.sass"],
 })
 export class AllprofessorsComponent implements OnInit {
   displayedColumns = [
-    'select',
-    'img',
-    'name',
-    'department',
-    'gender',
-    'degree',
-    'mobile',
-    'email',
-    'date',
-    'actions',
+    "select",
+    "img",
+    "name",
+    "department",
+    "gender",
+    "degree",
+    "mobile",
+    "email",
+    "date",
+    "actions",
   ];
   exampleDatabase: ProfessorsService | null;
   dataSource: ExampleDataSource | null;
@@ -45,10 +45,10 @@ export class AllprofessorsComponent implements OnInit {
   ) {}
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild('filter', { static: true }) filter: ElementRef;
+  @ViewChild("filter", { static: true }) filter: ElementRef;
   @ViewChild(MatMenuTrigger)
   contextMenu: MatMenuTrigger;
-  contextMenuPosition = { x: '0px', y: '0px' };
+  contextMenuPosition = { x: "0px", y: "0px" };
 
   ngOnInit() {
     this.loadData();
@@ -60,7 +60,7 @@ export class AllprofessorsComponent implements OnInit {
     const dialogRef = this.dialog.open(FormDialogComponent, {
       data: {
         professors: this.professors,
-        action: 'add',
+        action: "add",
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
@@ -72,10 +72,10 @@ export class AllprofessorsComponent implements OnInit {
         );
         this.refreshTable();
         this.showNotification(
-          'snackbar-success',
-          'Add Record Successfully...!!!',
-          'bottom',
-          'center'
+          "snackbar-success",
+          "Add Record Successfully...!!!",
+          "bottom",
+          "center"
         );
       }
     });
@@ -85,7 +85,7 @@ export class AllprofessorsComponent implements OnInit {
     const dialogRef = this.dialog.open(FormDialogComponent, {
       data: {
         professors: row,
-        action: 'edit',
+        action: "edit",
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
@@ -101,10 +101,10 @@ export class AllprofessorsComponent implements OnInit {
         // And lastly refresh table
         this.refreshTable();
         this.showNotification(
-          'black',
-          'Edit Record Successfully...!!!',
-          'bottom',
-          'center'
+          "black",
+          "Edit Record Successfully...!!!",
+          "bottom",
+          "center"
         );
       }
     });
@@ -123,10 +123,10 @@ export class AllprofessorsComponent implements OnInit {
         this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
         this.refreshTable();
         this.showNotification(
-          'snackbar-danger',
-          'Delete Record Successfully...!!!',
-          'bottom',
-          'center'
+          "snackbar-danger",
+          "Delete Record Successfully...!!!",
+          "bottom",
+          "center"
         );
       }
     });
@@ -161,10 +161,10 @@ export class AllprofessorsComponent implements OnInit {
       this.selection = new SelectionModel<Professors>(true, []);
     });
     this.showNotification(
-      'snackbar-danger',
-      totalSelect + ' Record Delete Successfully...!!!',
-      'bottom',
-      'center'
+      "snackbar-danger",
+      totalSelect + " Record Delete Successfully...!!!",
+      "bottom",
+      "center"
     );
   }
   public loadData() {
@@ -174,7 +174,7 @@ export class AllprofessorsComponent implements OnInit {
       this.paginator,
       this.sort
     );
-    fromEvent(this.filter.nativeElement, 'keyup')
+    fromEvent(this.filter.nativeElement, "keyup")
       // .debounceTime(150)
       // .distinctUntilChanged()
       .subscribe(() => {
@@ -185,7 +185,7 @@ export class AllprofessorsComponent implements OnInit {
       });
   }
   showNotification(colorName, text, placementFrom, placementAlign) {
-    this.snackBar.open(text, '', {
+    this.snackBar.open(text, "", {
       duration: 2000,
       verticalPosition: placementFrom,
       horizontalPosition: placementAlign,
@@ -195,15 +195,15 @@ export class AllprofessorsComponent implements OnInit {
   // context menu
   onContextMenu(event: MouseEvent, item: Professors) {
     event.preventDefault();
-    this.contextMenuPosition.x = event.clientX + 'px';
-    this.contextMenuPosition.y = event.clientY + 'px';
+    this.contextMenuPosition.x = event.clientX + "px";
+    this.contextMenuPosition.y = event.clientY + "px";
     this.contextMenu.menuData = { item: item };
-    this.contextMenu.menu.focusFirstItem('mouse');
+    this.contextMenu.menu.focusFirstItem("mouse");
     this.contextMenu.openMenu();
   }
 }
 export class ExampleDataSource extends DataSource<Professors> {
-  _filterChange = new BehaviorSubject('');
+  _filterChange = new BehaviorSubject("");
   get filter(): string {
     return this._filterChange.value;
   }
@@ -262,36 +262,36 @@ export class ExampleDataSource extends DataSource<Professors> {
   disconnect() {}
   /** Returns a sorted copy of the database data. */
   sortData(data: Professors[]): Professors[] {
-    if (!this._sort.active || this._sort.direction === '') {
+    if (!this._sort.active || this._sort.direction === "") {
       return data;
     }
     return data.sort((a, b) => {
-      let propertyA: number | string = '';
-      let propertyB: number | string = '';
+      let propertyA: number | string = "";
+      let propertyB: number | string = "";
       switch (this._sort.active) {
-        case 'id':
+        case "id":
           [propertyA, propertyB] = [a.id, b.id];
           break;
-        case 'name':
+        case "name":
           [propertyA, propertyB] = [a.name, b.name];
           break;
-        case 'email':
+        case "email":
           [propertyA, propertyB] = [a.email, b.email];
           break;
-        case 'date':
+        case "date":
           [propertyA, propertyB] = [a.date, b.date];
           break;
-        case 'time':
+        case "time":
           [propertyA, propertyB] = [a.department, b.department];
           break;
-        case 'mobile':
+        case "mobile":
           [propertyA, propertyB] = [a.mobile, b.mobile];
           break;
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
       return (
-        (valueA < valueB ? -1 : 1) * (this._sort.direction === 'asc' ? 1 : -1)
+        (valueA < valueB ? -1 : 1) * (this._sort.direction === "asc" ? 1 : -1)
       );
     });
   }

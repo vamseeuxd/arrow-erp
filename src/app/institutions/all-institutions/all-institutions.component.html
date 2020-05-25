@@ -1,122 +1,212 @@
 <section class="content">
-    <div class="container-fluid">
-        <div class="block-header">
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <ul class="breadcrumb breadcrumb-style ">
-                        <li class="breadcrumb-item"><h4 class="page-title">All Institutions</h4></li>
-                        <li class="breadcrumb-item bcrumb-1"><a routerLink="/dashboard/main"><i class="fas fa-home"></i> Home</a></li>
-                        <li class="breadcrumb-item bcrumb-2"><a href="#" onClick="return false;">Institutions</a></li>
-                        <li class="breadcrumb-item active">All</li>
-                    </ul>
-                </div>
-            </div>
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">All Institutions</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a routerLink="/dashboard/main"
+                ><i class="fas fa-home"></i> Home</a
+              >
+            </li>
+            <li class="breadcrumb-item bcrumb-2">
+              <a href="#" onClick="return false;">Institutions</a>
+            </li>
+            <li class="breadcrumb-item active">All</li>
+          </ul>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-              <div class="card">
-                <div class="body">
-                  <div class="table-responsive">
-                    <div class="materialTableHeader">
-                      <div class="row">
-                        <div class="col-8">
-                          <ul class="header-buttons-left ml-0">
-                            <li class="dropdown">
-                              <h2><strong>Institutions</strong></h2></li>
-                            <li class="dropdown m-l-20">
-                              <label><i class="material-icons search-icon">search</i></label>
-                              <input placeholder="Search" type="text" #filter class="browser-default search-field" aria-label="Search box">
-                            </li>
-                          </ul>
-                        </div>
-                        <div class="col-4">
-                          <ul class="header-buttons">
-                            <li>
-                              <div class="icon-button-demo">
-                                <button mat-mini-fab color="primary" (click)="addNew()"><mat-icon class="col-white">add</mat-icon></button>
-                              </div>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                    </div>
-
-                    <mat-table #table [dataSource]="dataSource" matSort class="mat-cell">
-
-                      <!--  id -->
-                      <ng-container matColumnDef="id">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
-                        <mat-cell *matCellDef="let row"> {{row.id}}</mat-cell>
-                      </ng-container>
-
-                      <!--  institutionName -->
-                      <ng-container matColumnDef="institutionName">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header>Institution Name</mat-header-cell>
-                        <mat-cell *matCellDef="let row"> {{row.institutionName}}</mat-cell>
-                      </ng-container>
-
-                      <!--  contactPerson -->
-                      <ng-container matColumnDef="contactPerson">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header>Contact Person</mat-header-cell>
-                        <mat-cell *matCellDef="let row"> {{row.contactPerson}}</mat-cell>
-                      </ng-container>
-
-                      <!--  contactPhone -->
-                      <ng-container matColumnDef="contactPhone">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header>Contact Phone</mat-header-cell>
-                        <mat-cell *matCellDef="let row"> {{row.contactPhone}}</mat-cell>
-                      </ng-container>
-
-                      <!--  contactEmail -->
-                      <ng-container matColumnDef="contactEmail">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header>Contact Email</mat-header-cell>
-                        <mat-cell *matCellDef="let row"> {{row.contactEmail}}</mat-cell>
-                      </ng-container>
-
-                      <!--  memberShip -->
-                      <ng-container matColumnDef="memberShip">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header>Member Ship</mat-header-cell>
-                        <mat-cell *matCellDef="let row"> {{row.memberShip}}</mat-cell>
-                      </ng-container>
-
-                      <!--  status -->
-                      <ng-container matColumnDef="status">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
-                        <mat-cell *matCellDef="let row"> {{row.status}}</mat-cell>
-                      </ng-container>
-
-                      <!--  createdOn -->
-                      <ng-container matColumnDef="createdOn">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header>Registered On</mat-header-cell>
-                        <mat-cell *matCellDef="let row"> {{row.createdOn ? ((row.createdOn.seconds * 1000) | date) : ''}}</mat-cell>
-                      </ng-container>
-
-                      <!-- actions -->
-                      <ng-container matColumnDef="actions">
-                        <mat-header-cell class="pr-0" *matHeaderCellDef>Actions
-                        </mat-header-cell>
-                        <mat-cell *matCellDef="let row; let i=index;" class="pr-0">
-                          <button mat-icon-button color="accent" class="btn-tbl-edit" (click)="$event.stopPropagation()" (click)="editCall(row)">
-                            <mat-icon aria-label="Edit" class="col-white">edit</mat-icon>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="body">
+            <div class="table-responsive">
+              <div class="materialTableHeader">
+                <div class="row">
+                  <div class="col-8">
+                    <ul class="header-buttons-left ml-0">
+                      <li class="dropdown">
+                        <h2><strong>Institutions</strong></h2>
+                      </li>
+                      <li class="dropdown m-l-20">
+                        <label
+                          ><i class="material-icons search-icon"
+                            >search</i
+                          ></label
+                        >
+                        <input
+                          placeholder="Search"
+                          type="text"
+                          #filter
+                          class="browser-default search-field"
+                          aria-label="Search box"
+                        />
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="col-4">
+                    <ul class="header-buttons">
+                      <li>
+                        <div class="icon-button-demo">
+                          <button
+                            mat-mini-fab
+                            color="primary"
+                            (click)="addNew()"
+                          >
+                            <mat-icon class="col-white">add</mat-icon>
                           </button>
-                          <button mat-icon-button color="accent" class="btn-tbl-delete" (click)="$event.stopPropagation()" (click)="deleteItem(row)">
-                            <mat-icon aria-label="Delete" class="col-white">delete</mat-icon>
-                          </button>
-                        </mat-cell>
-                      </ng-container>
-
-                      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                      <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="editCall(row)" [style.cursor]="'pointer'" matRipple></mat-row>
-
-                    </mat-table>
-
-                    <div class="no-results text-center font-weight-bold text-muted mt-3" *ngIf="dataSource && dataSource.data.length===0">No results</div>
-                    <mat-paginator [pageSizeOptions]="[5, 10, 20, 100]" showFirstLastButtons></mat-paginator>
+                        </div>
+                      </li>
+                    </ul>
                   </div>
                 </div>
               </div>
+
+              <mat-table
+                #table
+                [dataSource]="dataSource"
+                matSort
+                class="mat-cell"
+              >
+                <!--  id -->
+                <ng-container matColumnDef="id">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header
+                    >ID</mat-header-cell
+                  >
+                  <mat-cell *matCellDef="let row"> {{ row.id }}</mat-cell>
+                </ng-container>
+
+                <!--  institutionName -->
+                <ng-container matColumnDef="institutionName">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header
+                    >Institution Name</mat-header-cell
+                  >
+                  <mat-cell *matCellDef="let row">
+                    {{ row.institutionName }}</mat-cell
+                  >
+                </ng-container>
+
+                <!--  contactPerson -->
+                <ng-container matColumnDef="contactPerson">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header
+                    >Contact Person</mat-header-cell
+                  >
+                  <mat-cell *matCellDef="let row">
+                    {{ row.contactPerson }}</mat-cell
+                  >
+                </ng-container>
+
+                <!--  contactPhone -->
+                <ng-container matColumnDef="contactPhone">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header
+                    >Contact Phone</mat-header-cell
+                  >
+                  <mat-cell *matCellDef="let row">
+                    {{ row.contactPhone }}</mat-cell
+                  >
+                </ng-container>
+
+                <!--  contactEmail -->
+                <ng-container matColumnDef="contactEmail">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header
+                    >Contact Email</mat-header-cell
+                  >
+                  <mat-cell *matCellDef="let row">
+                    {{ row.contactEmail }}</mat-cell
+                  >
+                </ng-container>
+
+                <!--  memberShip -->
+                <ng-container matColumnDef="memberShip">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header
+                    >Member Ship</mat-header-cell
+                  >
+                  <mat-cell *matCellDef="let row">
+                    {{ row.memberShip }}</mat-cell
+                  >
+                </ng-container>
+
+                <!--  status -->
+                <ng-container matColumnDef="status">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header
+                    >Status</mat-header-cell
+                  >
+                  <mat-cell *matCellDef="let row"> {{ row.status }}</mat-cell>
+                </ng-container>
+
+                <!--  createdOn -->
+                <ng-container matColumnDef="createdOn">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header
+                    >Registered On</mat-header-cell
+                  >
+                  <mat-cell *matCellDef="let row">
+                    {{
+                      row.createdOn ? (row.createdOn.seconds * 1000 | date) : ""
+                    }}</mat-cell
+                  >
+                </ng-container>
+
+                <!-- actions -->
+                <ng-container matColumnDef="actions">
+                  <mat-header-cell class="pr-0" *matHeaderCellDef
+                    >Actions
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let row; let i = index" class="pr-0">
+                    <button
+                      mat-icon-button
+                      color="accent"
+                      class="btn-tbl-edit"
+                      (click)="$event.stopPropagation()"
+                      (click)="editCall(row)"
+                    >
+                      <mat-icon aria-label="Edit" class="col-white"
+                        >edit</mat-icon
+                      >
+                    </button>
+                    <button
+                      mat-icon-button
+                      color="accent"
+                      class="btn-tbl-delete"
+                      (click)="$event.stopPropagation()"
+                      (click)="deleteItem(row)"
+                    >
+                      <mat-icon aria-label="Delete" class="col-white"
+                        >delete</mat-icon
+                      >
+                    </button>
+                  </mat-cell>
+                </ng-container>
+
+                <mat-header-row
+                  *matHeaderRowDef="displayedColumns"
+                ></mat-header-row>
+                <mat-row
+                  *matRowDef="let row; columns: displayedColumns"
+                  (click)="editCall(row)"
+                  [style.cursor]="'pointer'"
+                  matRipple
+                ></mat-row>
+              </mat-table>
+
+              <div
+                class="no-results text-center font-weight-bold text-muted mt-3"
+                *ngIf="dataSource && dataSource.data.length === 0"
+              >
+                No results
+              </div>
+              <mat-paginator
+                [pageSizeOptions]="[5, 10, 20, 100]"
+                showFirstLastButtons
+              ></mat-paginator>
             </div>
+          </div>
         </div>
-        <!--  -->
+      </div>
     </div>
+    <!--  -->
+  </div>
 </section>

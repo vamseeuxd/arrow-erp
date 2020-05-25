@@ -1,18 +1,18 @@
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Component, Inject } from '@angular/core';
-import { StudentsService } from '../../students.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { Component, Inject } from "@angular/core";
+import { StudentsService } from "../../students.service";
 import {
   FormControl,
   Validators,
   FormGroup,
-  FormBuilder
-} from '@angular/forms';
-import { Students } from '../../students.model';
-import { formatDate } from '@angular/common';
+  FormBuilder,
+} from "@angular/forms";
+import { Students } from "../../students.model";
+import { formatDate } from "@angular/common";
 @Component({
-  selector: 'app-form-dialog',
-  templateUrl: './form-dialog.component.html',
-  styleUrls: ['./form-dialog.component.sass']
+  selector: "app-form-dialog",
+  templateUrl: "./form-dialog.component.html",
+  styleUrls: ["./form-dialog.component.sass"],
 })
 export class FormDialogComponent {
   action: string;
@@ -27,25 +27,25 @@ export class FormDialogComponent {
   ) {
     // Set the defaults
     this.action = data.action;
-    if (this.action === 'edit') {
+    if (this.action === "edit") {
       this.dialogTitle = data.students.name;
       this.students = data.students;
     } else {
-      this.dialogTitle = 'New Students';
+      this.dialogTitle = "New Students";
       this.students = new Students({});
     }
     this.stdForm = this.createContactForm();
   }
-  formControl = new FormControl('', [
-    Validators.required
+  formControl = new FormControl("", [
+    Validators.required,
     // Validators.email,
   ]);
   getErrorMessage() {
-    return this.formControl.hasError('required')
-      ? 'Required field'
-      : this.formControl.hasError('email')
-      ? 'Not a valid email'
-      : '';
+    return this.formControl.hasError("required")
+      ? "Required field"
+      : this.formControl.hasError("email")
+      ? "Not a valid email"
+      : "";
   }
   createContactForm(): FormGroup {
     return this.fb.group({
@@ -54,16 +54,16 @@ export class FormDialogComponent {
       name: [this.students.name],
       email: [
         this.students.email,
-        [Validators.required, Validators.email, Validators.minLength(5)]
+        [Validators.required, Validators.email, Validators.minLength(5)],
       ],
       date: [
-        formatDate(this.students.date, 'yyyy-MM-dd', 'en'),
-        [Validators.required]
+        formatDate(this.students.date, "yyyy-MM-dd", "en"),
+        [Validators.required],
       ],
       gender: [this.students.gender],
       mobile: [this.students.mobile],
       department: [this.students.department],
-      rollNo: [this.students.rollNo]
+      rollNo: [this.students.rollNo],
     });
   }
   submit() {

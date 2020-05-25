@@ -1,40 +1,40 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 @Component({
-  selector: 'app-edit-student',
-  templateUrl: './edit-student.component.html',
-  styleUrls: ['./edit-student.component.sass'],
+  selector: "app-edit-student",
+  templateUrl: "./edit-student.component.html",
+  styleUrls: ["./edit-student.component.sass"],
 })
 export class EditStudentComponent {
   stdForm: FormGroup;
   formdata = {
-    first: 'Pooja',
-    last: 'Sarma',
-    rollNo: '12',
-    gender: 'male',
-    email: 'test@example.com',
-    mobile: '123456789',
-    rDate: '2020-02-05T14:22:18Z',
-    department: 'mathematics',
-    bGroup: 'O+',
-    dob: '1987-02-17T14:22:18Z',
-    parentName: 'Sanjay Shukla',
-    parentNo: '1234567890',
-    address: '101, Elanxa, New Yourk',
-    uploadImg: '',
+    first: "Pooja",
+    last: "Sarma",
+    rollNo: "12",
+    gender: "male",
+    email: "test@example.com",
+    mobile: "123456789",
+    rDate: "2020-02-05T14:22:18Z",
+    department: "mathematics",
+    bGroup: "O+",
+    dob: "1987-02-17T14:22:18Z",
+    parentName: "Sanjay Shukla",
+    parentNo: "1234567890",
+    address: "101, Elanxa, New Yourk",
+    uploadImg: "",
   };
   constructor(private fb: FormBuilder) {
     this.stdForm = this.createContactForm();
   }
   onSubmit() {
-    console.log('Form Value', this.stdForm.value);
+    console.log("Form Value", this.stdForm.value);
   }
   createContactForm(): FormGroup {
     return this.fb.group({
       first: [
         this.formdata.first,
-        [Validators.required, Validators.pattern('[a-zA-Z]+')],
+        [Validators.required, Validators.pattern("[a-zA-Z]+")],
       ],
       last: [this.formdata.last],
       rollNo: [this.formdata.rollNo],

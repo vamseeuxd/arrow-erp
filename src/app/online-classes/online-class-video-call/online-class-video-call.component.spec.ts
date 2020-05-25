@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { OnlineClassVideoCallComponent } from './online-class-video-call.component';
+import { OnlineClassVideoCallComponent } from "./online-class-video-call.component";
 
-describe('OnlineClassVideoCallComponent', () => {
+describe("OnlineClassVideoCallComponent", () => {
   let component: OnlineClassVideoCallComponent;
   let fixture: ComponentFixture<OnlineClassVideoCallComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OnlineClassVideoCallComponent ]
-    })
-    .compileComponents();
+      declarations: [OnlineClassVideoCallComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('OnlineClassVideoCallComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

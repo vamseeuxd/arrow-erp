@@ -1,24 +1,24 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { DragulaModule } from 'ng2-dragula';
-import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
-import { FormsModule } from '@angular/forms';
-import { AppsRoutingModule } from './apps-routing.module';
-import { CalendarComponent } from './calendar/calendar.component';
-import { ChatComponent } from './chat/chat.component';
-import { DragDropComponent } from './drag-drop/drag-drop.component';
-import { ContactListComponent } from './contact-list/contact-list.component';
-import { ContactGridComponent } from './contact-grid/contact-grid.component';
-import { SupportComponent } from './support/support.component';
-import { FullCalendarModule } from '@fullcalendar/angular';
-import { MatButtonModule } from '@angular/material/button';
-import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSelectModule } from '@angular/material/select';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatInputModule } from '@angular/material/input';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { DragulaModule } from "ng2-dragula";
+import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
+import { FormsModule } from "@angular/forms";
+import { AppsRoutingModule } from "./apps-routing.module";
+import { CalendarComponent } from "./calendar/calendar.component";
+import { ChatComponent } from "./chat/chat.component";
+import { DragDropComponent } from "./drag-drop/drag-drop.component";
+import { ContactListComponent } from "./contact-list/contact-list.component";
+import { ContactGridComponent } from "./contact-grid/contact-grid.component";
+import { SupportComponent } from "./support/support.component";
+import { FullCalendarModule } from "@fullcalendar/angular";
+import { MatButtonModule } from "@angular/material/button";
+import { NgxDatatableModule } from "@swimlane/ngx-datatable";
+import { MatTableModule } from "@angular/material/table";
+import { MatPaginatorModule } from "@angular/material/paginator";
+import { MatIconModule } from "@angular/material/icon";
+import { MatSelectModule } from "@angular/material/select";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatInputModule } from "@angular/material/input";
 @NgModule({
   declarations: [
     CalendarComponent,
@@ -26,7 +26,7 @@ import { MatInputModule } from '@angular/material/input';
     DragDropComponent,
     ContactListComponent,
     ContactGridComponent,
-    SupportComponent
+    SupportComponent,
   ],
   imports: [
     CommonModule,
@@ -42,7 +42,7 @@ import { MatInputModule } from '@angular/material/input';
     MatCheckboxModule,
     MatInputModule,
     FormsModule,
-    DragulaModule.forRoot()
-  ]
+    DragulaModule.forRoot(),
+  ],
 })
 export class AppsModule {}
