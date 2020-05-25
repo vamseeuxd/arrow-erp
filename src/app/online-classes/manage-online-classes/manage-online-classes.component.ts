@@ -10,6 +10,8 @@ import {OnlineClassesService} from '../online-classes.service';
 import {BusyIndicatorService} from '../../layout/busy-indicator.service';
 import {OnlineClassInterface} from '../interfaces/online-class.interface';
 import {MatCalendarCellCssClasses} from '@angular/material/datepicker';
+import {MatDialog} from '@angular/material/dialog';
+import {MatDialogRef} from '@angular/material/dialog/dialog-ref';
 
 @Component({
   selector: 'app-manage-online-classes',
@@ -20,15 +22,18 @@ export class ManageOnlineClassesComponent {
   onlineClass: OnlineClassInterface;
   minDate: Date;
   maxDate: Date;
+  onlineClassFormTitle = 'Add New Online Class';
+  onlineClassFormDialogRef: MatDialogRef<any>;
 
   dateClass = (d: Date): MatCalendarCellCssClasses => {
     const date = d.getDate();
     return (date === 1 || date === 20) ? 'bg-warning rounded-circle disabled' : '';
-  }
+  };
 
   constructor(
     public onlineClassesService: OnlineClassesService,
     private busyIndicator: BusyIndicatorService,
+    public dialog: MatDialog,
   ) {
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth();
@@ -40,15 +45,31 @@ export class ManageOnlineClassesComponent {
   async saveOnlineClass(arrowForm: NgForm) {
     if (this.onlineClass) {
       const busyIndicatorId = this.busyIndicator.show();
-      await this.onlineClassesService.updateOnlineClasss(arrowForm.value, this.onlineClass.onlineClassId, this.onlineClass.createdOn);
+      await this.onlineClassesService.updateOnlineClasses(arrowForm.value, this.onlineClass.id, this.onlineClass.createdOn);
       arrowForm.resetForm();
       this.busyIndicator.hide(busyIndicatorId);
+      this.onlineClassFormDialogRef.close();
     }
     else {
       const busyIndicatorId = this.busyIndicator.show();
-      await this.onlineClassesService.addOnlineClasss(arrowForm.value);
+      await this.onlineClassesService.addOnlineClasses(arrowForm.value);
       arrowForm.resetForm();
       this.busyIndicator.hide(busyIndicatorId);
+      this.onlineClassFormDialogRef.close();
     }
+  }
+
+  editOnlineClass(onlineClassFormTemplate, onLineClassToEdit: OnlineClassInterface) {
+    this.onlineClassFormTitle = `Edit Online Class`;
+    this.onlineClass = JSON.parse(JSON.stringify(onLineClassToEdit));
+    this.onlineClass.classTime = new Date(this.onlineClass.classTime);
+    this.onlineClass.classDate = new Date(this.onlineClass.classDate);
+    this.onlineClassFormDialogRef = this.dialog.open(onlineClassFormTemplate, {
+      panelClass: 'position-relative',
+      disableClose: true,
+      maxWidth:'95vw',
+      width: '640px',
+      height: '95vh'
+    });
   }
 }

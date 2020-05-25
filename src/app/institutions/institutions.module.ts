@@ -25,6 +25,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatMenuModule} from '@angular/material/menu';
 import {InstitutionsService} from './all-institutions/institutions.service';
 import {ArrowFirebaseModule} from '../arrow-firebase.module';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import {ArrowFirebaseModule} from '../arrow-firebase.module';
     MatMenuModule,
     InstitutionsRoutingModule,
     ArrowFirebaseModule,
+    MatTooltipModule,
   ],
   providers: [
     InstitutionsService

@@ -1,11 +1,12 @@
 import {OnlineClassMediaDetails} from './online-class-media-details.interface';
 
 export interface OnlineClassInterface {
-  onlineClassId?: string;
+  id?: string;
   classTitle: string;
   teacher: string;
   students: string[];
-  dateAndTime: string;
+  classDate: any;
+  classTime: any;
   createdOn: any;
   updatedOn: any;
   mediaGallery: OnlineClassMediaDetails[];

@@ -17,13 +17,15 @@ export class OnlineClassesService {
     this.onlineClassesList = this.onlineClassesCollection.valueChanges();
   }
 
-  async addOnlineClasss(onlineClass: OnlineClassInterface): Promise<any> {
+  async addOnlineClasses(onlineClass: OnlineClassInterface): Promise<any> {
+    const classDate = new Date(onlineClass.classDate).toDateString();
+    const classTime = new Date(onlineClass.classTime).getTime()
+
     return new Promise(
       async function(resolve, reject) {
         try {
           const response = await this.onlineClassesCollection.add({
-            ...onlineClass,
-            onlineClassId: onlineClass.onlineClassId.toLowerCase(),
+            ...onlineClass, classDate, classTime,
             createdOn: firebase.firestore.FieldValue.serverTimestamp()
           });
           const docRef = await this.onlineClassesCollection.doc(response.id);
@@ -37,7 +39,9 @@ export class OnlineClassesService {
     );
   }
 
-  updateOnlineClasss(onlineClass: OnlineClassInterface, id: string, createdOn: any): Promise<any> {
+  updateOnlineClasses(onlineClass: OnlineClassInterface, id: string, createdOn: any): Promise<any> {
+    const classDate = new Date(onlineClass.classDate).toDateString();
+    const classTime = new Date(onlineClass.classTime).getTime();
     return new Promise(
       async function(resolve, reject) {
         try {
@@ -45,8 +49,7 @@ export class OnlineClassesService {
           const doc = await docRef.get().toPromise();
           await docRef.set(
             {
-              ...onlineClass,
-              onlineClassId: onlineClass.onlineClassId.toLowerCase(),
+              ...onlineClass, classDate, classTime,
               updatedOn: firebase.firestore.FieldValue.serverTimestamp(),
               id,
               createdOn,
@@ -60,7 +63,7 @@ export class OnlineClassesService {
     );
   }
 
-  deleteOnlineClasss(id: string): Promise<any> {
+  deleteOnlineClasses(id: string): Promise<any> {
     return new Promise(
       async function(resolve, reject) {
         try {
