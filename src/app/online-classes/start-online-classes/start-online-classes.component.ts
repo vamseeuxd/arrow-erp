@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import adapter from "webrtc-adapter";
+import { RightSidebarService } from "../../shared/services/rightsidebar.service";
 
 const ICE_SERVERS: RTCIceServer[] = [
   { urls: ["stun:stun.example.com", "stun:stun-1.example.com"] },
@@ -12,10 +13,10 @@ const PEER_CONNECTION_CONFIG: RTCConfiguration = {
 
 @Component({
   selector: "app-carousel",
-  templateUrl: "./online-classes.component.html",
-  styleUrls: ["./online-classes.component.scss"],
+  templateUrl: "./start-online-classes.component.html",
+  styleUrls: ["./start-online-classes.component.scss"],
 })
-export class OnlineClassesComponent {
+export class StartOnlineClassesComponent {
   @ViewChild("myVideo", { static: true }) myVideo: ElementRef;
   @ViewChild("recordedVideo", { static: true }) recordedVideo: ElementRef;
   disableShowVideoButton = false;
@@ -36,6 +37,14 @@ export class OnlineClassesComponent {
   };
   recordedBlobs = [];
   mediaRecorder;
+
+  constructor(private dataService: RightSidebarService) {
+    this.dataService.pageTitle = "Start Online Class";
+    this.dataService.breadCrumbData = [
+      { label: "online-classes", link: "" },
+      { label: "start-online-class", link: "" },
+    ];
+  }
 
   async showCamera($event: MouseEvent) {
     try {

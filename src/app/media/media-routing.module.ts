@@ -13,7 +13,7 @@ const routes: Routes = [
     component: GalleryComponent,
   },
   {
-    path: "online-classes",
+    path: "start-online-classes",
     component: CarouselComponent,
   },
 ];

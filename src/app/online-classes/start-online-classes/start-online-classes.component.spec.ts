@@ -1,15 +1,15 @@
 import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { OnlineClassesComponent } from "./online-classes.component";
+import { StartOnlineClassesComponent } from "./start-online-classes.component";
 describe("CarouselComponent", () => {
-  let component: OnlineClassesComponent;
-  let fixture: ComponentFixture<OnlineClassesComponent>;
+  let component: StartOnlineClassesComponent;
+  let fixture: ComponentFixture<StartOnlineClassesComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [OnlineClassesComponent],
+      declarations: [StartOnlineClassesComponent],
     }).compileComponents();
   }));
   beforeEach(() => {
-    fixture = TestBed.createComponent(OnlineClassesComponent);
+    fixture = TestBed.createComponent(StartOnlineClassesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

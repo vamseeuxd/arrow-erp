@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { OnlineClassesRoutingModule } from "./online-classes-routing.module";
-import { OnlineClassesComponent } from "./online-classes/online-classes.component";
+import { StartOnlineClassesComponent } from "./start-online-classes/start-online-classes.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { OnlineClassChatComponent } from "./online-class-chat/online-class-chat.component";
 import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
@@ -46,7 +46,7 @@ export const MY_FORMATS = {
 @NgModule({
   declarations: [
     OnlineClassChatComponent,
-    OnlineClassesComponent,
+    StartOnlineClassesComponent,
     OnlineClassVideoCallComponent,
     ManageOnlineClassesComponent,
     OnlineClassesMediaGalleryComponent,

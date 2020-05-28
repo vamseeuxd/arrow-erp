@@ -89,7 +89,7 @@ const routes: Routes = [
       import("./media/media.module").then((m) => m.MediaModule),
   },
   {
-    path: "online-classes",
+    path: "start-online-classes",
     loadChildren: () =>
       import("./online-classes/online-classes.module").then(
         (m) => m.OnlineClassesModule

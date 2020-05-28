@@ -19,7 +19,7 @@ export class HeaderComponent implements OnInit {
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2,
     public elementRef: ElementRef,
-    private dataService: RightSidebarService
+    public dataService: RightSidebarService
   ) {}
   notifications: any[] = [
     {

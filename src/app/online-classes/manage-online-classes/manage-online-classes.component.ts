@@ -12,6 +12,7 @@ import { OnlineClassInterface } from "../interfaces/online-class.interface";
 import { MatCalendarCellCssClasses } from "@angular/material/datepicker";
 import { MatDialog } from "@angular/material/dialog";
 import { MatDialogRef } from "@angular/material/dialog/dialog-ref";
+import { RightSidebarService } from "../../shared/services/rightsidebar.service";
 
 @Component({
   selector: "app-manage-online-classes",
@@ -35,13 +36,20 @@ export class ManageOnlineClassesComponent {
   constructor(
     public onlineClassesService: OnlineClassesService,
     private busyIndicator: BusyIndicatorService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private dataService: RightSidebarService
   ) {
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth();
     const currentDate = new Date().getDate();
     this.minDate = new Date();
     this.maxDate = new Date(currentYear, currentMonth + 3, currentDate);
+
+    this.dataService.pageTitle = "Manage Online Classes";
+    this.dataService.breadCrumbData = [
+      { label: "online-classes", link: "" },
+      { label: "manage-online-classes", link: "" },
+    ];
   }
 
   async saveOnlineClass(arrowForm: NgForm) {

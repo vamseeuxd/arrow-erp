@@ -17,7 +17,7 @@ function scripts(done) {
 		paths.npm + '/bootstrap/dist/js/bootstrap.js',
 		paths.npm + '/jquery-sparkline/jquery.sparkline.min.js',
 		paths.npm + '/moment/min/moment.min.js',
-		paths.npm + '/owl.online-classes/dist/owl.online-classes.min.js',
+		paths.npm + '/owl.start-online-classes/dist/owl.start-online-classes.min.js',
 	])
 		.pipe(concat('app.min.js'))
 		.pipe(uglify())
@@ -46,8 +46,8 @@ function style(done) {
 		paths.npm + '/node-waves/dist/waves.css',
 		paths.npm + '/animate.css/animate.css',
 		paths.npm + '/morris.js/morris.css',
-		paths.npm + '/owl.online-classes/dist/assets/owl.online-classes.min.css',
-		paths.npm + '/owl.online-classes/dist/assets/owl.theme.default.min.css',
+		paths.npm + '/owl.start-online-classes/dist/assets/owl.start-online-classes.min.css',
+		paths.npm + '/owl.start-online-classes/dist/assets/owl.theme.default.min.css',
 		paths.npm + '/perfect-scrollbar/css/perfect-scrollbar.css'
 	])
 		.pipe(concat('app.min.css'))

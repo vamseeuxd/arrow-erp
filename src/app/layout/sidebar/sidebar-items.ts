@@ -77,14 +77,14 @@ export const ROUTES: RouteInfo[] = [
   },
   {
     path: "",
-    title: "online-classes",
+    title: "Online Classes",
     iconType: "material-icons-two-tone",
-    icon: "person",
+    icon: "tv",
     class: "menu-toggle",
     groupTitle: false,
     submenu: [
       {
-        path: "/online-classes/start-online-classes",
+        path: "/start-online-classes/start-online-classes",
         title: "Start Online Class",
         iconType: "",
         icon: "",
@@ -93,7 +93,7 @@ export const ROUTES: RouteInfo[] = [
         submenu: [],
       },
       {
-        path: "/online-classes/manage-online-classes",
+        path: "/start-online-classes/manage-online-classes",
         title: "Manage Online Class",
         iconType: "",
         icon: "",
@@ -856,7 +856,7 @@ export const ROUTES: RouteInfo[] = [
         submenu: [],
       },
       {
-        path: "/media/online-classes",
+        path: "/media/start-online-classes",
         title: "Carousel",
         iconType: "",
         icon: "",

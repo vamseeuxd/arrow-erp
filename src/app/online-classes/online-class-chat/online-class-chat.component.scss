@@ -13,11 +13,13 @@
 
   .open-chat-button {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #fdfdfd;
-    border: 2px solid #eeeeee;
+    top: calc(50% - 65px);
+    right: -45px;
     padding: 7px 12px;
-    border-bottom: 2px solid #00bcd4;
+    /*background-color: #fdfdfd;
+    border: 2px solid #eeeeee;
+    border-bottom: 2px solid #00bcd4;*/
+    transform: rotate(-90deg);
+    font-weight: bold;
   }
 }
