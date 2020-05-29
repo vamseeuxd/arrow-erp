@@ -2,8 +2,8 @@ import { Component, Inject, OnInit, ViewChild } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { DomSanitizer } from "@angular/platform-browser";
 import { NgForm } from "@angular/forms";
-import { ONLINE_CLASS_ACTION } from "../interfaces/online-class-action.enum";
-import { OnlineClassMediaDetails } from "../interfaces/online-class-media-details.interface";
+import { ONLINE_CLASS_ACTION } from "../../interfaces/online-class-action.enum";
+import { OnlineClassMediaDetails } from "../../interfaces/online-class-media-details.interface";
 
 export interface DialogData {
   action: ONLINE_CLASS_ACTION;

@@ -1,0 +1,39 @@
+<section class="content">
+  <div class="container-fluid"
+       id="joinOnlineClassContainer">
+    <div class="row">
+      <div class="col-12">
+        <label>{{myPeerId}}</label>
+        <div class="form-group d-inline-block"
+             style="width: 250px;">
+          <input type="text"
+                 placeholder="PeerJS ID"
+                 class="form-control pl-1 pr-1"
+                 [(ngModel)]="teacherChatId">
+        </div>
+        <button class="btn btn-primary rounded-0 ml-2"
+                (click)="classTeacher()">Call
+        </button>
+      </div>
+
+      <div class="teacher-video"
+           [cdkDragBoundary]="'#joinOnlineClassContainer'"
+           cdkDrag
+           [style.width.px]="videoWidth"
+           [style.height.px]="0.6*videoWidth">
+        <video class="w-100 h-100"
+               #steamingVideo
+               controls
+               autoplay
+               playsinline></video>
+        <mat-slider [min]="250"
+                    [max]="500"
+                    [vertical]="true"
+                    (input)="updateVideoWidth($event)"
+                    [thumbLabel]="true"></mat-slider>
+      </div>
+
+      <app-online-class-chat [hideStudentList]="true"></app-online-class-chat>
+    </div>
+  </div>
+</section>

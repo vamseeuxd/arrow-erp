@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { StartOnlineClassesComponent } from "./start-online-classes/start-online-classes.component";
 import { ManageOnlineClassesComponent } from "./manage-online-classes/manage-online-classes.component";
+import { JoinOnlineClassComponent } from "./join-online-class/join-online-class.component";
 
 const routes: Routes = [
   {
@@ -12,24 +13,14 @@ const routes: Routes = [
   {
     path: "start-online-classes",
     component: StartOnlineClassesComponent,
-    data: {
-      title: "",
-      breadcrumbs: [
-        { label: "online-classes", url: "" },
-        { label: "start-online-class", url: "" },
-      ],
-    },
+  },
+  {
+    path: "join-online-classes",
+    component: JoinOnlineClassComponent,
   },
   {
     path: "manage-online-classes",
     component: ManageOnlineClassesComponent,
-    data: {
-      title: "",
-      breadcrumbs: [
-        { label: "online-classes", url: "" },
-        { label: "manage-online-classes", url: "" },
-      ],
-    },
   },
 ];
 

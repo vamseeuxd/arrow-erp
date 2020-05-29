@@ -1,0 +1,88 @@
+:host {
+  mat-slider {
+    position: absolute;
+    right: 0px;
+    bottom: 10px;
+    z-index: 100000;
+  }
+
+  .video-call-container {
+    width: 250px;
+    height: 150px;
+    padding: 0;
+    bottom: 15px;
+    right: 15px;
+    border: solid 11px #383737;
+    position: absolute;
+    color: rgba(0, 0, 0, 0.87);
+    background: #383737;
+    z-index: 100000;
+    transition: box-shadow 200ms cubic-bezier(0, 0, 0.2, 1);
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+      0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  }
+
+  .video-call-container:active {
+    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+      0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  }
+
+  .video-call-container-handle {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: #ccc;
+    cursor: move;
+    width: 24px;
+    height: 24px;
+  }
+
+  .action-bar {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    cursor: move;
+    background-color: rgba(0, 0, 0, 0);
+  }
+
+  .status-bar {
+    position: absolute;
+    right: 2px;
+    top: 6px;
+
+    label {
+      margin: 1px;
+      padding: 5px;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  .player-fab {
+    width: 30px;
+    height: 30px;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #898989;
+    border: 0px solid rgba(0, 0, 0, 0.8);
+    border-radius: 100%;
+    margin: 10px 5px;
+    position: relative;
+
+    &:before {
+      content: "";
+      display: none;
+      position: absolute;
+      background-color: rgba(0, 0, 0, 0.2);
+      width: calc(100% + 10px);
+      height: calc(100% + 10px);
+      border-radius: 100%;
+      z-index: 0;
+      top: -5px;
+      left: -5px;
+    }
+
+    &.active {
+      color: black;
+      background-color: rgba(255, 255, 255, 1);
+    }
+  }
+}

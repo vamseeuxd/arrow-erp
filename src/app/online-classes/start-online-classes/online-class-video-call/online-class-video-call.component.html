@@ -1,0 +1,113 @@
+<!--<div class="row">
+  <div class="col-12">
+    <div class="row">
+      <div class="col-6">
+        <div class="input-group mb-3">
+          <input
+            type="text"
+            class="form-control w-100 bg-white"
+            #myUserName
+            [ngModel]="myPeerId"
+            readonly
+            placeholder="Your Username"
+          />
+          <div class="input-group-append">
+            <button
+              class="btn btn-primary"
+              (click)="setUpChart(myUserName.value)"
+            >
+              Start Online Class
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="input-group mb-3">
+          <input
+            type="text"
+            class="form-control w-100"
+            #otherUserName
+            placeholder="Caller Username"
+          />
+          <div class="input-group-append">
+            <button
+              class="btn btn-primary"
+              (click)="startCamera(otherUserName.value)"
+            >
+              Start Camera
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-5">
+    <div class="embed-responsive embed-responsive-16by9">
+      <video #myCamera autoplay playsinline></video>
+    </div>
+  </div>
+  <div class="col-3">
+    <div class="embed-responsive embed-responsive-16by9">
+      <video #otherCamera autoplay playsinline></video>
+    </div>
+  </div>
+</div>
+<nav class="navbar shadow-sm  position-absolute">
+  <h5 class="ml-3 mt-3 text-muted">Online Class</h5>
+</nav>-->
+<div class="video-call-container"
+     cdkDrag
+     [cdkDragBoundary]="boundary"
+     [style.width.px]="videoWidth"
+     [style.height.px]="0.6*videoWidth">
+  <mat-slider [min]="250"
+              [max]="500"
+              [vertical]="true"
+              (input)="updateVideoWidth($event)"
+              [thumbLabel]="true"></mat-slider>
+  <video class="w-100 h-100"
+         #myCamera
+         autoplay
+         (play)="onVideoPlayClick($event)"
+         (pause)="onVideoPauseClick($event)"
+         controls
+         playsinline></video>
+
+  <div class="action-bar">
+    <label class="text-white">{{myPeerId}}</label>
+    <button style="cursor: move;" class="player-fab shadow-sm active" cdkDragHandle>
+      <i class="fa fa-arrows-alt"></i>
+    </button>
+
+    <button class="player-fab shadow-sm" *ngIf="playMyVideo"
+            [title]="playMyAudio ? 'Mute' : 'Unmute'" [class.active]="playMyAudio"
+            (click)="muteAudio(!playMyAudio)">
+      <i style="font-size: 12px;" class="fa fa-microphone" [class.fa-microphone-slash]="playMyAudio" [class.fa-microphone]="!playMyAudio"></i>
+    </button>
+  </div>
+
+  <div class="status-bar">
+    <label class="text-white" *ngIf="!playMyAudio"><i class="fa fa-microphone-slash"></i> Muted</label>
+    <label class="text-white blink" *ngIf="!myCamera.paused">
+      <svg viewBox="0 0 24 24"
+           preserveAspectRatio="xMidYMid meet"
+           focusable="false"
+           style="pointer-events: none; display: inline-block; width: 20px; height: 18px;">
+        <g class="style-scope yt-icon">
+        <path d="M23,12a11,11,0,0,1-3.22,7.78l-1.41-1.41a9,9,0,0,0,0-12.73l1.41-1.41A11,11,0,0,1,23,12ZM5.64,5.64,4.22,4.22a11,11,0,0,0,0,15.56l1.41-1.41a9,9,0,0,1,0-12.73ZM16.95,7.05,15.54,8.46a5,5,0,0,1,0,7.07l1.41,1.41a7,7,0,0,0,0-9.9Zm-9.9,0a7,7,0,0,0,0,9.9l1.41-1.41a5,5,0,0,1,0-7.07Z"
+              fill="#ffffff"
+              fill-rule="evenodd">
+        </path>
+        <path d="M12,9a3,3,0,1,1-3,3,3,3,0,0,1,3-3"
+              fill="#f80000"
+              fill-rule="evenodd" c
+              lass="style-scope yt-icon">
+        </path>
+      </g></svg>
+      Live</label>
+  </div>
+  <!--<div class="video-container">
+    Your Video Shown Here
+  </div>-->
+
+</div>

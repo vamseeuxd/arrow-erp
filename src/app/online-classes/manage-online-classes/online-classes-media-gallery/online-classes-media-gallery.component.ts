@@ -14,8 +14,8 @@ import {
 } from "@angular/cdk/drag-drop";
 import { MatDialog } from "@angular/material/dialog";
 import { OnlineClassesAddMediaComponent } from "../online-classes-add-media/online-classes-add-media.component";
-import { ONLINE_CLASS_ACTION } from "../interfaces/online-class-action.enum";
-import { OnlineClassMediaDetails } from "../interfaces/online-class-media-details.interface";
+import { ONLINE_CLASS_ACTION } from "../../interfaces/online-class-action.enum";
+import { OnlineClassMediaDetails } from "../../interfaces/online-class-media-details.interface";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 
 @Component({

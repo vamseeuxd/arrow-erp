@@ -1,21 +1,52 @@
 <section class="content">
   <div class="container-fluid">
     <div class="row">
-      <app-online-class-video-call></app-online-class-video-call>
+      <mat-tab-group class="w-100"
+                     style="height: calc(100vh - 100px);">
+        <mat-tab label="WhiteBoard" class="h-100">
+          <div class="w-100 p-3 border example-boundary-1 position-relative"
+               style="height: calc(100vh - 150px);">
+            <div class="w-100 h-100 shadow-sm">
+              <app-online-class-white-board></app-online-class-white-board>
+            </div>
+            <app-online-class-video-call boundary=".example-boundary-1"></app-online-class-video-call>
+          </div>
+        </mat-tab>
+        <mat-tab label="Document">
+          <div class="w-100 p-3 border position-relative" style="height: calc(100vh - 150px);">
+            <div class="w-100 h-100 shadow-sm position-relative example-boundary-2 p-3">
+
+            <app-online-class-video-call boundary=".example-boundary-2">
+
+            </app-online-class-video-call>
+            </div>
+          </div>
+
+        </mat-tab>
+        <mat-tab label="Screen Sharing"> Content 3</mat-tab>
+      </mat-tab-group>
       <app-online-class-chat></app-online-class-chat>
     </div>
   </div>
-  <div class="container-fluid" *ngIf="false">
+  <div class="container-fluid"
+       *ngIf="false">
     <!--  ***********************************************************   -->
     <h1>
-      <a href="//webrtc.github.io/samples/" title="WebRTC samples homepage"
-        >WebRTC samples</a
+      <a href="//webrtc.github.io/samples/"
+         title="WebRTC samples homepage"
+      >WebRTC samples</a
       >
       <span>getUserMedia</span>
     </h1>
 
-    <video id="gum-local" autoplay playsinline #myVideo></video>
-    <video id="recorded" playsinline loop #recordedVideo></video>
+    <video id="gum-local"
+           autoplay
+           playsinline
+           #myVideo></video>
+    <video id="recorded"
+           playsinline
+           loop
+           #recordedVideo></video>
 
     <button
       class="btn btn-primary"
@@ -47,7 +78,8 @@
       Download
     </button>
 
-    <div id="errorMsg" [innerHTML]="errorMessages"></div>
+    <div id="errorMsg"
+         [innerHTML]="errorMessages"></div>
 
     <p class="warning">
       <strong>Warning:</strong>
@@ -73,7 +105,7 @@
       href="https://github.com/webrtc/samples/tree/gh-pages/src/content/getusermedia/gum"
       title="View source for this page on GitHub"
       id="viewSource"
-      >View source on GitHub</a
+    >View source on GitHub</a
     >
     <!--  ***********************************************************   -->
   </div>

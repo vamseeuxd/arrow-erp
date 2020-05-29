@@ -84,7 +84,7 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     submenu: [
       {
-        path: "/start-online-classes/start-online-classes",
+        path: "/online-classes/start-online-classes",
         title: "Start Online Class",
         iconType: "",
         icon: "",
@@ -93,8 +93,17 @@ export const ROUTES: RouteInfo[] = [
         submenu: [],
       },
       {
-        path: "/start-online-classes/manage-online-classes",
+        path: "/online-classes/manage-online-classes",
         title: "Manage Online Class",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        submenu: [],
+      },
+      {
+        path: "/online-classes/join-online-classes",
+        title: "Join Online Class",
         iconType: "",
         icon: "",
         class: "ml-menu",

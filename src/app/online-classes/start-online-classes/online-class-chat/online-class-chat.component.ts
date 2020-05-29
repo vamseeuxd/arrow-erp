@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { FormControl } from "@angular/forms";
 
 @Component({
@@ -11,6 +11,7 @@ export class OnlineClassChatComponent implements OnInit {
   readonly STUDENT_LIST = "STUDENT_LIST";
   isOpenSidebar = false;
   rightSidePanelActiveTab = this.CHATROOM;
+  @Input() hideStudentList = false;
   maxHeight: string;
   maxWidth: string;
   hideRequiredControl = new FormControl(false);
