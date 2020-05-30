@@ -1,17 +1,14 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from "@angular/core";
 
 @Component({
-  selector: 'app-online-class-white-board',
-  templateUrl: './online-class-white-board.component.html',
-  styleUrls: ['./online-class-white-board.component.scss'],
+  selector: "app-online-class-white-board",
+  templateUrl: "./online-class-white-board.component.html",
+  styleUrls: ["./online-class-white-board.component.scss"],
 })
 export class OnlineClassWhiteBoardComponent implements OnInit {
+  @Input() imageUrl = "";
 
-  @Input() imageUrl = '';
+  constructor() {}
 
-  constructor() {
-  }
-
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 }

@@ -43,7 +43,9 @@
               style="height: calc(100vh - 150px);"
             >
               <div class="w-100 h-100 shadow-sm">
-                <app-online-class-white-board [imageUrl]="whiteBoardImageUrl"></app-online-class-white-board>
+                <app-online-class-white-board
+                  [imageUrl]="whiteBoardImageUrl"
+                ></app-online-class-white-board>
               </div>
             </div>
           </mat-tab>
@@ -81,10 +83,17 @@
         ></app-online-class-chat>
 
         <!--  ************************************************* -->
-        <div *ngIf="showImageGallery" class="card position-absolute image-gallery list-group list-group-horizontal">
-          <div (click)="whiteBoardImageUrl=image.mediaUrl" class="list-group-item mr-2 p-0" *ngFor="let image of selectedClass.mediaGallery">
-            <img [src]="image.mediaUrl"/>
-            <label>{{image.mediaTitle}}</label>
+        <div
+          *ngIf="showImageGallery"
+          class="card position-absolute image-gallery list-group list-group-horizontal"
+        >
+          <div
+            (click)="whiteBoardImageUrl = image.mediaUrl"
+            class="list-group-item mr-2 p-0"
+            *ngFor="let image of selectedClass.mediaGallery"
+          >
+            <img [src]="image.mediaUrl" />
+            <label>{{ image.mediaTitle }}</label>
           </div>
         </div>
         <!--  ************************************************* -->
