@@ -1,8 +1,15 @@
 <div *ngIf="showLoadingIndicatior" class="page-loader-wrapper">
   <app-page-loader></app-page-loader>
 </div>
-<app-header *ngIf="!_router.url.includes('/authentication')"></app-header>
-<app-sidebar *ngIf="!_router.url.includes('/authentication')"></app-sidebar>
+<app-header
+  *ngIf="
+    busyIndicator.showAppHeader && !_router.url.includes('/authentication')
+  "
+></app-header>
+<app-sidebar
+  *ngIf="busyIndicator.showSideNav && !_router.url.includes('/authentication')"
+></app-sidebar>
+
 <app-right-sidebar></app-right-sidebar>
 <router-outlet></router-outlet>
 <div

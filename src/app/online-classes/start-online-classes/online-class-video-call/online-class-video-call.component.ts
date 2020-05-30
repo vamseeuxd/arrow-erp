@@ -2,8 +2,10 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnInit,
+  Output,
   ViewChild,
 } from "@angular/core";
 import adapter from "webrtc-adapter";
@@ -20,7 +22,10 @@ export class OnlineClassVideoCallComponent implements OnInit {
   @Input() boundary = "";
   @ViewChild("myCamera") myCamera: ElementRef;
   @ViewChild("otherCamera") otherCamera: ElementRef;
-  myStream: MediaStream;
+  @Output() updateTeacherVideoChatId: EventEmitter<
+    OnlineClassVideoCallComponent
+  > = new EventEmitter<OnlineClassVideoCallComponent>();
+  @Input() myStream: MediaStream;
   peer;
   myPeerId = "";
   videoWidth = 250;
@@ -28,30 +33,9 @@ export class OnlineClassVideoCallComponent implements OnInit {
   playMyAudio = false;
   allCalls = [];
 
-  async startCamera(otherUserName) {
-    try {
-      console.log(
-        "startCamera -> Preparing Video Call Setup for",
-        otherUserName
-      );
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: true,
-        audio: true,
-      });
-      const video = this.myCamera.nativeElement;
-      const videoTracks = stream.getVideoTracks();
-      video.srcObject = stream;
-      const call = this.peer.call(otherUserName, stream);
-      call.on("stream", (remoteStream) => {
-        this.otherCamera.nativeElement.srcObject = remoteStream;
-      });
-      console.log("startCamera -> Done Video Call Setup for", otherUserName);
-    } catch (err) {
-      console.error("Failed to get local stream", err);
-    }
-  }
-
   setUpChart() {
+    console.clear();
+    console.log("new Peer");
     this.peer = new Peer({
       debug: 3,
       config: {
@@ -64,7 +48,15 @@ export class OnlineClassVideoCallComponent implements OnInit {
 
     this.peer.on("open", () => {
       this.myPeerId = this.peer.id;
+      setTimeout(() => {
+        this.updateTeacherVideoChatId.emit(this);
+      }, 50);
     });
+
+    /*setTimeout(() => {
+      this.myPeerId = 'test123456';
+      this.updateTeacherVideoChatId.emit('test123456');
+    }, 500);*/
 
     this.peer.on("call", async (call) => {
       try {
@@ -81,7 +73,7 @@ export class OnlineClassVideoCallComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.showVideo();
+    // this.showVideo();
   }
 
   async showVideo() {
@@ -91,6 +83,10 @@ export class OnlineClassVideoCallComponent implements OnInit {
     });
     const video = this.myCamera.nativeElement;
     video.srcObject = this.myStream;
+    /*setTimeout(() => {
+      this.myPeerId = 'test123456';
+      this.updateTeacherVideoChatId.emit(this);
+    }, 500);*/
     this.setUpChart();
   }
 
@@ -99,6 +95,12 @@ export class OnlineClassVideoCallComponent implements OnInit {
   }
 
   onVideoPlayClick($event: Event) {}
+
+  stopVideoCam() {
+    this.myStream.getTracks().forEach((track) => {
+      track.stop();
+    });
+  }
 
   onVideoPauseClick($event: Event) {
     this.allCalls.forEach((call) => {

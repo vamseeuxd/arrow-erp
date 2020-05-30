@@ -4,6 +4,9 @@ import { Injectable } from "@angular/core";
 export class BusyIndicatorService {
   private busyIndicatorsList: number[] = [];
 
+  public showAppHeader = true;
+  public showSideNav = true;
+
   show(): number {
     const indicatorId = new Date().getTime();
     this.busyIndicatorsList.push(indicatorId);

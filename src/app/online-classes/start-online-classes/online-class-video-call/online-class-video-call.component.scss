@@ -10,8 +10,8 @@
     width: 250px;
     height: 150px;
     padding: 0;
-    bottom: 15px;
-    right: 15px;
+    right: calc(50% - 125px);
+    bottom: calc(50% - 75px);
     border: solid 11px #383737;
     position: absolute;
     color: rgba(0, 0, 0, 0.87);
@@ -55,6 +55,16 @@
       padding: 5px;
       background-color: rgba(0, 0, 0, 0.5);
     }
+  }
+
+  .my-peer-id {
+    position: absolute;
+    bottom: -15px;
+    width: 100%;
+    text-align: center;
+    z-index: 1000000000000;
+    left: 0px;
+    background-color: rgba(0, 0, 0, 0.5);
   }
 
   .player-fab {

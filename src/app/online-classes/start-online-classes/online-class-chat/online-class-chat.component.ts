@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { FormControl } from "@angular/forms";
+import { CdkDragEnd } from "@angular/cdk/drag-drop";
 
 @Component({
   selector: "app-online-class-chat",
@@ -9,12 +10,16 @@ import { FormControl } from "@angular/forms";
 export class OnlineClassChatComponent implements OnInit {
   readonly CHATROOM = "CHATROOM";
   readonly STUDENT_LIST = "STUDENT_LIST";
-  isOpenSidebar = false;
+  @Input() isOpenSidebar = false;
+  isDragEnd = false;
   rightSidePanelActiveTab = this.CHATROOM;
   @Input() hideStudentList = false;
   maxHeight: string;
   maxWidth: string;
   hideRequiredControl = new FormControl(false);
+  @Output() isOpenSidebarChange: EventEmitter<boolean> = new EventEmitter<
+    boolean
+  >();
 
   constructor() {}
 
@@ -33,7 +38,25 @@ export class OnlineClassChatComponent implements OnInit {
   }
 
   toggleRightSidebar(show: boolean) {
-    console.log(show);
     this.isOpenSidebar = show;
+    this.isOpenSidebarChange.emit(this.isOpenSidebar);
+  }
+
+  onDragEnd($event: CdkDragEnd) {
+    this.isDragEnd = true;
+  }
+
+  openSideBar() {
+    if (this.isDragEnd) {
+      this.isDragEnd = false;
+    } else {
+      this.isOpenSidebar = true;
+      this.isOpenSidebarChange.emit(this.isOpenSidebar);
+    }
+  }
+
+  closeSideBar() {
+    this.isOpenSidebar = false;
+    this.isOpenSidebarChange.emit(this.isOpenSidebar);
   }
 }

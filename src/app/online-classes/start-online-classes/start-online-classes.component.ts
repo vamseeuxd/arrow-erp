@@ -1,7 +1,16 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import adapter from "webrtc-adapter";
 import { RightSidebarService } from "../../shared/services/rightsidebar.service";
+import { OnlineClassesService } from "../online-classes.service";
+import { BusyIndicatorService } from "../../layout/busy-indicator.service";
+import { MatDialog } from "@angular/material/dialog";
+import { map, switchMap } from "rxjs/operators";
+import { OnlineClassInterface } from "../interfaces/online-class.interface";
+import { CdkDragEnd } from "@angular/cdk/drag-drop";
+import { OnlineClassChatComponent } from "./online-class-chat/online-class-chat.component";
+import { OnlineClassVideoCallComponent } from "./online-class-video-call/online-class-video-call.component";
 
+const document: any = window.document;
 const ICE_SERVERS: RTCIceServer[] = [
   { urls: ["stun:stun.example.com", "stun:stun-1.example.com"] },
   { urls: "stun:stun.l.google.com:19302" },
@@ -17,166 +26,153 @@ const PEER_CONNECTION_CONFIG: RTCConfiguration = {
   styleUrls: ["./start-online-classes.component.scss"],
 })
 export class StartOnlineClassesComponent {
-  @ViewChild("myVideo", { static: true }) myVideo: ElementRef;
-  @ViewChild("recordedVideo", { static: true }) recordedVideo: ElementRef;
-  disableShowVideoButton = false;
-  disableRecordButton = true;
-  disablePlayButton = true;
-  disableDownloadButton = true;
-  isRecording = false;
-  errorMessages = "";
-  stream: MediaStream;
-  constraints = {
-    audio: {
-      echoCancellation: true,
-    },
-    video: {
-      width: 1280,
-      height: 720,
-    },
-  };
-  recordedBlobs = [];
-  mediaRecorder;
+  teacherId = "teacher2";
+  isChatOpen = false;
+  showMyVideo = true;
+  isFullScreenDrag = false;
+  window$ = window;
+  fullScreen = false;
+  showPaintTool = true;
+  selectedClass: OnlineClassInterface;
+  filteredClasses = this.onlineClassesService.onlineClassesList.pipe(
+    map((value) => {
+      return value.filter((d) => d.teacher === this.teacherId);
+    })
+  );
+  private videoCallComponent: OnlineClassVideoCallComponent;
 
-  constructor(private dataService: RightSidebarService) {
-    this.dataService.pageTitle = "Start Online Class";
+  constructor(
+    public onlineClassesService: OnlineClassesService,
+    private busyIndicator: BusyIndicatorService,
+    public dialog: MatDialog,
+    private dataService: RightSidebarService
+  ) {
+    this.dataService.pageTitle = "Start Online Classes";
     this.dataService.breadCrumbData = [
       { label: "online-classes", link: "" },
-      { label: "start-online-class", link: "" },
+      { label: "start-online-classes", link: "" },
     ];
   }
 
-  async showCamera($event: MouseEvent) {
-    try {
-      this.stream = await navigator.mediaDevices.getUserMedia(this.constraints);
-      this.handleSuccess(this.stream);
-      this.disableShowVideoButton = true;
-    } catch (e) {
-      this.handleError(e);
-    }
+  updateSelectedOnlineClass(onlineClass: OnlineClassInterface) {
+    this.callOnlineClassFullscreen(null);
+    setTimeout(() => {
+      this.selectedClass = onlineClass;
+    });
   }
 
-  handleError(error) {
-    if (error.name === "ConstraintNotSatisfiedError") {
-      const v = (window as any).constraints.video;
-      this.errorMsg(
-        `The resolution ${v.width.exact}x${v.height.exact} px is not supported by your device.`
-      );
-    } else if (error.name === "PermissionDeniedError") {
-      this
-        .errorMsg(`Permissions have not been granted to use your camera and  microphone,
-      you need to allow the page access to your devices in order for the demo to work.`);
-    }
-    this.errorMsg(`getUserMedia error: ${error.name}`, error);
+  async updateTeacherVideoChatId(
+    videoCallComponent: OnlineClassVideoCallComponent
+  ) {
+    this.videoCallComponent = videoCallComponent;
+    // alert(videoCallComponent.myPeerId);
+    const busyIndicatorId = this.busyIndicator.show();
+    this.selectedClass.chatMembers = [
+      {
+        peerID: videoCallComponent.myPeerId,
+        role: "teacher",
+        userId: this.teacherId,
+      },
+    ];
+    this.selectedClass.isStarted = true;
+    await this.onlineClassesService.updateOnlineClasses(
+      this.selectedClass,
+      this.selectedClass.id,
+      this.selectedClass.createdOn
+    );
+    this.busyIndicator.hide(busyIndicatorId);
   }
 
-  handleSuccess(stream: MediaStream) {
-    const video = this.myVideo.nativeElement;
-    const videoTracks = stream.getVideoTracks();
-    console.log("Got stream with constraints:", this.constraints);
-    console.log(`Using video device: ${videoTracks[0].label}`);
-    video.srcObject = stream;
-    this.disableRecordButton = false;
-  }
-
-  errorMsg(msg, error = null) {
-    this.errorMessages += `<p>${msg}</p>`;
-    if (typeof error !== null) {
-      console.error(error);
-    }
-  }
-
-  recordingButtonClick($event: MouseEvent) {
-    if (!this.isRecording) {
-      this.startRecording();
+  async callOnlineClassFullscreen(stopClassConfirmation) {
+    if (this.isFullScreenDrag) {
+      this.isFullScreenDrag = false;
     } else {
-      this.stopRecording();
-      this.isRecording = false;
-      this.disablePlayButton = false;
-      this.disableDownloadButton = false;
-    }
-  }
-
-  startRecording() {
-    this.recordedBlobs = [];
-    let options = { mimeType: "video/webm;codecs=vp9,opus" };
-    if (!(window as any).MediaRecorder.isTypeSupported(options.mimeType)) {
-      console.error(`${options.mimeType} is not supported`);
-      options = { mimeType: "video/webm;codecs=vp8,opus" };
-      if (!(window as any).MediaRecorder.isTypeSupported(options.mimeType)) {
-        console.error(`${options.mimeType} is not supported`);
-        options = { mimeType: "video/webm" };
-        if (!(window as any).MediaRecorder.isTypeSupported(options.mimeType)) {
-          console.error(`${options.mimeType} is not supported`);
-          options = { mimeType: "" };
+      if (this.fullScreen && stopClassConfirmation) {
+        this.dialog.open(stopClassConfirmation);
+        return null;
+        /*const isConfirmed = confirm('Are you Sure! Do you want to Stop Class');
+        if (!isConfirmed) {
+          return null;
+        }*/
+      }
+      /*  ------------------------------------  */
+      if (
+        !document.fullscreenElement &&
+        !document.mozFullScreenElement &&
+        !document.webkitFullscreenElement &&
+        !document.msFullscreenElement
+      ) {
+        if (document.documentElement.requestFullscreen) {
+          await document.documentElement.requestFullscreen();
+          this.fullScreen = true;
+          this.busyIndicator.showSideNav = false;
+          this.busyIndicator.showAppHeader = false;
+        } else if (document.documentElement.msRequestFullscreen) {
+          await document.documentElement.msRequestFullscreen();
+          this.fullScreen = true;
+          this.busyIndicator.showSideNav = false;
+          this.busyIndicator.showAppHeader = false;
+        } else if (document.documentElement.mozRequestFullScreen) {
+          await document.documentElement.mozRequestFullScreen();
+          this.fullScreen = true;
+          this.busyIndicator.showSideNav = false;
+          this.busyIndicator.showAppHeader = false;
+        } else if (document.documentElement.webkitRequestFullscreen) {
+          await document.documentElement.webkitRequestFullscreen();
+          this.fullScreen = true;
+          this.busyIndicator.showSideNav = false;
+          this.busyIndicator.showAppHeader = false;
+        }
+      } else {
+        if (document.exitFullscreen) {
+          await document.exitFullscreen();
+          this.fullScreen = false;
+          this.selectedClass = null;
+          this.busyIndicator.showSideNav = true;
+          this.busyIndicator.showAppHeader = true;
+        } else if (document.msExitFullscreen) {
+          await document.msExitFullscreen();
+          this.fullScreen = false;
+          this.selectedClass = null;
+          this.busyIndicator.showSideNav = true;
+          this.busyIndicator.showAppHeader = true;
+        } else if (document.mozCancelFullScreen) {
+          await document.mozCancelFullScreen();
+          this.fullScreen = false;
+          this.selectedClass = null;
+          this.busyIndicator.showSideNav = true;
+          this.busyIndicator.showAppHeader = true;
+        } else if (document.webkitExitFullscreen) {
+          await document.webkitExitFullscreen();
+          this.fullScreen = false;
+          this.selectedClass = null;
+          this.busyIndicator.showSideNav = true;
+          this.busyIndicator.showAppHeader = true;
         }
       }
-    }
-
-    try {
-      this.mediaRecorder = new (window as any).MediaRecorder(
-        this.stream,
-        options
-      );
-    } catch (e) {
-      console.error("Exception while creating MediaRecorder:", e);
-      this.errorMessages = `Exception while creating MediaRecorder: ${JSON.stringify(
-        e
-      )}`;
-      return;
-    }
-
-    console.log(
-      "Created MediaRecorder",
-      this.mediaRecorder,
-      "with options",
-      options
-    );
-    this.isRecording = true;
-    this.disablePlayButton = true;
-    this.disableDownloadButton = true;
-    this.mediaRecorder.onstop = (event) => {
-      console.log("Recorder stopped: ", event);
-      console.log("Recorded Blobs: ", this.recordedBlobs);
-    };
-    this.mediaRecorder.ondataavailable = this.handleDataAvailable.bind(this);
-    this.mediaRecorder.start();
-    console.log("MediaRecorder started", this.mediaRecorder);
-  }
-
-  handleDataAvailable(event) {
-    console.log("handleDataAvailable", event);
-    if (event.data && event.data.size > 0) {
-      this.recordedBlobs.push(event.data);
+      /*  ------------------------------------  */
     }
   }
 
-  stopRecording() {
-    this.mediaRecorder.stop();
+  onFullScreenDragEnd($event: CdkDragEnd) {
+    this.isFullScreenDrag = true;
   }
 
-  downLoadVideo($event: MouseEvent) {
-    const blob = new Blob(this.recordedBlobs, { type: "video/webm" });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.style.display = "none";
-    a.href = url;
-    a.download = "test.webm";
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(() => {
-      document.body.removeChild(a);
-      window.URL.revokeObjectURL(url);
-    }, 100);
+  toggleMyVideo() {
+    if (this.isFullScreenDrag) {
+      this.isFullScreenDrag = false;
+    } else {
+      this.showMyVideo = !this.showMyVideo;
+    }
   }
 
-  playVideo($event: MouseEvent) {
-    const recordedVideo = this.recordedVideo.nativeElement;
-    const superBuffer = new Blob(this.recordedBlobs, { type: "video/webm" });
-    recordedVideo.src = null;
-    recordedVideo.srcObject = null;
-    recordedVideo.src = window.URL.createObjectURL(superBuffer);
-    recordedVideo.controls = true;
-    recordedVideo.play();
+  toggleChat(onLineClassChat: OnlineClassChatComponent) {
+    if (this.isFullScreenDrag) {
+      this.isFullScreenDrag = false;
+    } else {
+      this.isChatOpen
+        ? onLineClassChat.closeSideBar()
+        : onLineClassChat.openSideBar();
+    }
   }
 }

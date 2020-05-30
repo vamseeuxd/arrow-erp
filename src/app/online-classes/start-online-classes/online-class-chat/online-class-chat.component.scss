@@ -14,10 +14,15 @@
   .open-chat-button {
     position: fixed;
     top: calc(50% - 65px);
-    right: -45px;
+    right: 0px;
     padding: 7px 12px;
-    transform: rotate(-90deg);
     font-weight: bold;
     z-index: 10000;
+    span {
+      display: block;
+      writing-mode: vertical-lr;
+      text-orientation: upright;
+      text-transform: uppercase;
+    }
   }
 }

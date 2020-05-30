@@ -1,19 +1,22 @@
 <!-- Right Sidebar -->
-<button
+<!--<button
   class="open-chat-button btn btn-primary"
-  cdkDragLockAxis="y" cdkDrag
-  (click)="isOpenSidebar = true"
-  *ngIf="!isOpenSidebar"
+  [cdkDragBoundary]="'.example-boundary'"
+  cdkDragLockAxis="y"
+  cdkDrag
+  (cdkDragEnded)="onDragEnd($event)"
+  (click)="openSideBar()"
+  [hidden]="isOpenSidebar"
 >
-  Open Chat Panel
-</button>
+  <span>Chat Room</span>
+</button>-->
 <aside
   id="rightsidebar"
   class="right-sidebar"
   [ngClass]="isOpenSidebar ? 'open' : 'close'"
   (clickOutside)="onClickedOutside($event)"
 >
-  <div class="rightSidebarClose" (click)="isOpenSidebar = !isOpenSidebar">
+  <div class="rightSidebarClose" (click)="closeSideBar()">
     <i class="far fa-times-circle"></i>
   </div>
   <ul class="nav nav-tabs tab-nav-right" role="tablist">
@@ -40,7 +43,10 @@
         <div class="card">
           <div class="chat">
             <div class="chat-header clearfix">
-              <img src="../../../../assets/images/user/user2.jpg" alt="avatar" />
+              <img
+                src="../../../../assets/images/user/user2.jpg"
+                alt="avatar"
+              />
               <div class="chat-about">
                 <div class="chat-with">Maria Smith</div>
                 <div class="chat-num-messages">2 new messages</div>
@@ -97,7 +103,11 @@
               <div class="form-group">
                 <div class="form-line">
                   <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Enter text here.." />
+                    <input
+                      matInput
+                      autocomplete="off"
+                      placeholder="Enter text here.."
+                    />
                   </mat-form-field>
                 </div>
               </div>
@@ -106,7 +116,12 @@
         </div>
       </div>
     </div>
-    <div *ngIf="!hideStudentList" role="tabpanel" class="tab-pane stretchRight" id="student_list">
+    <div
+      *ngIf="!hideStudentList"
+      role="tabpanel"
+      class="tab-pane stretchRight"
+      id="student_list"
+    >
       <div class="demo-settings" [perfectScrollbar]>
         <div class="card">
           <div class="body">
@@ -122,7 +137,10 @@
                 <div id="chat_user" [perfectScrollbar]>
                   <ul class="chat-list list-unstyled m-b-0">
                     <li class="clearfix active">
-                      <img src="../../../../assets/images/user/user1.jpg" alt="avatar" />
+                      <img
+                        src="../../../../assets/images/user/user1.jpg"
+                        alt="avatar"
+                      />
                       <div class="about">
                         <div class="name">William Smith</div>
                         <div class="status">
@@ -134,7 +152,10 @@
                       </div>
                     </li>
                     <li class="clearfix">
-                      <img src="../../../../assets/images/user/user2.jpg" alt="avatar" />
+                      <img
+                        src="../../../../assets/images/user/user2.jpg"
+                        alt="avatar"
+                      />
                       <div class="about">
                         <div class="name">Martha Williams</div>
                         <div class="status">
@@ -146,7 +167,10 @@
                       </div>
                     </li>
                     <li class="clearfix">
-                      <img src="../../../../assets/images/user/user3.jpg" alt="avatar" />
+                      <img
+                        src="../../../../assets/images/user/user3.jpg"
+                        alt="avatar"
+                      />
                       <div class="about">
                         <div class="name">Joseph Clark</div>
                         <div class="status">
@@ -158,7 +182,10 @@
                       </div>
                     </li>
                     <li class="clearfix">
-                      <img src="../../../../assets/images/user/user4.jpg" alt="avatar" />
+                      <img
+                        src="../../../../assets/images/user/user4.jpg"
+                        alt="avatar"
+                      />
                       <div class="about">
                         <div class="name">Nancy Taylor</div>
                         <div class="status">
@@ -170,7 +197,10 @@
                       </div>
                     </li>
                     <li class="clearfix">
-                      <img src="../../../../assets/images/user/user5.jpg" alt="avatar" />
+                      <img
+                        src="../../../../assets/images/user/user5.jpg"
+                        alt="avatar"
+                      />
                       <div class="about">
                         <div class="name">Margaret Wilson</div>
                         <div class="status">
@@ -182,7 +212,10 @@
                       </div>
                     </li>
                     <li class="clearfix">
-                      <img src="../../../../assets/images/user/user6.jpg" alt="avatar" />
+                      <img
+                        src="../../../../assets/images/user/user6.jpg"
+                        alt="avatar"
+                      />
                       <div class="about">
                         <div class="name">Joseph Jones</div>
                         <div class="status">
@@ -194,7 +227,10 @@
                       </div>
                     </li>
                     <li class="clearfix">
-                      <img src="../../../../assets/images/user/user7.jpg" alt="avatar" />
+                      <img
+                        src="../../../../assets/images/user/user7.jpg"
+                        alt="avatar"
+                      />
                       <div class="about">
                         <div class="name">Jane Brown</div>
                         <div class="status">
@@ -206,7 +242,10 @@
                       </div>
                     </li>
                     <li class="clearfix">
-                      <img src="../../../../assets/images/user/user8.jpg" alt="avatar" />
+                      <img
+                        src="../../../../assets/images/user/user8.jpg"
+                        alt="avatar"
+                      />
                       <div class="about">
                         <div class="name">Eliza Johnson</div>
                         <div class="status">
@@ -218,7 +257,10 @@
                       </div>
                     </li>
                     <li class="clearfix">
-                      <img src="../../../../assets/images/user/user3.jpg" alt="avatar" />
+                      <img
+                        src="../../../../assets/images/user/user3.jpg"
+                        alt="avatar"
+                      />
                       <div class="about">
                         <div class="name">Mike Clark</div>
                         <div class="status">
@@ -230,7 +272,10 @@
                       </div>
                     </li>
                     <li class="clearfix">
-                      <img src="../../../../assets/images/user/user4.jpg" alt="avatar" />
+                      <img
+                        src="../../../../assets/images/user/user4.jpg"
+                        alt="avatar"
+                      />
                       <div class="about">
                         <div class="name">Ann Henry</div>
                         <div class="status">
@@ -242,7 +287,10 @@
                       </div>
                     </li>
                     <li class="clearfix">
-                      <img src="../../../../assets/images/user/user5.jpg" alt="avatar" />
+                      <img
+                        src="../../../../assets/images/user/user5.jpg"
+                        alt="avatar"
+                      />
                       <div class="about">
                         <div class="name">Nancy Smith</div>
                         <div class="status">
@@ -254,7 +302,310 @@
                       </div>
                     </li>
                     <li class="clearfix">
-                      <img src="../../../../assets/images/user/user9.jpg" alt="avatar" />
+                      <img
+                        src="../../../../assets/images/user/user9.jpg"
+                        alt="avatar"
+                      />
+                      <div class="about">
+                        <div class="name">David Wilson</div>
+                        <div class="status">
+                          <i class="material-icons offline"
+                            >fiber_manual_record</i
+                          >
+                          offline since Oct 28
+                        </div>
+                      </div>
+                    </li>
+                    <li class="clearfix">
+                      <img
+                        src="../../../../assets/images/user/user9.jpg"
+                        alt="avatar"
+                      />
+                      <div class="about">
+                        <div class="name">David Wilson</div>
+                        <div class="status">
+                          <i class="material-icons offline"
+                            >fiber_manual_record</i
+                          >
+                          offline since Oct 28
+                        </div>
+                      </div>
+                    </li>
+                    <li class="clearfix">
+                      <img
+                        src="../../../../assets/images/user/user9.jpg"
+                        alt="avatar"
+                      />
+                      <div class="about">
+                        <div class="name">David Wilson</div>
+                        <div class="status">
+                          <i class="material-icons offline"
+                            >fiber_manual_record</i
+                          >
+                          offline since Oct 28
+                        </div>
+                      </div>
+                    </li>
+                    <li class="clearfix">
+                      <img
+                        src="../../../../assets/images/user/user9.jpg"
+                        alt="avatar"
+                      />
+                      <div class="about">
+                        <div class="name">David Wilson</div>
+                        <div class="status">
+                          <i class="material-icons offline"
+                            >fiber_manual_record</i
+                          >
+                          offline since Oct 28
+                        </div>
+                      </div>
+                    </li>
+                    <li class="clearfix">
+                      <img
+                        src="../../../../assets/images/user/user9.jpg"
+                        alt="avatar"
+                      />
+                      <div class="about">
+                        <div class="name">David Wilson</div>
+                        <div class="status">
+                          <i class="material-icons offline"
+                            >fiber_manual_record</i
+                          >
+                          offline since Oct 28
+                        </div>
+                      </div>
+                    </li>
+                    <li class="clearfix">
+                      <img
+                        src="../../../../assets/images/user/user9.jpg"
+                        alt="avatar"
+                      />
+                      <div class="about">
+                        <div class="name">David Wilson</div>
+                        <div class="status">
+                          <i class="material-icons offline"
+                            >fiber_manual_record</i
+                          >
+                          offline since Oct 28
+                        </div>
+                      </div>
+                    </li>
+                    <li class="clearfix">
+                      <img
+                        src="../../../../assets/images/user/user9.jpg"
+                        alt="avatar"
+                      />
+                      <div class="about">
+                        <div class="name">David Wilson</div>
+                        <div class="status">
+                          <i class="material-icons offline"
+                            >fiber_manual_record</i
+                          >
+                          offline since Oct 28
+                        </div>
+                      </div>
+                    </li>
+                    <li class="clearfix">
+                      <img
+                        src="../../../../assets/images/user/user9.jpg"
+                        alt="avatar"
+                      />
+                      <div class="about">
+                        <div class="name">David Wilson</div>
+                        <div class="status">
+                          <i class="material-icons offline"
+                            >fiber_manual_record</i
+                          >
+                          offline since Oct 28
+                        </div>
+                      </div>
+                    </li>
+                    <li class="clearfix">
+                      <img
+                        src="../../../../assets/images/user/user9.jpg"
+                        alt="avatar"
+                      />
+                      <div class="about">
+                        <div class="name">David Wilson</div>
+                        <div class="status">
+                          <i class="material-icons offline"
+                            >fiber_manual_record</i
+                          >
+                          offline since Oct 28
+                        </div>
+                      </div>
+                    </li>
+                    <li class="clearfix">
+                      <img
+                        src="../../../../assets/images/user/user9.jpg"
+                        alt="avatar"
+                      />
+                      <div class="about">
+                        <div class="name">David Wilson</div>
+                        <div class="status">
+                          <i class="material-icons offline"
+                            >fiber_manual_record</i
+                          >
+                          offline since Oct 28
+                        </div>
+                      </div>
+                    </li>
+                    <li class="clearfix">
+                      <img
+                        src="../../../../assets/images/user/user9.jpg"
+                        alt="avatar"
+                      />
+                      <div class="about">
+                        <div class="name">David Wilson</div>
+                        <div class="status">
+                          <i class="material-icons offline"
+                            >fiber_manual_record</i
+                          >
+                          offline since Oct 28
+                        </div>
+                      </div>
+                    </li>
+                    <li class="clearfix">
+                      <img
+                        src="../../../../assets/images/user/user9.jpg"
+                        alt="avatar"
+                      />
+                      <div class="about">
+                        <div class="name">David Wilson</div>
+                        <div class="status">
+                          <i class="material-icons offline"
+                            >fiber_manual_record</i
+                          >
+                          offline since Oct 28
+                        </div>
+                      </div>
+                    </li>
+                    <li class="clearfix">
+                      <img
+                        src="../../../../assets/images/user/user9.jpg"
+                        alt="avatar"
+                      />
+                      <div class="about">
+                        <div class="name">David Wilson</div>
+                        <div class="status">
+                          <i class="material-icons offline"
+                            >fiber_manual_record</i
+                          >
+                          offline since Oct 28
+                        </div>
+                      </div>
+                    </li>
+                    <li class="clearfix">
+                      <img
+                        src="../../../../assets/images/user/user9.jpg"
+                        alt="avatar"
+                      />
+                      <div class="about">
+                        <div class="name">David Wilson</div>
+                        <div class="status">
+                          <i class="material-icons offline"
+                            >fiber_manual_record</i
+                          >
+                          offline since Oct 28
+                        </div>
+                      </div>
+                    </li>
+                    <li class="clearfix">
+                      <img
+                        src="../../../../assets/images/user/user9.jpg"
+                        alt="avatar"
+                      />
+                      <div class="about">
+                        <div class="name">David Wilson</div>
+                        <div class="status">
+                          <i class="material-icons offline"
+                            >fiber_manual_record</i
+                          >
+                          offline since Oct 28
+                        </div>
+                      </div>
+                    </li>
+                    <li class="clearfix">
+                      <img
+                        src="../../../../assets/images/user/user9.jpg"
+                        alt="avatar"
+                      />
+                      <div class="about">
+                        <div class="name">David Wilson</div>
+                        <div class="status">
+                          <i class="material-icons offline"
+                            >fiber_manual_record</i
+                          >
+                          offline since Oct 28
+                        </div>
+                      </div>
+                    </li>
+                    <li class="clearfix">
+                      <img
+                        src="../../../../assets/images/user/user9.jpg"
+                        alt="avatar"
+                      />
+                      <div class="about">
+                        <div class="name">David Wilson</div>
+                        <div class="status">
+                          <i class="material-icons offline"
+                            >fiber_manual_record</i
+                          >
+                          offline since Oct 28
+                        </div>
+                      </div>
+                    </li>
+                    <li class="clearfix">
+                      <img
+                        src="../../../../assets/images/user/user9.jpg"
+                        alt="avatar"
+                      />
+                      <div class="about">
+                        <div class="name">David Wilson</div>
+                        <div class="status">
+                          <i class="material-icons offline"
+                            >fiber_manual_record</i
+                          >
+                          offline since Oct 28
+                        </div>
+                      </div>
+                    </li>
+                    <li class="clearfix">
+                      <img
+                        src="../../../../assets/images/user/user9.jpg"
+                        alt="avatar"
+                      />
+                      <div class="about">
+                        <div class="name">David Wilson</div>
+                        <div class="status">
+                          <i class="material-icons offline"
+                            >fiber_manual_record</i
+                          >
+                          offline since Oct 28
+                        </div>
+                      </div>
+                    </li>
+                    <li class="clearfix">
+                      <img
+                        src="../../../../assets/images/user/user9.jpg"
+                        alt="avatar"
+                      />
+                      <div class="about">
+                        <div class="name">David Wilson</div>
+                        <div class="status">
+                          <i class="material-icons offline"
+                            >fiber_manual_record</i
+                          >
+                          offline since Oct 28
+                        </div>
+                      </div>
+                    </li>
+                    <li class="clearfix">
+                      <img
+                        src="../../../../assets/images/user/user9.jpg"
+                        alt="avatar"
+                      />
                       <div class="about">
                         <div class="name">David Wilson</div>
                         <div class="status">

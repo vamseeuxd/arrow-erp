@@ -1,2 +1,75 @@
 :host {
+  .full-screen-button {
+    position: absolute;
+    left: calc(50% - 80.5px);
+    bottom: 10px;
+    z-index: 1000;
+  }
+
+  .full-screen {
+    position: fixed !important;
+    top: 0px;
+    left: 0px;
+    height: calc(100vh - 0px) !important;
+
+    .tab-content {
+      height: calc(100vh - 50px) !important;
+    }
+
+    mat-tab-group {
+      height: calc(100vh - 0px) !important;
+    }
+
+    ::ng-deep .chat {
+      div#chat-conversation {
+        height: calc(100vh - 275px) !important;
+        max-height: calc(100vh - 275px) !important;
+      }
+
+      .form-group {
+        margin-bottom: 0px !important;
+      }
+
+      .chat-message {
+        padding: 5px 10px !important;
+      }
+    }
+  }
+
+  .landscape-primary {
+    ::ng-deep .canvas_whiteboard_buttons {
+      ms-flex-direction: row !important;
+      flex-direction: row !important;
+      width: auto !important;
+
+      button {
+        max-height: 30px !important;
+      }
+    }
+  }
+
+  ::ng-deep .canvas-whiteboard-colorpicker-wrapper {
+    z-index: 10000000000000000000000000;
+    border: none !important;
+    .transparent-color {
+      display: inline-block;
+      position: absolute;
+      padding: 5px;
+      color: #212529;
+      background-color: #ffc107;
+      border-color: #ffc107;
+      margin-left: 10px;
+      margin-top: 5px;
+    }
+    canvas.canvas-whiteboard-colorpicker {
+      padding: 40px 10px 10px 10px;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  .hide-paint-tool {
+    ::ng-deep .canvas_whiteboard_buttons {
+      display: none !important;
+    }
+  }
 }

@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "firebase-deploy": "firebase deploy",
-    "prettier": "prettier --write \"src/**/*.{ts,scss,js,json}\"",
+    "prettier": "prettier --write \"src/**/*.{ts,scss,js,json,html}\"",
     "e2e": "ng e2e"
   },
   "private": true,

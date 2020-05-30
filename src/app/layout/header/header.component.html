@@ -1,5 +1,4 @@
-<nav #navbar
-     class="navbar active">
+<nav #navbar class="navbar active">
   <div class="container-fluid">
     <div class="navbar-header">
       <a
@@ -16,14 +15,12 @@
         class="bars"
         (click)="mobileMenuSidebarOpen($event, 'overlay-open')"
       ></a>
-      <a class="navbar-brand"
-         routerLink="dashboard/main">
+      <a class="navbar-brand" routerLink="dashboard/main">
         <!--<img src="assets/images/logo.png" alt="" />-->
         <span class="logo-name">Arrow ERP</span>
       </a>
     </div>
-    <div class="collapse navbar-collapse"
-         id="navbar-collapse">
+    <div class="collapse navbar-collapse" id="navbar-collapse">
       <ul class="pull-left collapse-menu-icon">
         <li class="d-inline-block">
           <button
@@ -34,16 +31,24 @@
             <mat-icon>menu</mat-icon>
           </button>
         </li>
-        <li class="d-inline-block ml-3" style="vertical-align: middle;">
+        <li
+          class="d-inline-block ml-3 d-sm-none d-xs-none"
+          style="vertical-align: middle;"
+        >
           <ul class="breadcrumb breadcrumb-style p-0 m-0 d-inline-block">
-            <li class="breadcrumb-item"><h4 class="page-title">{{dataService.pageTitle}}</h4></li>
+            <li class="breadcrumb-item">
+              <h4 class="page-title">{{ dataService.pageTitle }}</h4>
+            </li>
             <li class="breadcrumb-item bcrumb-1">
               <a routerLink="dashboard/main">
-                <i class="fas fa-home" style="top: 20px;"></i> Home</a>
+                <i class="fas fa-home" style="top: 20px;"></i> Home</a
+              >
             </li>
-            <li *ngFor="let link of dataService.breadCrumbData"
-                class="breadcrumb-item bcrumb-2">
-              <a href="#" onClick="return false;">{{link.label}}</a>
+            <li
+              *ngFor="let link of dataService.breadCrumbData"
+              class="breadcrumb-item bcrumb-2"
+            >
+              <a href="#" onClick="return false;">{{ link.label }}</a>
             </li>
           </ul>
         </li>
@@ -85,13 +90,12 @@
                     onClick="return false;"
                   >
                     <span class="table-img msg-user">
-                      <img src="{{ notification.userImg }}"
-                           alt=""/>
+                      <img src="{{ notification.userImg }}" alt="" />
                     </span>
                     <span class="menu-info">
                       <span class="menu-title">{{
                         notification.userName
-                        }}</span>
+                      }}</span>
                       <span class="menu-desc">
                         <i class="material-icons">access_time</i>
                         {{ notification.time }}
@@ -103,8 +107,7 @@
               </ul>
             </li>
             <li class="footer">
-              <a href="#"
-                 onClick="return false;">View All Notifications</a>
+              <a href="#" onClick="return false;">View All Notifications</a>
             </li>
           </ul>
         </li>
@@ -129,33 +132,24 @@
             <li class="body">
               <ul class="user_dw_menu">
                 <li>
-                  <a href="#"
-                     onClick="return false;">
-                    <mat-icon aria-hidden="false"
-                              class="mr-2">person
-                    </mat-icon
-                    >
+                  <a href="#" onClick="return false;">
+                    <mat-icon aria-hidden="false" class="mr-2"
+                      >person
+                    </mat-icon>
                     Profile
                   </a>
                 </li>
                 <li>
-                  <a href="#"
-                     onClick="return false;">
-                    <mat-icon aria-hidden="false"
-                              class="mr-2"
-                    >feedback
-                    </mat-icon
-                    >
+                  <a href="#" onClick="return false;">
+                    <mat-icon aria-hidden="false" class="mr-2"
+                      >feedback
+                    </mat-icon>
                     Feedback
                   </a>
                 </li>
                 <li>
-                  <a href="#"
-                     onClick="return false;">
-                    <mat-icon aria-hidden="false"
-                              class="mr-2">help
-                    </mat-icon
-                    >
+                  <a href="#" onClick="return false;">
+                    <mat-icon aria-hidden="false" class="mr-2">help </mat-icon>
                     Help
                   </a>
                 </li>
@@ -164,11 +158,9 @@
                     routerLink="/authentication/signin"
                     onClick="return false;"
                   >
-                    <mat-icon aria-hidden="false"
-                              class="mr-2"
-                    >power_settings_new
-                    </mat-icon
-                    >
+                    <mat-icon aria-hidden="false" class="mr-2"
+                      >power_settings_new
+                    </mat-icon>
                     Logout
                   </a>
                 </li>
