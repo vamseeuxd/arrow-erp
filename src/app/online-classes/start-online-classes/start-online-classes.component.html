@@ -43,7 +43,7 @@
               style="height: calc(100vh - 150px);"
             >
               <div class="w-100 h-100 shadow-sm">
-                <app-online-class-white-board></app-online-class-white-board>
+                <app-online-class-white-board [imageUrl]="whiteBoardImageUrl"></app-online-class-white-board>
               </div>
             </div>
           </mat-tab>
@@ -79,6 +79,15 @@
           #onLineClassChat
           (isOpenSidebarChange)="isChatOpen = $event"
         ></app-online-class-chat>
+
+        <!--  ************************************************* -->
+        <div *ngIf="showImageGallery" class="card position-absolute image-gallery list-group list-group-horizontal">
+          <div (click)="whiteBoardImageUrl=image.mediaUrl" class="list-group-item mr-2 p-0" *ngFor="let image of selectedClass.mediaGallery">
+            <img [src]="image.mediaUrl"/>
+            <label>{{image.mediaTitle}}</label>
+          </div>
+        </div>
+        <!--  ************************************************* -->
 
         <div
           class="btn-group full-screen-button"
@@ -117,9 +126,9 @@
             <i class="fa fa-paint-brush"></i>
           </button>
           <button
-            (click)="showPaintTool = !showPaintTool"
+            (click)="showImageGallery = !showImageGallery"
             type="button"
-            class="btn btn-warning"
+            class="btn btn-info"
           >
             <i class="fa fa-file-image"></i>
           </button>
@@ -138,7 +147,7 @@
       mat-button
       mat-dialog-close
       (click)="
-        callOnlineClassFullscreen(null); videoCallComponent.stopVideoCam()
+        callOnlineClassFullscreen(null); videoCallComponent?.stopVideoCam()
       "
     >
       Yes

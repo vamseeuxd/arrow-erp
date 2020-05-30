@@ -1,19 +1,21 @@
-import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
-import adapter from "webrtc-adapter";
-import { RightSidebarService } from "../../shared/services/rightsidebar.service";
-import { OnlineClassesService } from "../online-classes.service";
-import { BusyIndicatorService } from "../../layout/busy-indicator.service";
-import { MatDialog } from "@angular/material/dialog";
-import { map, switchMap } from "rxjs/operators";
-import { OnlineClassInterface } from "../interfaces/online-class.interface";
-import { CdkDragEnd } from "@angular/cdk/drag-drop";
-import { OnlineClassChatComponent } from "./online-class-chat/online-class-chat.component";
-import { OnlineClassVideoCallComponent } from "./online-class-video-call/online-class-video-call.component";
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import adapter from 'webrtc-adapter';
+import {RightSidebarService} from '../../shared/services/rightsidebar.service';
+import {OnlineClassesService} from '../online-classes.service';
+import {BusyIndicatorService} from '../../layout/busy-indicator.service';
+import {MatDialog} from '@angular/material/dialog';
+import {map, switchMap} from 'rxjs/operators';
+import {OnlineClassInterface} from '../interfaces/online-class.interface';
+import {CdkDragEnd} from '@angular/cdk/drag-drop';
+import {OnlineClassChatComponent} from './online-class-chat/online-class-chat.component';
+import {OnlineClassVideoCallComponent} from './online-class-video-call/online-class-video-call.component';
+
+declare const $: any;
 
 const document: any = window.document;
 const ICE_SERVERS: RTCIceServer[] = [
-  { urls: ["stun:stun.example.com", "stun:stun-1.example.com"] },
-  { urls: "stun:stun.l.google.com:19302" },
+  {urls: ['stun:stun.example.com', 'stun:stun-1.example.com']},
+  {urls: 'stun:stun.l.google.com:19302'},
 ];
 
 const PEER_CONNECTION_CONFIG: RTCConfiguration = {
@@ -21,18 +23,19 @@ const PEER_CONNECTION_CONFIG: RTCConfiguration = {
 };
 
 @Component({
-  selector: "app-carousel",
-  templateUrl: "./start-online-classes.component.html",
-  styleUrls: ["./start-online-classes.component.scss"],
+  selector: 'app-carousel',
+  templateUrl: './start-online-classes.component.html',
+  styleUrls: ['./start-online-classes.component.scss'],
 })
-export class StartOnlineClassesComponent {
-  teacherId = "teacher2";
+export class StartOnlineClassesComponent implements OnInit {
+  teacherId = 'teacher2';
   isChatOpen = false;
-  showMyVideo = true;
+  showMyVideo = false;
   isFullScreenDrag = false;
   window$ = window;
   fullScreen = false;
   showPaintTool = true;
+  showImageGallery = false;
   selectedClass: OnlineClassInterface;
   filteredClasses = this.onlineClassesService.onlineClassesList.pipe(
     map((value) => {
@@ -40,6 +43,7 @@ export class StartOnlineClassesComponent {
     })
   );
   private videoCallComponent: OnlineClassVideoCallComponent;
+  whiteBoardImageUrl = '';
 
   constructor(
     public onlineClassesService: OnlineClassesService,
@@ -47,17 +51,35 @@ export class StartOnlineClassesComponent {
     public dialog: MatDialog,
     private dataService: RightSidebarService
   ) {
-    this.dataService.pageTitle = "Start Online Classes";
+    this.dataService.pageTitle = 'Start Online Classes';
     this.dataService.breadCrumbData = [
-      { label: "online-classes", link: "" },
-      { label: "start-online-classes", link: "" },
+      {label: 'online-classes', link: ''},
+      {label: 'start-online-classes', link: ''},
     ];
+  }
+
+  ngOnInit(): void {
   }
 
   updateSelectedOnlineClass(onlineClass: OnlineClassInterface) {
     this.callOnlineClassFullscreen(null);
     setTimeout(() => {
       this.selectedClass = onlineClass;
+      /*setTimeout(() => {
+        setTimeout(() => {
+          $('#withloop').owlCarousel({
+            center: true,
+            items: 2,
+            loop: true,
+            margin: 10,
+            responsive: {
+              600: {
+                items: 4,
+              },
+            },
+          });
+        });
+      },50);*/
     });
   }
 
@@ -70,7 +92,7 @@ export class StartOnlineClassesComponent {
     this.selectedClass.chatMembers = [
       {
         peerID: videoCallComponent.myPeerId,
-        role: "teacher",
+        role: 'teacher',
         userId: this.teacherId,
       },
     ];
@@ -86,7 +108,8 @@ export class StartOnlineClassesComponent {
   async callOnlineClassFullscreen(stopClassConfirmation) {
     if (this.isFullScreenDrag) {
       this.isFullScreenDrag = false;
-    } else {
+    }
+    else {
       if (this.fullScreen && stopClassConfirmation) {
         this.dialog.open(stopClassConfirmation);
         return null;
@@ -107,42 +130,49 @@ export class StartOnlineClassesComponent {
           this.fullScreen = true;
           this.busyIndicator.showSideNav = false;
           this.busyIndicator.showAppHeader = false;
-        } else if (document.documentElement.msRequestFullscreen) {
+        }
+        else if (document.documentElement.msRequestFullscreen) {
           await document.documentElement.msRequestFullscreen();
           this.fullScreen = true;
           this.busyIndicator.showSideNav = false;
           this.busyIndicator.showAppHeader = false;
-        } else if (document.documentElement.mozRequestFullScreen) {
+        }
+        else if (document.documentElement.mozRequestFullScreen) {
           await document.documentElement.mozRequestFullScreen();
           this.fullScreen = true;
           this.busyIndicator.showSideNav = false;
           this.busyIndicator.showAppHeader = false;
-        } else if (document.documentElement.webkitRequestFullscreen) {
+        }
+        else if (document.documentElement.webkitRequestFullscreen) {
           await document.documentElement.webkitRequestFullscreen();
           this.fullScreen = true;
           this.busyIndicator.showSideNav = false;
           this.busyIndicator.showAppHeader = false;
         }
-      } else {
+      }
+      else {
         if (document.exitFullscreen) {
           await document.exitFullscreen();
           this.fullScreen = false;
           this.selectedClass = null;
           this.busyIndicator.showSideNav = true;
           this.busyIndicator.showAppHeader = true;
-        } else if (document.msExitFullscreen) {
+        }
+        else if (document.msExitFullscreen) {
           await document.msExitFullscreen();
           this.fullScreen = false;
           this.selectedClass = null;
           this.busyIndicator.showSideNav = true;
           this.busyIndicator.showAppHeader = true;
-        } else if (document.mozCancelFullScreen) {
+        }
+        else if (document.mozCancelFullScreen) {
           await document.mozCancelFullScreen();
           this.fullScreen = false;
           this.selectedClass = null;
           this.busyIndicator.showSideNav = true;
           this.busyIndicator.showAppHeader = true;
-        } else if (document.webkitExitFullscreen) {
+        }
+        else if (document.webkitExitFullscreen) {
           await document.webkitExitFullscreen();
           this.fullScreen = false;
           this.selectedClass = null;
@@ -161,7 +191,8 @@ export class StartOnlineClassesComponent {
   toggleMyVideo() {
     if (this.isFullScreenDrag) {
       this.isFullScreenDrag = false;
-    } else {
+    }
+    else {
       this.showMyVideo = !this.showMyVideo;
     }
   }
@@ -169,7 +200,8 @@ export class StartOnlineClassesComponent {
   toggleChat(onLineClassChat: OnlineClassChatComponent) {
     if (this.isFullScreenDrag) {
       this.isFullScreenDrag = false;
-    } else {
+    }
+    else {
       this.isChatOpen
         ? onLineClassChat.closeSideBar()
         : onLineClassChat.openSideBar();
