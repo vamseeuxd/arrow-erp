@@ -1,45 +1,30 @@
 <section class="content">
   <div class="container-fluid" id="joinOnlineClassContainer">
-    <div class="row">
-      <div class="col-12">
-        <label>{{ myPeerId }}</label>
-        <div class="form-group d-inline-block" style="width: 250px;">
-          <input
-            type="text"
-            placeholder="PeerJS ID"
-            class="form-control pl-1 pr-1"
-            [(ngModel)]="teacherChatId"
-          />
-        </div>
-        <button class="btn btn-primary rounded-0 ml-2" (click)="classTeacher()">
-          Call
-        </button>
-      </div>
-
-      <div
-        class="teacher-video"
-        [cdkDragBoundary]="'#joinOnlineClassContainer'"
-        cdkDrag
-        [style.width.px]="videoWidth"
-        [style.height.px]="0.6 * videoWidth"
+    <ng-container *ngIf="!selectedClass">
+      <h6 class="text-muted">Start Online Class</h6>
+      <ul
+        class="list-group mt-3"
+        *ngIf="filteredClasses | async as filteredClasses"
       >
-        <video
-          class="w-100 h-100"
-          #steamingVideo
-          controls
-          autoplay
-          playsinline
-        ></video>
-        <mat-slider
-          [min]="250"
-          [max]="500"
-          [vertical]="true"
-          (input)="updateVideoWidth($event)"
-          [thumbLabel]="true"
-        ></mat-slider>
-      </div>
-
-      <app-online-class-chat [hideStudentList]="true"></app-online-class-chat>
-    </div>
+        <li *ngFor="let onlineClass of filteredClasses" class="list-group-item">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{ onlineClass.classTitle }}</h5>
+            <button
+              class="btn-sm btn btn-primary"
+              (click)="updateSelectedOnlineClass(onlineClass)"
+            >
+              Start Class
+            </button>
+          </div>
+          <p class="mb-1">
+            Date : <code>{{ onlineClass.classDate }}</code
+            >, Time : <code>{{ onlineClass.classTime | date: "HH:mm" }}</code>
+          </p>
+          <small
+            >Teacher : <code>{{ onlineClass.teacher }}</code></small
+          >
+        </li>
+      </ul>
+    </ng-container>
   </div>
 </section>

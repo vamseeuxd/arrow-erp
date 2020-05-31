@@ -64,21 +64,6 @@ export class StartOnlineClassesComponent implements OnInit {
     this.callOnlineClassFullscreen(null);
     setTimeout(() => {
       this.selectedClass = onlineClass;
-      /*setTimeout(() => {
-        setTimeout(() => {
-          $('#withloop').owlCarousel({
-            center: true,
-            items: 2,
-            loop: true,
-            margin: 10,
-            responsive: {
-              600: {
-                items: 4,
-              },
-            },
-          });
-        });
-      },50);*/
     });
   }
 

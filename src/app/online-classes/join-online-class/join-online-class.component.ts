@@ -1,6 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { RightSidebarService } from "../../shared/services/rightsidebar.service";
 import { MatSliderChange } from "@angular/material/slider";
+import { OnlineClassesService } from "../online-classes.service";
+import { map } from "rxjs/operators";
+import { OnlineClassInterface } from "../interfaces/online-class.interface";
 
 declare var Peer: any;
 
@@ -22,8 +25,19 @@ export class JoinOnlineClassComponent implements OnInit {
   myStream: MediaStream;
 
   @ViewChild("steamingVideo") steamingVideo: ElementRef;
+  studentId = "student1";
+  selectedClass: OnlineClassInterface;
 
-  constructor(private dataService: RightSidebarService) {
+  filteredClasses = this.onlineClassesService.onlineClassesList.pipe(
+    map((value) => {
+      return value.filter((d) => d.students.includes(this.studentId));
+    })
+  );
+
+  constructor(
+    public onlineClassesService: OnlineClassesService,
+    private dataService: RightSidebarService
+  ) {
     this.dataService.pageTitle = "Join Online Class";
     this.dataService.breadCrumbData = [
       { label: "online-classes", link: "" },
@@ -32,8 +46,8 @@ export class JoinOnlineClassComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.showVideo();
-    this.setUpChart();
+    // this.showVideo();
+    /// this.setUpChart();
   }
 
   async showVideo() {
@@ -78,5 +92,9 @@ export class JoinOnlineClassComponent implements OnInit {
 
   updateVideoWidth($event: MatSliderChange) {
     this.videoWidth = $event.value;
+  }
+
+  updateSelectedOnlineClass(onlineClass: OnlineClassInterface) {
+    // test
   }
 }
