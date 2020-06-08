@@ -1,0 +1,110 @@
+<ng-container *ngIf="classesList$ | async as classesList">
+  <!--<h4>{{classesList.length|json}}</h4>
+  <div>
+    <button class="btn btn-primary" (click)="onlineClassesService.setUserId('teacher1','teacher')">Teacher 1</button>
+    <button class="btn btn-primary" (click)="onlineClassesService.setUserId('teacher2','teacher')">Teacher 2</button>
+  </div>
+  <pre>{{classesList|json}}</pre>-->
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="header">
+          <h2>Expansion panel as accordion</h2>
+          <ul class="header-dropdown m-r--5">
+            <li class="dropdown">
+              <a
+                href="#"
+                onClick="return false;"
+                data-toggle="dropdown"
+                role="button"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <i class="material-icons">more_vert</i>
+              </a>
+              <ul class="dropdown-menu pull-right">
+                <li>
+                  <a href="#" onClick="return false;">Action</a>
+                </li>
+                <li>
+                  <a href="#" onClick="return false;">Another action</a>
+                </li>
+                <li>
+                  <a href="#" onClick="return false;">Something else here</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <div class="body">
+          <mat-accordion>
+            <mat-expansion-panel
+              hideToggle
+              *ngFor="let onlineClass of classesList"
+            >
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <h5>
+                    {{ onlineClass.classTitle }}
+                    <span class="text-danger" style="font-size: 12px;">
+                      <i class="fa fa-clock"></i>
+                      {{ onlineClass.classDate }}
+                      {{ onlineClass.classTime | date: "HH:mm" }}
+                    </span>
+                  </h5>
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="row">
+                <div class="col col-blue-grey">
+                  <i class="fa fa-calendar mr-2"></i>Class Date :
+                  {{ onlineClass.classTime }}
+                </div>
+                <div class="col col-blue-grey">
+                  <i class="fa fa-clock mr-2"></i>Class Time :
+                  {{ onlineClass.classTime | date: "HH:mm" }}
+                </div>
+                <div class="col col-blue-grey">
+                  <i class="fa fa-user mr-2"></i>teacher :
+                  {{ onlineClass.teacher }}
+                </div>
+                <div class="col-12 mt-2">
+                  <h6>Students Joining</h6>
+                  <mat-chip-list aria-label="Fish selection">
+                    <mat-chip>One fish</mat-chip>
+                    <mat-chip>Two fish</mat-chip>
+                    <mat-chip color="primary" selected>Primary fish</mat-chip>
+                    <mat-chip color="accent" selected>Accent fish</mat-chip>
+                  </mat-chip-list>
+                </div>
+              </div>
+              <pre>{{ onlineClass | json }}</pre>
+              <!--
+              {
+                "id": "OenE3O3xFUX86Ssqz6uV",
+                "classDate": "Fri May 22 2020",
+                "updatedOn": {
+                  "seconds": 1590131055,
+                  "nanoseconds": 605000000
+                },
+                "createdOn": {
+                  "nanoseconds": 522000000,
+                  "seconds": 1590123104
+                },
+                "classTitle": "Mathematics L.K.G",
+                "teacher": "teacher1",
+                "classTime": 1590117000000,
+                "mediaGallery": "",
+                "students": [
+                  "student1",
+                  "student2"
+                ],
+                "chatMembers": []
+              }
+              -->
+            </mat-expansion-panel>
+          </mat-accordion>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

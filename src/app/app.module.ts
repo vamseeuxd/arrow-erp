@@ -10,7 +10,7 @@ import { PageLoaderComponent } from "./layout/page-loader/page-loader.component"
 import { SidebarComponent } from "./layout/sidebar/sidebar.component";
 import { RightSidebarComponent } from "./layout/right-sidebar/right-sidebar.component";
 import { LocationStrategy, HashLocationStrategy } from "@angular/common";
-import { DynamicScriptLoaderService } from "./shared/services/dynamic-script-loader.service";
+import { DynamicScriptLoaderService } from "./shared/utilities/dynamic-script-loader.service";
 import { ProfessorsService } from "../app/professors/all-professors/professors.service";
 import { StudentsService } from "../app/students/all-students/students.service";
 import { LibraryService } from "../app/library/all-assets/library.service";
@@ -18,7 +18,7 @@ import { DepartmentService } from "../app/departments/all-departments/department
 import { StaffService } from "./staff/all-staff/staff.service";
 import { HolidayService } from "./holidays/all-holidays/holiday.service";
 import { FeesService } from "./fees/all-fees/fees.service";
-import { RightSidebarService } from "./shared/services/rightsidebar.service";
+import { RightSidebarService } from "./shared/utilities/rightsidebar.service";
 import {
   PerfectScrollbarModule,
   PERFECT_SCROLLBAR_CONFIG,
@@ -45,7 +45,7 @@ import { MatInputModule } from "@angular/material/input";
 import { AgmCoreModule } from "@agm/core";
 import { ClickOutsideModule } from "ng-click-outside";
 import { HttpClientModule } from "@angular/common/http";
-import { ArrowFirebaseModule } from "./arrow-firebase.module";
+import { ArrowFirebaseModule } from "./shared/arrow-firebase.module";
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,

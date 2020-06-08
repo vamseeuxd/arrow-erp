@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { DynamicScriptLoaderService } from "../../shared/services/dynamic-script-loader.service";
+import { DynamicScriptLoaderService } from "../../shared/utilities/dynamic-script-loader.service";
 declare const $: any;
 @Component({
   selector: "app-gallery",

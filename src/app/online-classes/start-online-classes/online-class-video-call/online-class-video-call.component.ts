@@ -73,21 +73,21 @@ export class OnlineClassVideoCallComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.showVideo();
+    this.showVideo();
   }
 
   async showVideo() {
-    this.myStream = await navigator.mediaDevices.getUserMedia({
+    /*this.myStream = await navigator.mediaDevices.getUserMedia({
       video: true,
       audio: this.playMyAudio,
     });
     const video = this.myCamera.nativeElement;
-    video.srcObject = this.myStream;
-    /*setTimeout(() => {
-      this.myPeerId = 'test123456';
+    video.srcObject = this.myStream;*/
+    setTimeout(() => {
+      this.myPeerId = "test123456";
       this.updateTeacherVideoChatId.emit(this);
-    }, 500);*/
-    this.setUpChart();
+    }, 500);
+    // this.setUpChart();
   }
 
   updateVideoWidth($event: MatSliderChange) {
@@ -97,9 +97,11 @@ export class OnlineClassVideoCallComponent implements OnInit {
   onVideoPlayClick($event: Event) {}
 
   stopVideoCam() {
-    this.myStream.getTracks().forEach((track) => {
-      track.stop();
-    });
+    if (this.myStream) {
+      this.myStream.getTracks().forEach((track) => {
+        track.stop();
+      });
+    }
   }
 
   onVideoPauseClick($event: Event) {

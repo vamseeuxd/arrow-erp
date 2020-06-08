@@ -24,7 +24,7 @@
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
         <div class="card">
           <div class="header">
-            <h2>Add Student</h2>
+            <!--<button class="btn btn-primary" (click)="db.addNewList()">Add New List</button>-->
             <ul class="header-dropdown m-r--5">
               <li class="dropdown">
                 <a
@@ -52,213 +52,281 @@
             </ul>
           </div>
           <div class="body">
-            <form class="m-4" [formGroup]="stdForm" (ngSubmit)="onSubmit()">
+            <app-dynamic-form></app-dynamic-form>
+            <form *ngIf="false" class="m-4" #studentForm="ngForm">
               <div class="row">
+                <!--  ******************* Student Image ******************* -->
+                <!--col-md-4 offset-md-4 mb-5-->
+                <div
+                  class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2"
+                  #camContainer
+                >
+                  <button
+                    class="w-100"
+                    (click)="openImageEditor(imageEditor)"
+                    type="button"
+                    mat-raised-button
+                  >
+                    Change Photo
+                  </button>
+                  <!--<mat-card [style.width.px]="camContainer.getBoundingClientRect().width/2">
+                    <mat-card-header>
+                      <mat-card-subtitle>Photo</mat-card-subtitle>
+                    </mat-card-header>
+                    <webcam mat-card-image width="300"></webcam>
+                    <img mat-card-image
+                         src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+                         alt="Photo of a Shiba Inu">
+                    <mat-card-actions>
+                      <button type="button" mat-button>Change Photo</button>
+                      &lt;!&ndash;<button type="button" mat-button>Take a Snapshot</button>&ndash;&gt;
+                    </mat-card-actions>
+                  </mat-card>-->
+                </div>
+                <!--  ******************* Student Image ******************* -->
+
+                <!--  ******************* First name  ******************* -->
                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
                   <mat-form-field class="example-full-width mb-3">
                     <mat-label>First name</mat-label>
-                    <input matInput formControlName="first" required />
-                    <mat-error
-                      *ngIf="stdForm.get('first').hasError('required')"
-                    >
-                      First name is required
-                    </mat-error>
+                    <input
+                      matInput
+                      autocomplete="off"
+                      ngModel
+                      name="firstName"
+                      required
+                    />
+                    <mat-error>First name is required</mat-error>
                   </mat-form-field>
                 </div>
+                <!--  ******************* First name  ******************* -->
+
+                <!--  ******************* Last name  ******************* -->
                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
                   <mat-form-field class="example-full-width mb-3">
                     <mat-label>Last name</mat-label>
-                    <input matInput formControlName="last" />
+                    <input
+                      autocomplete="off"
+                      matInput
+                      ngModel
+                      required
+                      name="lastName"
+                    />
+                    <mat-error>Last name is required</mat-error>
                   </mat-form-field>
                 </div>
-              </div>
-              <div class="row">
+                <!--  ******************* Last name  ******************* -->
+
+                <!--  ******************* Gender ******************* -->
                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-                  <mat-form-field class="example-full-width mb-3">
-                    <mat-label>Roll No</mat-label>
-                    <input matInput formControlName="rollNo" />
-                  </mat-form-field>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-                  <mat-form-field class="example-full-width mb-3">
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    *ngIf="studentService.genderList$ | async as genderList"
+                  >
                     <mat-label>Gender</mat-label>
-                    <mat-select formControlName="gender" required>
-                      <mat-option [value]="'male'">
-                        Male
-                      </mat-option>
-                      <mat-option [value]="'female'">
-                        Female
-                      </mat-option>
-                      <mat-option [value]="'other'">
-                        Other
+                    <mat-select
+                      autocomplete="off"
+                      matInput
+                      ngModel
+                      name="gender"
+                      required
+                    >
+                      <mat-option
+                        *ngFor="let gender of genderList"
+                        [value]="gender.id"
+                      >
+                        {{ gender.name }}
                       </mat-option>
                     </mat-select>
-                    <mat-error
-                      *ngIf="stdForm.get('gender').hasError('required')"
-                    >
+                    <mat-error>
                       Gender is required
                     </mat-error>
                   </mat-form-field>
                 </div>
-              </div>
-              <div class="row">
+                <!--  ******************* Gender ******************* -->
+
+                <!--  ******************* email  ******************* -->
                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
                   <mat-form-field class="example-full-width mb-3">
                     <mat-label>Email</mat-label>
-                    <input matInput formControlName="email" required />
-                    <mat-error
-                      *ngIf="
-                        stdForm.get('email').hasError('email') &&
-                        stdForm.get('email').touched
-                      "
-                    >
-                      Please enter a valid email address
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-                  <mat-form-field class="example-full-width mb-3">
-                    <mat-label>Mobile</mat-label>
                     <input
+                      autocomplete="off"
                       matInput
-                      formControlName="mobile"
-                      type="number"
-                      required
+                      ngModel
+                      email
+                      name="email"
                     />
+                    <mat-error>Please enter a valid email address</mat-error>
                   </mat-form-field>
                 </div>
-              </div>
-              <div class="row">
+                <!--  ******************* email  ******************* -->
+
+                <!--  ******************* mobile  ******************* -->
                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
                   <mat-form-field class="example-full-width mb-3">
-                    <mat-label>Registration Date</mat-label>
+                    <mat-label>Mobile Number</mat-label>
+                    <span matPrefix>+91 &nbsp;</span>
                     <input
+                      autocomplete="off"
                       matInput
-                      [matDatepicker]="rpicker"
-                      formControlName="rDate"
+                      pattern="\d{10}"
+                      name="phoneNumber"
+                      ngModel
+                      type="number"
+                    />
+                    <mat-error
+                      >Please enter a valid 10 digits Mobile Number</mat-error
+                    >
+                  </mat-form-field>
+                </div>
+                <!--  ******************* mobile ******************* -->
+
+                <!--  ******************* Date of Birth ******************* -->
+                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
+                  <mat-form-field class="example-full-width mb-3">
+                    <mat-label>Date of Birth (MM/DD/YYYY)</mat-label>
+                    <input
+                      autocomplete="off"
+                      matInput
+                      name="dateOfBirth"
+                      ngModel
+                      (click)="dateOfBirthPicker.open()"
+                      [matDatepicker]="dateOfBirthPicker"
                       required
                     />
                     <mat-datepicker-toggle
                       matSuffix
-                      [for]="rpicker"
+                      [for]="dateOfBirthPicker"
                     ></mat-datepicker-toggle>
-                    <mat-datepicker #rpicker touchUi></mat-datepicker>
-                    <mat-error
-                      *ngIf="stdForm.get('rDate').hasError('required')"
-                    >
-                      Please select date
-                    </mat-error>
+                    <mat-datepicker #dateOfBirthPicker touchUi></mat-datepicker>
+                    <mat-error>Please select Date of Birth</mat-error>
                   </mat-form-field>
                 </div>
+                <!--  ******************* Date of Birth ******************* -->
+
+                <!--  ******************* Blood Group ******************* -->
                 <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-                  <mat-form-field class="example-full-width mb-3">
-                    <mat-label>Select Department</mat-label>
-                    <mat-select formControlName="department" required>
-                      <mat-option [value]="'mechanical'">
-                        Mechanical
-                      </mat-option>
-                      <mat-option [value]="'science'">
-                        Science
-                      </mat-option>
-                      <mat-option [value]="'mathematics'">
-                        Mathematics
-                      </mat-option>
-                      <mat-option [value]="'computer'">
-                        Computer
-                      </mat-option>
-                      <mat-option [value]="'civil'">
-                        Civil
+                  <mat-form-field
+                    class="example-full-width mb-3"
+                    *ngIf="
+                      studentService.bloodGroupList$ | async as bloodGroupList
+                    "
+                  >
+                    <mat-label>Blood Group</mat-label>
+                    <mat-select matInput ngModel name="bloodGroup">
+                      <mat-option
+                        *ngFor="let bloodGroup of bloodGroupList"
+                        [value]="bloodGroup.id"
+                      >
+                        {{ bloodGroup.name }}
                       </mat-option>
                     </mat-select>
-                    <mat-error
-                      *ngIf="stdForm.get('department').hasError('required')"
-                    >
-                      Select Any Department
-                    </mat-error>
+                    <mat-error>Blood Group is required</mat-error>
                   </mat-form-field>
                 </div>
-              </div>
-              <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-                  <mat-form-field class="example-full-width mb-3">
-                    <mat-label>Parents name</mat-label>
-                    <input matInput formControlName="parentName" required />
-                    <mat-error
-                      *ngIf="stdForm.get('parentName').hasError('required')"
-                    >
-                      Parents name is required
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-                  <mat-form-field class="example-full-width mb-3">
-                    <mat-label>Parents Mobile Number</mat-label>
-                    <input matInput formControlName="parentNo" type="number" />
-                  </mat-form-field>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-                  <mat-form-field class="example-full-width mb-3">
-                    <mat-label>Date Of Birth</mat-label>
-                    <input
-                      matInput
-                      [matDatepicker]="picker"
-                      formControlName="dob"
-                      required
-                    />
-                    <mat-datepicker-toggle
-                      matSuffix
-                      [for]="picker"
-                    ></mat-datepicker-toggle>
-                    <mat-datepicker #picker touchUi></mat-datepicker>
-                    <mat-error *ngIf="stdForm.get('dob').hasError('required')">
-                      Please select date
-                    </mat-error>
-                  </mat-form-field>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2">
-                  <mat-form-field class="example-full-width mb-3">
-                    <mat-label>Blood Group</mat-label>
-                    <input matInput formControlName="bGroup" />
-                  </mat-form-field>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                  <mat-form-field class="example-full-width mb-3">
-                    <mat-label>Address</mat-label>
-                    <textarea matInput formControlName="address"></textarea>
-                  </mat-form-field>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                  <mat-form-field class="example-full-width mb-3">
-                    <mat-label>Upload Image</mat-label>
-                    <ngx-mat-file-input formControlName="uploadImg">
-                    </ngx-mat-file-input>
-                    <mat-icon matSuffix>face</mat-icon>
-                  </mat-form-field>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mb-2">
-                  <button
-                    class="mr-3"
-                    [disabled]="!stdForm.valid"
-                    mat-raised-button
-                    color="primary"
-                  >
-                    Submit
-                  </button>
-                  <button type="button" mat-button>Cancel</button>
-                </div>
+                <!--  ******************* Blood Group ******************* -->
               </div>
             </form>
+            <!--<pre>{{studentForm.value|json}}</pre>-->
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<ng-template #imageEditor>
+  <h2 mat-dialog-title *ngIf="previewPhoto">
+    Preview Photo
+    <button
+      class="float-right btn btn-danger btn-sm"
+      (click)="closeWebCamera()"
+    >
+      <i class="fa fa-times"></i>
+    </button>
+  </h2>
+  <h2 mat-dialog-title *ngIf="!previewPhoto">
+    Change Photo
+    <button
+      class="float-right btn btn-danger btn-sm"
+      (click)="closeWebCamera()"
+    >
+      <i class="fa fa-times"></i>
+    </button>
+  </h2>
+  <div class="row">
+    <div
+      class="offset-md-3 col-md-6 d-flex justify-content-center align-content-center"
+    >
+      <mat-card>
+        <webcam
+          mat-card-image
+          *ngIf="!previewPhoto"
+          height="225"
+          [mirrorImage]="'never'"
+          width="300"
+          imageType="image/jpeg"
+          (imageCapture)="handleImage($event)"
+          [trigger]="trigger$"
+        ></webcam>
+        <img
+          mat-card-image
+          *ngIf="previewPhoto && !webcamImage"
+          style="width: 300px; height: 225px;"
+          src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+        />
+        <img
+          mat-card-image
+          *ngIf="previewPhoto && webcamImage"
+          style="width: 300px; height: 225px;"
+          [src]="webcamImage.imageAsDataUrl"
+        />
+        <h4 *ngIf="errors.length > 0">Messages:</h4>
+        <ul *ngFor="let error of errors">
+          <li>{{ error | json }}</li>
+        </ul>
+        <mat-card-actions class="text-center">
+          <button
+            type="button"
+            (click)="previewPhoto = false"
+            *ngIf="previewPhoto"
+            class="btn btn-warning mr-3"
+          >
+            Change Photo
+          </button>
+          <button
+            type="button"
+            *ngIf="previewPhoto && webcamImage"
+            class="btn btn-success mr-3"
+          >
+            Save
+          </button>
+          <button
+            type="button"
+            *ngIf="previewPhoto && webcamImage"
+            (click)="webcamImage = null"
+            class="btn btn-dark"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            (click)="triggerSnapshot()"
+            *ngIf="!previewPhoto"
+            class="btn btn-primary mr-3"
+          >
+            Capture & Preview
+          </button>
+          <button
+            type="button"
+            (click)="previewPhoto = true"
+            *ngIf="!previewPhoto"
+            class="btn btn-dark"
+          >
+            Cancel
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</ng-template>

@@ -1,11 +1,15 @@
 import { OnlineClassMediaDetails } from "./online-class-media-details.interface";
+import { ChatMemberInterface } from "./chat-member.interface";
 
 export interface OnlineClassInterface {
   id?: string;
   classTitle: string;
   teacher: string;
   isStarted: boolean;
-  chatMembers?: { peerID: string; role: string; userId: string }[];
+  startTime: any;
+  joinTime: any;
+  endTime: any;
+  chatMembers?: ChatMemberInterface[];
   students: string[];
   classDate: any;
   classTime: any;

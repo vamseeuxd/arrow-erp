@@ -27,7 +27,7 @@ import { YouTubePlayerModule } from "@angular/youtube-player";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { OnlineClassesService } from "./online-classes.service";
-import { ArrowFirebaseModule } from "../arrow-firebase.module";
+import { ArrowFirebaseModule } from "../shared/arrow-firebase.module";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatTimepickerModule } from "mat-timepicker";
 import { CanvasWhiteboardModule } from "ng2-canvas-whiteboard";
@@ -40,6 +40,9 @@ import { ResizableModule } from "angular-resizable-element";
 import { MatSliderModule } from "@angular/material/slider";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { JoinOnlineClassComponent } from "./join-online-class/join-online-class.component";
+import { OnlineClassesListComponent } from "./start-online-classes/online-classes-list/online-classes-list.component";
+import { OnlineClassesService2 } from "./online-classes.service2";
+import { MatExpansionModule } from "@angular/material/expansion";
 
 export const MY_FORMATS = {
   parse: {
@@ -63,6 +66,7 @@ export const MY_FORMATS = {
     OnlineClassesAddMediaComponent,
     OnlineClassWhiteBoardComponent,
     JoinOnlineClassComponent,
+    OnlineClassesListComponent,
   ],
   imports: [
     CommonModule,
@@ -94,9 +98,11 @@ export const MY_FORMATS = {
     MatProgressBarModule,
     MatSliderModule,
     MatTooltipModule,
+    MatExpansionModule,
+    MatChipsModule,
     ResizableModule,
   ],
   entryComponents: [OnlineClassesAddMediaComponent],
-  providers: [OnlineClassesService],
+  providers: [OnlineClassesService, OnlineClassesService2],
 })
 export class OnlineClassesModule {}

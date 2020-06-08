@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import adapter from "webrtc-adapter";
-import { RightSidebarService } from "../../shared/services/rightsidebar.service";
+import { RightSidebarService } from "../../shared/utilities/rightsidebar.service";
 import { OnlineClassesService } from "../online-classes.service";
 import { BusyIndicatorService } from "../../layout/busy-indicator.service";
 import { MatDialog } from "@angular/material/dialog";
@@ -9,18 +9,9 @@ import { OnlineClassInterface } from "../interfaces/online-class.interface";
 import { CdkDragEnd } from "@angular/cdk/drag-drop";
 import { OnlineClassChatComponent } from "./online-class-chat/online-class-chat.component";
 import { OnlineClassVideoCallComponent } from "./online-class-video-call/online-class-video-call.component";
-
-declare const $: any;
+import { ChatMemberInterface } from "../interfaces/chat-member.interface";
 
 const document: any = window.document;
-const ICE_SERVERS: RTCIceServer[] = [
-  { urls: ["stun:stun.example.com", "stun:stun-1.example.com"] },
-  { urls: "stun:stun.l.google.com:19302" },
-];
-
-const PEER_CONNECTION_CONFIG: RTCConfiguration = {
-  iceServers: ICE_SERVERS,
-};
 
 @Component({
   selector: "app-carousel",
@@ -39,7 +30,8 @@ export class StartOnlineClassesComponent implements OnInit {
   selectedClass: OnlineClassInterface;
   filteredClasses = this.onlineClassesService.onlineClassesList.pipe(
     map((value) => {
-      return value.filter((d) => d.teacher === this.teacherId);
+      const returnList = value.filter((d) => d.teacher === this.teacherId);
+      return returnList;
     })
   );
   private videoCallComponent: OnlineClassVideoCallComponent;
@@ -71,16 +63,23 @@ export class StartOnlineClassesComponent implements OnInit {
     videoCallComponent: OnlineClassVideoCallComponent
   ) {
     this.videoCallComponent = videoCallComponent;
-    // alert(videoCallComponent.myPeerId);
     const busyIndicatorId = this.busyIndicator.show();
-    this.selectedClass.chatMembers = [
+    /*this.selectedClass.chatMembers = [
       {
         peerID: videoCallComponent.myPeerId,
-        role: "teacher",
+        role: 'teacher',
         userId: this.teacherId,
       },
-    ];
+    ];*/
+    const member: ChatMemberInterface = {
+      onlineClassId: this.selectedClass.id,
+      role: "teacher",
+      peerID: videoCallComponent.myPeerId,
+      userId: this.teacherId,
+    };
+    await this.onlineClassesService.joinIntoChat(member);
     this.selectedClass.isStarted = true;
+    this.selectedClass.startTime = this.onlineClassesService.getServerTime();
     await this.onlineClassesService.updateOnlineClasses(
       this.selectedClass,
       this.selectedClass.id,
@@ -96,11 +95,19 @@ export class StartOnlineClassesComponent implements OnInit {
       if (this.fullScreen && stopClassConfirmation) {
         this.dialog.open(stopClassConfirmation);
         return null;
-        /*const isConfirmed = confirm('Are you Sure! Do you want to Stop Class');
-        if (!isConfirmed) {
-          return null;
-        }*/
       }
+      /*  ????????????????????????????????????  */
+      if (this.fullScreen) {
+        this.fullScreen = false;
+        this.busyIndicator.showSideNav = true;
+        this.busyIndicator.showAppHeader = true;
+      } else {
+        this.fullScreen = true;
+        this.busyIndicator.showSideNav = false;
+        this.busyIndicator.showAppHeader = false;
+      }
+      return;
+      /*  ????????????????????????????????????  */
       /*  ------------------------------------  */
       if (
         !document.fullscreenElement &&
@@ -180,5 +187,34 @@ export class StartOnlineClassesComponent implements OnInit {
         ? onLineClassChat.closeSideBar()
         : onLineClassChat.openSideBar();
     }
+  }
+
+  async endOnlineClass() {
+    this.callOnlineClassFullscreen(null);
+    this.videoCallComponent?.stopVideoCam();
+    const busyIndicatorId = this.busyIndicator.show();
+    this.selectedClass.isStarted = false;
+    this.selectedClass.endTime = this.onlineClassesService.getServerTime();
+    await this.onlineClassesService.updateOnlineClasses(
+      this.selectedClass,
+      this.selectedClass.id,
+      this.selectedClass.createdOn
+    );
+    this.selectedClass = null;
+    this.busyIndicator.hide(busyIndicatorId);
+  }
+
+  async resetClass(selectedClass: OnlineClassInterface) {
+    delete selectedClass.startTime;
+    delete selectedClass.endTime;
+    delete selectedClass.chatMembers;
+    delete selectedClass.isStarted;
+    const busyIndicatorId = this.busyIndicator.show();
+    await this.onlineClassesService.updateOnlineClasses(
+      selectedClass,
+      selectedClass.id,
+      selectedClass.createdOn
+    );
+    this.busyIndicator.hide(busyIndicatorId);
   }
 }

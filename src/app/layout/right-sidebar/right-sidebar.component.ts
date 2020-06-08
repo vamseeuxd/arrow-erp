@@ -6,7 +6,7 @@ import {
   OnInit,
   Renderer2,
 } from "@angular/core";
-import { RightSidebarService } from "../../shared/services/rightsidebar.service";
+import { RightSidebarService } from "../../shared/utilities/rightsidebar.service";
 @Component({
   selector: "app-right-sidebar",
   templateUrl: "./right-sidebar.component.html",

@@ -1,9 +1,10 @@
 import { ModuleWithProviders, NgModule } from "@angular/core";
 import { AngularFireModule } from "@angular/fire";
-import { environment } from "../environments/environment";
+import { environment } from "../../environments/environment";
 import { NgxMaskModule, IConfig } from "ngx-mask";
 import { AngularFirestoreModule } from "@angular/fire/firestore";
 import { NgxLoaderIndicatorModule } from "ngx-loader-indicator";
+import { AngularFireStorageModule } from "@angular/fire/storage";
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -14,6 +15,7 @@ const maskConfig: Partial<IConfig> = {
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     NgxLoaderIndicatorModule.forRoot({}),
+    AngularFireStorageModule,
     NgxMaskModule.forRoot(maskConfig),
   ],
   exports: [
@@ -21,6 +23,7 @@ const maskConfig: Partial<IConfig> = {
     NgxMaskModule,
     NgxLoaderIndicatorModule,
     AngularFirestoreModule,
+    AngularFireStorageModule,
   ],
 })
 export class ArrowFirebaseModule {

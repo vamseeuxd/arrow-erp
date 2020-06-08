@@ -12,7 +12,7 @@ import { OnlineClassInterface } from "../interfaces/online-class.interface";
 import { MatCalendarCellCssClasses } from "@angular/material/datepicker";
 import { MatDialog } from "@angular/material/dialog";
 import { MatDialogRef } from "@angular/material/dialog/dialog-ref";
-import { RightSidebarService } from "../../shared/services/rightsidebar.service";
+import { RightSidebarService } from "../../shared/utilities/rightsidebar.service";
 
 @Component({
   selector: "app-manage-online-classes",

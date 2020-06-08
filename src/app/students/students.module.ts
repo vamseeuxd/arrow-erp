@@ -26,6 +26,15 @@ import { EditStudentComponent } from "./edit-student/edit-student.component";
 import { AllStudentsComponent } from "./all-students/all-students.component";
 import { DeleteDialogComponent } from "./all-students/dialogs/delete/delete.component";
 import { FormDialogComponent } from "./all-students/dialogs/form-dialog/form-dialog.component";
+import { WebcamModule } from "ngx-webcam";
+import { MatCardModule } from "@angular/material/card";
+import { IConfig, NgxMaskModule } from "ngx-mask";
+import { ArrowFirebaseModule } from "../shared/arrow-firebase.module";
+import { SharedModule } from "../shared/shared.module";
+
+const maskConfig: Partial<IConfig> = {
+  validation: false,
+};
 
 @NgModule({
   declarations: [
@@ -58,6 +67,11 @@ import { FormDialogComponent } from "./all-students/dialogs/form-dialog/form-dia
     MatMenuModule,
     MaterialFileInputModule,
     StudentsRoutingModule,
+    WebcamModule,
+    MatCardModule,
+    NgxMaskModule.forRoot(maskConfig),
+    ArrowFirebaseModule,
+    SharedModule,
   ],
 })
 export class StudentsModule {}

@@ -7,7 +7,7 @@ import {
   Renderer2,
   HostListener,
 } from "@angular/core";
-import { RightSidebarService } from "../../shared/services/rightsidebar.service";
+import { RightSidebarService } from "../../shared/utilities/rightsidebar.service";
 const document: any = window.document;
 @Component({
   selector: "app-header",

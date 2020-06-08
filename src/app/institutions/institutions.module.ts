@@ -24,7 +24,7 @@ import { MaterialFileInputModule } from "ngx-material-file-input";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatMenuModule } from "@angular/material/menu";
 import { InstitutionsService } from "./all-institutions/institutions.service";
-import { ArrowFirebaseModule } from "../arrow-firebase.module";
+import { ArrowFirebaseModule } from "../shared/arrow-firebase.module";
 import { MatTooltipModule } from "@angular/material/tooltip";
 
 @NgModule({
