@@ -27,6 +27,7 @@ export enum EDIT_CONFIG {
 })
 export class AddDynamicFormComponent {
   isBasicFormValid = false;
+  defaultColumnWidth = "col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2";
   selectedIndex = 0;
   basicFormConfig = [
     {
@@ -55,7 +56,7 @@ export class AddDynamicFormComponent {
   dropIndex = 1;
   todo = [
     {
-      columnClass: "col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2",
+      columnClass: this.defaultColumnWidth,
       controllerClass: "w-100",
       disabled: false,
       value: "vamsi.flex@gmail.com",
@@ -65,7 +66,7 @@ export class AddDynamicFormComponent {
       required: true,
     },
     {
-      columnClass: "col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2",
+      columnClass: this.defaultColumnWidth,
       controllerClass: "w-100",
       value: "#ff0000",
       disabled: false,
@@ -75,7 +76,7 @@ export class AddDynamicFormComponent {
       type: "color",
     },
     {
-      columnClass: "col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2",
+      columnClass: this.defaultColumnWidth,
       min: "2020-06-01",
       max: "2020-06-30",
       value: "2020-06-15",
@@ -87,7 +88,7 @@ export class AddDynamicFormComponent {
       type: "date",
     },
     {
-      columnClass: "col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2",
+      columnClass: this.defaultColumnWidth,
       controllerClass: "w-100",
       disabled: false,
       value: "2020-06-25T14:00",
@@ -97,7 +98,7 @@ export class AddDynamicFormComponent {
       type: "datetime-local",
     },
     {
-      columnClass: "col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2",
+      columnClass: this.defaultColumnWidth,
       controllerClass: "w-100",
       disabled: false,
       value: "2020-06",
@@ -107,7 +108,7 @@ export class AddDynamicFormComponent {
       type: "month",
     },
     {
-      columnClass: "col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2",
+      columnClass: this.defaultColumnWidth,
       min: 10,
       max: 100,
       value: 50,
@@ -119,7 +120,7 @@ export class AddDynamicFormComponent {
       type: "number",
     },
     {
-      columnClass: "col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2",
+      columnClass: this.defaultColumnWidth,
       controllerClass: "w-100",
       value: "2020-06-25T14:00",
       disabled: false,
@@ -129,7 +130,7 @@ export class AddDynamicFormComponent {
       type: "password",
     },
     {
-      columnClass: "col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2",
+      columnClass: this.defaultColumnWidth,
       controllerClass: "w-100",
       disabled: false,
       value: "Arrow",
@@ -139,7 +140,7 @@ export class AddDynamicFormComponent {
       type: "search",
     },
     {
-      columnClass: "col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2",
+      columnClass: this.defaultColumnWidth,
       disabled: false,
       minlength: 10,
       maxlength: 10,
@@ -152,7 +153,7 @@ export class AddDynamicFormComponent {
       type: "tel",
     },
     {
-      columnClass: "col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2",
+      columnClass: this.defaultColumnWidth,
       disabled: false,
       value: "Arrow Animations",
       controllerClass: "w-100",
@@ -162,7 +163,7 @@ export class AddDynamicFormComponent {
       type: "text",
     },
     {
-      columnClass: "col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2",
+      columnClass: this.defaultColumnWidth,
       disabled: false,
       value: "14:00",
       controllerClass: "w-100",
@@ -172,7 +173,7 @@ export class AddDynamicFormComponent {
       type: "time",
     },
     {
-      columnClass: "col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2",
+      columnClass: this.defaultColumnWidth,
       controllerClass: "w-100",
       value: "https://angularfire-dynamic-forms.stackblitz.io/",
       disabled: false,
@@ -182,7 +183,7 @@ export class AddDynamicFormComponent {
       type: "url",
     },
     {
-      columnClass: "col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2",
+      columnClass: this.defaultColumnWidth,
       controllerClass: "w-100",
       value: "2020-W24",
       disabled: false,
@@ -192,7 +193,7 @@ export class AddDynamicFormComponent {
       type: "week",
     },
     {
-      columnClass: "col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2",
+      columnClass: this.defaultColumnWidth,
       controllerClass: "w-100",
       disabled: false,
       value: ["2", "4", "5"],
@@ -214,7 +215,7 @@ export class AddDynamicFormComponent {
       },
     },
     {
-      columnClass: "col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2",
+      columnClass: this.defaultColumnWidth,
       controllerClass: "w-100",
       disabled: false,
       required: true,
@@ -236,7 +237,7 @@ export class AddDynamicFormComponent {
       },
     },
     {
-      columnClass: "col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-2",
+      columnClass: this.defaultColumnWidth,
       controllerClass: "w-100",
       disabled: false,
       required: true,
@@ -252,7 +253,7 @@ export class AddDynamicFormComponent {
   ];
   editDynamicFormConfig = [
     {
-      columnClass: "col-12 mb-1",
+      columnClass: "col-4 mb-1",
       disabled: false,
       controllerClass: "w-100",
       required: true,
@@ -262,7 +263,7 @@ export class AddDynamicFormComponent {
       type: "text",
     },
     {
-      columnClass: "col-12 mb-1",
+      columnClass: "col-4 mb-1",
       disabled: false,
       controllerClass: "w-100",
       required: true,
@@ -272,7 +273,7 @@ export class AddDynamicFormComponent {
       type: "text",
     },
     {
-      columnClass: "col-12 mb-1",
+      columnClass: "col-4 mb-1",
       disabled: false,
       controllerClass: "w-100",
       required: false,
@@ -282,7 +283,7 @@ export class AddDynamicFormComponent {
       type: "text",
     },
     {
-      columnClass: "col-12 mb-1",
+      columnClass: "col-4 mb-1",
       controllerClass: "w-100",
       disabled: false,
       required: true,
@@ -307,7 +308,7 @@ export class AddDynamicFormComponent {
       },
     },
     {
-      columnClass: "col-12 mb-1",
+      columnClass: "col-4 mb-1",
       disabled: false,
       controllerClass: "w-100",
       required: true,
@@ -316,7 +317,7 @@ export class AddDynamicFormComponent {
       type: "text",
     },
     {
-      columnClass: "col-12 mb-1",
+      columnClass: "col-4 mb-1",
       disabled: false,
       controllerClass: "w-100",
       required: true,
@@ -325,7 +326,7 @@ export class AddDynamicFormComponent {
       type: "text",
     },
     {
-      columnClass: "col-12 mb-1",
+      columnClass: "col-4 mb-1",
       controllerClass: "w-100",
       disabled: false,
       required: true,
@@ -350,7 +351,7 @@ export class AddDynamicFormComponent {
       },
     },
     {
-      columnClass: "col-12 mb-1",
+      columnClass: "col-4 mb-1",
       controllerClass: "w-100",
       disabled: false,
       required: true,
@@ -366,7 +367,7 @@ export class AddDynamicFormComponent {
       },
     },
     {
-      columnClass: "col-12 mb-1",
+      columnClass: "col-4 mb-1",
       controllerClass: "w-100",
       disabled: false,
       required: true,
@@ -381,7 +382,7 @@ export class AddDynamicFormComponent {
       type: "chips",
     },
     {
-      columnClass: "col-12 mb-1",
+      columnClass: "col-4 mb-1",
       disabled: false,
       controllerClass: "w-100",
       required: true,
@@ -394,7 +395,7 @@ export class AddDynamicFormComponent {
       type: "text",
     },
     {
-      columnClass: "col-12 mb-1",
+      columnClass: "col-4 mb-1",
       disabled: false,
       controllerClass: "w-100",
       required: true,
@@ -428,6 +429,7 @@ export class AddDynamicFormComponent {
         JSON.stringify(this.done[event.currentIndex])
       );
       this.done[event.currentIndex].name = new Date().getTime();
+      this.done[event.currentIndex].columnClass = this.defaultColumnWidth;
       this.done[event.currentIndex].label =
         this.done[event.currentIndex].label + " (" + this.dropIndex + ")";
       this.dropIndex = this.dropIndex + 1;
@@ -443,9 +445,10 @@ export class AddDynamicFormComponent {
     const clonedData = JSON.parse(JSON.stringify(item));
     clonedData.name = clonedData.type + new Date().getTime();
     clonedData.name = new Date().getTime();
-    clonedData.label = clonedData.label + " (" + this.dropIndex + ")";
+    // clonedData.label = clonedData.label + " (" + this.dropIndex + ")";
+    clonedData.label = clonedData.label;
     this.dropIndex = this.dropIndex + 1;
-    this.done.splice(index, 0, clonedData);
+    this.done.splice(index + 1, 0, clonedData);
   }
 
   deleteControl(ind: number) {

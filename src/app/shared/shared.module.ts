@@ -10,6 +10,8 @@ import { MatRadioModule } from "@angular/material/radio";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatCardModule } from "@angular/material/card";
 import { TagInputModule } from "ngx-chips";
+import { MatSidenavModule } from "@angular/material/sidenav";
+import { MatIconModule } from "@angular/material/icon";
 
 @NgModule({
   declarations: [DynamicFormComponent, MinDirective, MaxDirective],
@@ -25,6 +27,8 @@ import { TagInputModule } from "ngx-chips";
     MatCheckboxModule,
     MatCardModule,
     TagInputModule,
+    MatSidenavModule,
+    MatIconModule,
   ],
   imports: [
     CommonModule,
@@ -35,6 +39,8 @@ import { TagInputModule } from "ngx-chips";
     MatCheckboxModule,
     MatCardModule,
     TagInputModule,
+    MatSidenavModule,
+    MatIconModule,
   ],
   entryComponents: [DynamicFormComponent],
 })

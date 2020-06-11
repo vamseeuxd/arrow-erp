@@ -1,26 +1,40 @@
 mat-dialog-content.mat-typography {
-  min-height: calc(90vh - 127px);
+  min-height: calc(90vh - 90px);
   display: block;
 }
 
-.example-container {
+.menu-toggle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+}
+
+.action-bar {
+  position: absolute;
+  top: -5px;
+  right: 10px;
+}
+
+.form-controller-container {
   display: inline-block;
   vertical-align: top;
 }
 
-.example-list {
+.form-controller-list {
   border: solid 1px #ccc;
   min-height: 60px;
   background: white;
   border-radius: 4px;
   display: block;
-  max-height: calc(90vh - 245px);
+  max-height: calc(90vh - 220px);
+  min-height: calc(90vh - 220px);
   overflow-y: auto;
   overflow-x: hidden;
 }
 
-.example-box {
-  padding: 20px 10px;
+.form-controller-box {
+  padding: 10px;
   border-bottom: solid 1px #ccc;
   color: rgba(0, 0, 0, 0.87);
   cursor: move;
@@ -43,15 +57,16 @@ mat-dialog-content.mat-typography {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-.example-box:last-child {
+.form-controller-box:last-child {
   border: none;
 }
 
-.example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
+.form-controller-list.cdk-drop-list-dragging
+  .form-controller-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
-.example-box.disabled {
+.form-controller-box.disabled {
   pointer-events: none;
   opacity: 0.3;
 }
