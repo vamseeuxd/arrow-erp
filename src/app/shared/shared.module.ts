@@ -8,10 +8,24 @@ import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
 import { MatRadioModule } from "@angular/material/radio";
 import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatCardModule } from "@angular/material/card";
+import { TagInputModule } from "ngx-chips";
 
 @NgModule({
   declarations: [DynamicFormComponent, MinDirective, MaxDirective],
-  exports: [DynamicFormComponent, MinDirective, MaxDirective],
+  exports: [
+    DynamicFormComponent,
+    MinDirective,
+    MaxDirective,
+    CommonModule,
+    FormsModule,
+    MatInputModule,
+    MatSelectModule,
+    MatRadioModule,
+    MatCheckboxModule,
+    MatCardModule,
+    TagInputModule,
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -19,6 +33,9 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
     MatSelectModule,
     MatRadioModule,
     MatCheckboxModule,
+    MatCardModule,
+    TagInputModule,
   ],
+  entryComponents: [DynamicFormComponent],
 })
 export class SharedModule {}

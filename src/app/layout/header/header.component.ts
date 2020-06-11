@@ -8,7 +8,11 @@ import {
   HostListener,
 } from "@angular/core";
 import { RightSidebarService } from "../../shared/utilities/rightsidebar.service";
+import { MatDialog } from "@angular/material/dialog";
+import { AddDynamicFormComponent } from "../add-dynamic-form/add-dynamic-form.component";
+
 const document: any = window.document;
+
 @Component({
   selector: "app-header",
   templateUrl: "./header.component.html",
@@ -16,11 +20,13 @@ const document: any = window.document;
 })
 export class HeaderComponent implements OnInit {
   constructor(
+    public dialog: MatDialog,
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2,
     public elementRef: ElementRef,
     public dataService: RightSidebarService
   ) {}
+
   notifications: any[] = [
     {
       userImg: "assets/images/user/user1.jpg",
@@ -65,9 +71,11 @@ export class HeaderComponent implements OnInit {
       message: "kindly help me for code.",
     },
   ];
+
   ngOnInit() {
     this.setStartupStyles();
   }
+
   setStartupStyles() {
     // set theme on startup
     if (localStorage.getItem("theme2")) {
@@ -99,6 +107,7 @@ export class HeaderComponent implements OnInit {
       this.renderer.addClass(this.document.body, "logo-black");
     }
   }
+
   callFullscreen() {
     if (
       !document.fullscreenElement &&
@@ -127,6 +136,7 @@ export class HeaderComponent implements OnInit {
       }
     }
   }
+
   mobileMenuSidebarOpen(event: any, className: string) {
     const hasClass = event.target.classList.contains(className);
     if (hasClass) {
@@ -135,6 +145,7 @@ export class HeaderComponent implements OnInit {
       this.renderer.addClass(this.document.body, className);
     }
   }
+
   callSidemenuCollapse() {
     const hasClass = this.document.body.classList.contains("side-closed");
     if (hasClass) {
@@ -145,10 +156,23 @@ export class HeaderComponent implements OnInit {
       this.renderer.addClass(this.document.body, "submenu-closed");
     }
   }
+
   public toggleRightSidebar(): void {
     this.dataService.changeMsg(
       (this.dataService.currentStatus._isScalar = !this.dataService
         .currentStatus._isScalar)
     );
+  }
+
+  addDynamicForm() {
+    const dialogRef = this.dialog.open(AddDynamicFormComponent, {
+      minWidth: "90vw",
+      minHeight: "90vh",
+      hasBackdrop: false,
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 }

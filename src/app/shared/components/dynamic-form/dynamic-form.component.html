@@ -7,19 +7,20 @@
       <ng-container [ngSwitch]="true">
         <ng-container
           *ngSwitchCase="
-            control.type == 'email' ||
-            control.type == 'color' ||
-            control.type == 'date' ||
-            control.type == 'datetime-local' ||
-            control.type == 'month' ||
-            control.type == 'number' ||
-            control.type == 'password' ||
-            control.type == 'search' ||
-            control.type == 'tel' ||
-            control.type == 'text' ||
-            control.type == 'time' ||
-            control.type == 'url' ||
-            control.type == 'week'
+            (control.type == 'email' ||
+              control.type == 'color' ||
+              control.type == 'date' ||
+              control.type == 'datetime-local' ||
+              control.type == 'month' ||
+              control.type == 'number' ||
+              control.type == 'password' ||
+              control.type == 'search' ||
+              control.type == 'tel' ||
+              control.type == 'text' ||
+              control.type == 'time' ||
+              control.type == 'url' ||
+              control.type == 'week') &&
+            !control.hide
           "
         >
           <mat-form-field [class]="control.controllerClass">
@@ -118,7 +119,7 @@
           </mat-form-field>
         </ng-container>
 
-        <ng-container *ngSwitchCase="control.type == 'select'">
+        <ng-container *ngSwitchCase="control.type == 'select' && !control.hide">
           <mat-form-field [class]="control.controllerClass">
             <mat-label>{{ control.label }}</mat-label>
 
@@ -133,12 +134,22 @@
               [multiple]="control.multiple"
               [required]="control?.required"
             >
-              <mat-option
-                *ngFor="let option of control.dataProvider.data"
-                [value]="option[control.dataProvider.idField]"
+              <ng-container
+                *ngIf="
+                  control?.dataProvider?.data &&
+                  control.dataProvider.data.length > 0
+                "
               >
-                {{ option[control.dataProvider.labelField] }}
-              </mat-option>
+                <!--<mat-option disabled class="select-all-option">
+                  <mat-checkbox color="primary">Select All</mat-checkbox>
+                </mat-option>-->
+                <mat-option
+                  *ngFor="let option of control.dataProvider.data"
+                  [value]="option[control.dataProvider.identifyBy]"
+                >
+                  {{ option[control.dataProvider.displayBy] }}
+                </mat-option>
+              </ng-container>
             </mat-select>
 
             <!-- Required Error -->
@@ -155,9 +166,13 @@
           </mat-form-field>
         </ng-container>
 
-        <ng-container *ngSwitchCase="control.type == 'radio'">
+        <ng-container *ngSwitchCase="control.type == 'radio' && !control.hide">
           <div [class]="control.controllerClass">
-            <mat-label class="d-block">{{ control.label }}</mat-label>
+            <mat-label
+              style="font-size: 11px; margin-bottom: 4px;"
+              class="d-block"
+              >{{ control.label }}</mat-label
+            >
 
             <mat-radio-group
               (change)="change.emit({ control: control, form: myForm })"
@@ -166,13 +181,20 @@
               [name]="control.name"
               [required]="control?.required"
             >
-              <mat-radio-button
-                *ngFor="let option of control.dataProvider.data"
-                class="mr-3"
-                [value]="option[control.dataProvider.idField]"
+              <ng-container
+                *ngIf="
+                  control?.dataProvider?.data &&
+                  control.dataProvider.data.length > 0
+                "
               >
-                {{ option[control.dataProvider.labelField] }}
-              </mat-radio-button>
+                <mat-radio-button
+                  *ngFor="let option of control.dataProvider.data"
+                  class="mr-3 ml-0 mb-3"
+                  [value]="option[control.dataProvider.identifyBy]"
+                >
+                  {{ option[control.dataProvider.displayBy] }}
+                </mat-radio-button>
+              </ng-container>
             </mat-radio-group>
 
             <!-- Required Error -->
@@ -183,6 +205,63 @@
                 control.requiredError
               }}</span>
               <span *ngIf="!control.requiredError"
+                >{{ control.label }} is required</span
+              >
+            </mat-error>
+          </div>
+        </ng-container>
+
+        <ng-container
+          class="chips-component"
+          *ngSwitchCase="control.type == 'chips' && !control.hide"
+        >
+          <div
+            [class]="control.controllerClass"
+            [class.show-error]="
+              (myForm?.controls)[control.name]?.errors?.required
+            "
+          >
+            <mat-label
+              style="
+                color: #ababab;
+                margin-top: 10px;
+                font-size: 11px;
+                margin-bottom: 4px;
+              "
+              class="d-block"
+              >{{ control.label }}</mat-label
+            >
+            <tag-input
+              [(ngModel)]="control.value"
+              [disabled]="control?.disabled"
+              [name]="control.name"
+              theme="bootstrap"
+              [required]="control?.required"
+              [identifyBy]="
+                control?.dataProvider?.identifyBy
+                  ? control.dataProvider.identifyBy
+                  : 'id'
+              "
+              style="margin-top: -13px;"
+              [maxItems]="control?.maxlength"
+              (ngModelChange)="change.emit({ control: control, form: myForm })"
+              [displayBy]="
+                control?.dataProvider?.displayBy
+                  ? control.dataProvider.displayBy
+                  : 'name'
+              "
+            ></tag-input>
+            <!-- Required Error -->
+            <mat-error
+              *ngIf="
+                (myForm?.controls)[control.name]?.dirty &&
+                (myForm?.controls)[control.name]?.errors?.required
+              "
+            >
+              <span style="font-size: 75%;" *ngIf="control.requiredError">{{
+                control.requiredError
+              }}</span>
+              <span style="font-size: 75%;" *ngIf="!control.requiredError"
                 >{{ control.label }} is required</span
               >
             </mat-error>

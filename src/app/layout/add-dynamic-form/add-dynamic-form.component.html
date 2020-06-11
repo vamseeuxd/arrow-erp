@@ -1,0 +1,152 @@
+<h4 mat-dialog-title>Add Dynamic Form</h4>
+<mat-dialog-content class="mat-typography">
+  <mat-tab-group #formTabGroup [(selectedIndex)]="selectedIndex">
+    <mat-tab label="Basic Form Details">
+      <app-dynamic-form
+        #basicForm
+        (change)="isBasicFormValid = basicForm.valid"
+        [formControls]="basicFormConfig"
+      ></app-dynamic-form>
+    </mat-tab>
+    <mat-tab label="Configure Dynamic Form" [disabled]="!isBasicFormValid">
+      <div cdkDropListGroup class="container-fluid">
+        <div class="example-container col-6">
+          <h4 class="border-bottom mt-3">Available Form Controls</h4>
+          <div
+            cdkDropList
+            [cdkDropListData]="todo"
+            class="example-list"
+            [cdkDropListEnterPredicate]="noReturnPredicate"
+          >
+            <div
+              class="example-box"
+              [class.disabled]="editControlIndex >= 0"
+              *ngFor="let item of todo"
+              cdkDrag
+            >
+              {{ item.label }}
+            </div>
+          </div>
+        </div>
+
+        <div class="example-container col-6">
+          <h4 class="border-bottom mt-3">Selected Form Controls</h4>
+          <div
+            cdkDropList
+            [cdkDropListData]="done"
+            class="example-list"
+            (cdkDropListEntered)="dropEntered = true"
+            (cdkDropListExited)="dropEntered = false"
+            (cdkDropListDropped)="drop($event); dropEntered = false"
+          >
+            <div
+              class="example-box"
+              [class.disabled]="
+                editControlIndex >= 0 && editControlIndex != ind
+              "
+              *ngFor="let item of done; let ind = index"
+              [cdkDragDisabled]="
+                editControlIndex >= 0 && editControlIndex == ind
+              "
+              cdkDrag
+            >
+              <div class="row">
+                <div class="col-12">
+                  {{ item.label }}
+                  <div class="action-bar float-right">
+                    <button
+                      (click)="deleteControl(ind)"
+                      [disabled]="
+                        editControlIndex >= 0 && editControlIndex == ind
+                      "
+                      class="btn btn-danger btn-sm mr-3"
+                      title="Delete Form Control"
+                    >
+                      <i class="fa fa-trash"></i>
+                    </button>
+                    <button
+                      class="btn btn-warning btn-sm mr-3"
+                      title="Edit Form Control"
+                      (click)="
+                        editControlIndex >= 0 && editControlIndex == ind
+                          ? editControl(-1)
+                          : editControl(ind)
+                      "
+                    >
+                      <i class="fa fa-edit"></i>
+                    </button>
+                    <button
+                      (click)="cloneControl(item, ind)"
+                      [disabled]="
+                        editControlIndex >= 0 && editControlIndex == ind
+                      "
+                      class="btn btn-primary btn-sm mr-3"
+                      title="Clone Form Control"
+                    >
+                      <i class="fa fa-clone"></i>
+                    </button>
+                  </div>
+                  <div class="clearfix"></div>
+                </div>
+                <div
+                  class="col-12 mt-3"
+                  *ngIf="editControlIndex >= 0 && editControlIndex == ind"
+                >
+                  <mat-card>
+                    <mat-card-header>
+                      <mat-card-title
+                        >Edit <code>{{ item.type | lowercase }}</code> Form
+                        Controller
+                      </mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                      <app-dynamic-form
+                        [formControls]="editDynamicFormConfig"
+                        (change)="onEditDynamicFormChangeBefore($event)"
+                      ></app-dynamic-form>
+                    </mat-card-content>
+                    <mat-card-actions class="text-right">
+                      <button mat-raised-button (click)="editControl(-1)">
+                        Cancel
+                      </button>
+                      <button
+                        mat-raised-button
+                        (click)="saveController()"
+                        color="primary"
+                      >
+                        Save
+                      </button>
+                    </mat-card-actions>
+                  </mat-card>
+                </div>
+              </div>
+            </div>
+            <h4
+              class="text-muted text-center mt-3"
+              *ngIf="done.length === 0 && !dropEntered"
+            >
+              No Form Controls selected.
+            </h4>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Preview Dynamic Form" [disabled]="!isBasicFormValid">
+      <app-dynamic-form
+        (change)="onDynamicFormChange($event)"
+        #sampleForm
+        [formControls]="done"
+      ></app-dynamic-form>
+      <pre>{{ sampleForm.value | json }}</pre>
+    </mat-tab>
+  </mat-tab-group>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <label *ngIf="selectedIndex == 1" class="text-muted text-left float-left">
+    Drag and Drop Form Controls to Create a Dynamic Form
+  </label>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>
+    Create Dynamic Form
+  </button>
+</mat-dialog-actions>

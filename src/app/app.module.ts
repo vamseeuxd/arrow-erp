@@ -46,6 +46,8 @@ import { AgmCoreModule } from "@agm/core";
 import { ClickOutsideModule } from "ng-click-outside";
 import { HttpClientModule } from "@angular/common/http";
 import { ArrowFirebaseModule } from "./shared/arrow-firebase.module";
+import { SharedModule } from "./shared/shared.module";
+import { TagInputModule } from "ngx-chips";
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -91,6 +93,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
       apiKey: "YOUR API KEY",
     }),
     ArrowFirebaseModule.forRoot(),
+    SharedModule,
+    TagInputModule,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
