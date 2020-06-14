@@ -5,29 +5,30 @@ import {
   Input,
   Output,
   EventEmitter,
-  ViewChild, AfterViewInit,
-} from '@angular/core';
-import {NgForm} from '@angular/forms';
-import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
-import {startWith} from 'rxjs/operators';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {MatChipInputEvent} from '@angular/material/chips';
+  ViewChild,
+  AfterViewInit,
+} from "@angular/core";
+import { NgForm } from "@angular/forms";
+import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
+import { startWith } from "rxjs/operators";
+import { COMMA, ENTER } from "@angular/cdk/keycodes";
+import { MatChipInputEvent } from "@angular/material/chips";
 
 @Component({
-  selector: 'app-dynamic-form',
-  templateUrl: './dynamic-form.component.html',
-  styleUrls: ['./dynamic-form.component.scss'],
+  selector: "app-dynamic-form",
+  templateUrl: "./dynamic-form.component.html",
+  styleUrls: ["./dynamic-form.component.scss"],
 })
 export class DynamicFormComponent implements AfterViewInit {
-  @ViewChild('myForm') myForm: NgForm;
-  @Input() formClass = 'm-4';
+  @ViewChild("myForm") myForm: NgForm;
+  @Input() formClass = "m-4";
   @Input() formControls = [];
   @Output() submit: EventEmitter<any> = new EventEmitter();
   @Output() change: EventEmitter<any> = new EventEmitter();
   @Output() init: EventEmitter<NgForm> = new EventEmitter();
 
-  defaultColumnClass = 'col-md-4 mb-2';
-  defaultControllerClass = 'w-100';
+  defaultColumnClass = "col-md-4 mb-2";
+  defaultControllerClass = "w-100";
 
   get form(): NgForm {
     return this.myForm;
@@ -50,7 +51,7 @@ export class DynamicFormComponent implements AfterViewInit {
   selectable = true;
   removable = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  fruits: string[] = ['Lemon'];
+  fruits: string[] = ["Lemon"];
 
   getFormControls() {
     return this.formControls.filter((d) => !d.hide);
@@ -61,13 +62,13 @@ export class DynamicFormComponent implements AfterViewInit {
     const value = event.value;
 
     // Add our fruit
-    if ((value || '').trim()) {
+    if ((value || "").trim()) {
       this.fruits.push(value.trim());
     }
 
     // Reset the input value
     if (input) {
-      input.value = '';
+      input.value = "";
     }
   }
 

@@ -7,7 +7,7 @@ import { MatTabsModule } from "@angular/material/tabs";
 import { SharedModule } from "../shared/shared.module";
 import { MatSelectModule } from "@angular/material/select";
 import { MatChipsModule } from "@angular/material/chips";
-import {MatBottomSheetModule} from '@angular/material/bottom-sheet';
+import { MatBottomSheetModule } from "@angular/material/bottom-sheet";
 
 @NgModule({
   imports: [

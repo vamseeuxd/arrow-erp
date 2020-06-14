@@ -1,22 +1,26 @@
-<h2 mat-dialog-title>Add New Membership</h2>
-<ng-container *ngIf="formControlsList$ | async as formDetails">
-<mat-dialog-content class="mat-typography">
-  <app-dynamic-form #myForm
-                    (change)="onValueChange($event)"
-                    (init)="onFormInit($event)"
-                    [formControls]="formDetails"></app-dynamic-form>
-  <!--<pre *ngIf="formDetails$ | async as formDetails">
-    {{formDetails | json}}
-  </pre>-->
-</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button
-          mat-dialog-close>Cancel
-  </button>
-  <button mat-button
-          (click)="saveData(myForm)"
-          [disabled]="!isFormValid"
-          color="primary">Save
-  </button>
-</mat-dialog-actions>
+<h2 mat-dialog-title>
+  {{
+    formToEdit ? itemsService.editFormPageTitle : itemsService.addFormPageTitle
+  }}
+</h2>
+<ng-container>
+  <mat-dialog-content class="mat-typography">
+    <app-dynamic-form
+      #myForm
+      (change)="onValueChange($event)"
+      (init)="onFormInit($event)"
+      [formControls]="formControlsList"
+    ></app-dynamic-form>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button
+      mat-button
+      (click)="saveData(myForm)"
+      [disabled]="!isFormValid"
+      color="primary"
+    >
+      Save
+    </button>
+  </mat-dialog-actions>
 </ng-container>

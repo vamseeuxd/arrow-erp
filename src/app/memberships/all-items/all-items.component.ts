@@ -1,36 +1,33 @@
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
-import {AngularFirestoreCollection} from '@angular/fire/firestore';
-import {MatDialog} from '@angular/material/dialog';
-import {AddItemsComponent} from '../add-item/add-items.component';
-import {MatTableDataSource} from '@angular/material/table';
-import {MatSort} from '@angular/material/sort';
-import {BusyIndicatorService} from '../../layout/busy-indicator.service';
-import {ItemsService} from '../items.service';
+import { AfterViewInit, Component, ViewChild } from "@angular/core";
+import { AngularFirestoreCollection } from "@angular/fire/firestore";
+import { MatDialog } from "@angular/material/dialog";
+import { AddItemsComponent } from "../add-item/add-items.component";
+import { MatTableDataSource } from "@angular/material/table";
+import { MatSort } from "@angular/material/sort";
+import { BusyIndicatorService } from "../../layout/busy-indicator.service";
+import { ItemsService } from "../items.service";
+import { FORM_CONTROLLER_TYPE } from "../../shared/components/dynamic-form/dynamic-form-controller.interface";
 
 @Component({
-  selector: 'app-all-memberships',
-  templateUrl: './all-items.component.html',
-  styleUrls: ['./all-items.component.sass'],
+  selector: "app-all-memberships",
+  templateUrl: "./all-items.component.html",
+  styleUrls: ["./all-items.component.sass"],
 })
 export class AllItemsComponent implements AfterViewInit {
-
-  dataColumns = this.membershipsService.dataColumns;
-  actionColumns = this.membershipsService.actionColumns;
-  displayedColumns = this.membershipsService.displayedColumns;
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatSort) sort: MatSort;
-  membershipsCollection: AngularFirestoreCollection<any>;
+  itemsCollection: AngularFirestoreCollection<any>;
+  readonly formControlType = FORM_CONTROLLER_TYPE;
 
   constructor(
     private busyIndicator: BusyIndicatorService,
     public dialog: MatDialog,
-    public membershipsService:ItemsService,
-  ) {
-  }
+    public itemsService: ItemsService
+  ) {}
 
   ngAfterViewInit() {
-    this.membershipsCollection = this.membershipsService.membershipsCollections;
-    this.membershipsCollection.valueChanges().subscribe(data => {
+    this.itemsCollection = this.itemsService.itemsCollection;
+    this.itemsCollection.valueChanges().subscribe((data) => {
       this.dataSource = new MatTableDataSource(data);
       this.dataSource.sort = this.sort;
     });
@@ -42,26 +39,30 @@ export class AllItemsComponent implements AfterViewInit {
     this.dataSource.filter = filterValue;
   }
 
-  editMembership(data): void {
+  editItem(data): void {
     const dialogRef = this.dialog.open(AddItemsComponent, {
-      data
+      data,
+      width: "640px",
     });
   }
 
-  addMembership() {
-    const dialogRef = this.dialog.open(AddItemsComponent, {disableClose: true});
+  addItem() {
+    const dialogRef = this.dialog.open(AddItemsComponent, {
+      disableClose: true,
+      width: "640px",
+    });
   }
 
   trackByUid(index, item) {
     return item.id;
   }
 
-  async deleteMembership(membership) {
-    const isConfirmed = confirm('Are you sure!Do you want to Delete?');
+  async deleteItem(membership) {
+    const isConfirmed = confirm("Are you sure!Do you want to Delete?");
     if (isConfirmed) {
       const busyIndicatorId = this.busyIndicator.show();
       try {
-        await this.membershipsService.deleteDynamicForm(membership.id);
+        await this.itemsService.deleteItem(membership.id);
         this.busyIndicator.hide(busyIndicatorId);
       } catch (e) {
         this.busyIndicator.hide(busyIndicatorId);

@@ -113,6 +113,7 @@
     <div mat-dialog-content>
       <app-dynamic-form
         (change)="onFormChange($event)"
+        (init)="onEditFormInit($event)"
         #myForm
         formClass="ml-4 mr-4"
         [formControls]="basicFormConfig"

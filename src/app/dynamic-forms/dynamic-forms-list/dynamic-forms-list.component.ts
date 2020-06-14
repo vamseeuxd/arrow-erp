@@ -8,6 +8,7 @@ import {
 import { Observable, Subject } from "rxjs";
 import * as firebase from "firebase/app";
 import "firebase/firestore";
+import { NgForm } from "@angular/forms";
 
 @Component({
   selector: "app-dynamic-forms-list",
@@ -25,9 +26,29 @@ export class DynamicFormsListComponent {
       disabled: false,
       controllerClass: "w-100",
       required: true,
-      placeholder: "Enter Form Name",
-      label: "Form Name",
-      name: "name",
+      placeholder: "Enter Data Grid Page Title",
+      label: "Data Grid Page Title",
+      name: "gridPageTitle",
+      type: "text",
+    },
+    {
+      columnClass: "col-12 mb-1",
+      disabled: false,
+      controllerClass: "w-100",
+      required: true,
+      placeholder: "Enter Add Form Page Title",
+      label: "Add Form Page Title",
+      name: "addFormPageTitle",
+      type: "text",
+    },
+    {
+      columnClass: "col-12 mb-1",
+      disabled: false,
+      controllerClass: "w-100",
+      required: true,
+      placeholder: "Enter Edit Form Page Title",
+      label: "Edit Form Page Title",
+      name: "editFormPageTitle",
       type: "text",
     },
     {
@@ -183,15 +204,22 @@ export class DynamicFormsListComponent {
   }
 
   startEditForm(formDetail: any, addNewDynamicFormTemplate) {
-    const isConfimred = confirm("Are you sure!Do you want to Edit?");
-    if (isConfimred) {
+    const isConfirmed = confirm("Are you sure!Do you want to Edit?");
+    if (isConfirmed) {
       this.formToEdit = formDetail;
       this.formTittle = "Edit Dynamic Form";
-      this.basicFormConfig[0].value = formDetail.name;
+      this.basicFormConfig[3].disabled = true;
+      /*this.basicFormConfig[0].value = formDetail.name;
       this.basicFormConfig[1].value = formDetail.formID;
-      this.basicFormConfig[1].disabled = true;
-      this.basicFormConfig[2].value = formDetail.defaultColumnClass;
+      this.basicFormConfig[2].value = formDetail.defaultColumnClass;*/
       this.openDialog(addNewDynamicFormTemplate);
     }
+  }
+
+  onEditFormInit($event: NgForm) {
+    // debugger;
+    setTimeout(() => {
+      $event.resetForm(this.formToEdit);
+    });
   }
 }
