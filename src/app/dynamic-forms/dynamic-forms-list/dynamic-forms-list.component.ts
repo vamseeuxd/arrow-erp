@@ -125,13 +125,14 @@ export class DynamicFormsListComponent {
     );
   }
 
-  async deleteForm(formId) {
+  async deleteForm(formId, formControlsList) {
     const isConfimred = confirm("Are you sure!Do you want to Delete?");
     if (isConfimred) {
       const busyIndicatorId = this.busyIndicator.show();
       try {
         await this.deleteDynamicForm(formId);
         this.busyIndicator.hide(busyIndicatorId);
+        formControlsList.deleteAll();
       } catch (e) {
         this.busyIndicator.hide(busyIndicatorId);
       }

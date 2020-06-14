@@ -29,7 +29,7 @@ export class DynamicFormControlsListComponent implements OnInit {
   formTittle = "Add New Form Control";
   isFormValid = false;
   dulicateName = false;
-  isLastActionIsDelete = false;
+  updatePositionAfterUpdate = false;
   formDetails;
   defaultColumnWidth = "";
   formToEdit = null;
@@ -69,8 +69,8 @@ export class DynamicFormControlsListComponent implements OnInit {
       tap((value) => {
         this.selectedFormControls = value;
         this.busyIndicator.hide(this.formDetailsBusyIndicator);
-        if (this.isLastActionIsDelete) {
-          this.isLastActionIsDelete = false;
+        if (this.updatePositionAfterUpdate) {
+          this.updatePositionAfterUpdate = false;
           this.updateControlIndexes();
         }
       })
@@ -143,14 +143,14 @@ export class DynamicFormControlsListComponent implements OnInit {
     this.onEditDynamicFormChange("email");
   }
 
-  cloneFormController(formControl, index$) {
-    this.selectedFormControls.splice(
-      index$ + 1,
-      0,
-      JSON.parse(JSON.stringify(formControl))
-    );
-    this.selectedFormControls[index$ + 1].name =
-      this.selectedFormControls[index$ + 1].name + new Date().getTime();
+  async cloneFormController(formControl, index$) {
+    const formData = JSON.parse(JSON.stringify(formControl));
+    formData.name = formData.name + new Date().getTime();
+    formData.position = index$ + 1;
+    this.updatePositionAfterUpdate = false;
+    const busyIndicatorId = this.busyIndicator.show();
+    await this.addFormControl(formData);
+    this.busyIndicator.hide(busyIndicatorId);
   }
 
   editFormController(formControl, index$) {
@@ -203,11 +203,24 @@ export class DynamicFormControlsListComponent implements OnInit {
       const busyIndicatorId = this.busyIndicator.show();
       try {
         await this.deleteDynamicForm(formId);
-        this.isLastActionIsDelete = true;
+        this.updatePositionAfterUpdate = true;
         this.busyIndicator.hide(busyIndicatorId);
       } catch (e) {
         this.busyIndicator.hide(busyIndicatorId);
       }
+    }
+  }
+
+  deleteAll() {
+    if (this.selectedFormControls && this.selectedFormControls.length > 0) {
+      const lastItemIndex = this.selectedFormControls.length - 1;
+      const busyIndicatorId = this.busyIndicator.show();
+      this.selectedFormControls.forEach(async (d: any, ind: number) => {
+        await this.formControlCollection.doc(d.id).delete();
+        if (lastItemIndex === ind) {
+          this.busyIndicator.hide(busyIndicatorId);
+        }
+      });
     }
   }
 
