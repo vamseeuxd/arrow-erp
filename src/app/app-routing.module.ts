@@ -8,6 +8,11 @@ const routes: Routes = [
       import("./dashboard/dashboard.module").then((m) => m.DashboardModule),
   },
   {
+    path: "memberships",
+    loadChildren: () =>
+      import("./memberships/items.module").then((m) => m.ItemsModule),
+  },
+  {
     path: "email",
     loadChildren: () =>
       import("./email/email.module").then((m) => m.EmailModule),

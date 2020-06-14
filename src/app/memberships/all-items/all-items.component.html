@@ -1,0 +1,131 @@
+<section class="content">
+  <div class="container-fluid">
+    <!--    ****************************** Page Header ****************************** -->
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">All Memberships</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a routerLink="/dashboard/main">
+                <i class="fas fa-home"></i> Home</a
+              >
+            </li>
+            <li class="breadcrumb-item bcrumb-2">
+              <a href="#"
+                 onClick="return false;">Memberships</a>
+            </li>
+            <li class="breadcrumb-item active">All</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!--    ****************************** Page Header ****************************** -->
+
+    <div class="row">
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+          <div class="body">
+
+            <div class="responsive_table">
+
+              <div class="materialTableHeader">
+                <div class="row">
+                  <div class="col-8">
+                    <ul class="header-buttons-left ml-0">
+                      <li class="dropdown">
+                        <h2>
+                          <strong>List of Memberships</strong>
+                        </h2>
+                      </li>
+                      <li class="dropdown m-l-20">
+                        <label><i class="material-icons search-icon">search</i></label>
+                        <input placeholder="Search" type="text" (keyup)="applyFilter($event.target.value)" class="browser-default search-field"/>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="col-4">
+                    <ul class="header-buttons">
+                      <li>
+                        <div class="icon-button-demo">
+                          <button mat-mini-fab color="primary" (click)="addMembership()">
+                            <mat-icon class="col-white">add</mat-icon>
+                          </button>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+
+              <mat-table #table
+                         [dataSource]="dataSource"
+                         matSort
+                         [trackBy]="trackByUid"
+                         class="mat-cell">
+
+                <ng-container *ngFor="let option of dataColumns" [matColumnDef]="option">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>{{option}}</mat-header-cell>
+                  <mat-cell *matCellDef="let membership"> {{ membership[option] }} </mat-cell>
+                </ng-container>
+
+                <!--<ng-container matColumnDef="name">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+                  <mat-cell *matCellDef="let membership"> {{ membership.name }} </mat-cell>
+                </ng-container>
+
+
+                <ng-container matColumnDef="price">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> price</mat-header-cell>
+                  <mat-cell *matCellDef="let membership"> {{ membership.price }} </mat-cell>
+                </ng-container>
+
+
+                <ng-container matColumnDef="startDate">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> startDate</mat-header-cell>
+                  <mat-cell *matCellDef="let membership"> {{ membership.startDate | date }} </mat-cell>
+                </ng-container>
+
+
+                <ng-container matColumnDef="endDate">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> endDate</mat-header-cell>
+                  <mat-cell *matCellDef="let membership"> {{ membership.endDate | date }} </mat-cell>
+                </ng-container>
+
+
+                <ng-container matColumnDef="active">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> active</mat-header-cell>
+                  <mat-cell *matCellDef="let membership"> {{ membership.active }} </mat-cell>
+                </ng-container>-->
+
+                <ng-container matColumnDef="edit">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Edit</mat-header-cell>
+                  <mat-cell *matCellDef="let membership">
+                    <button mat-icon-button color="primary" (click)="editMembership(membership)"><mat-icon>edit</mat-icon></button>
+                  </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="delete">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Delete</mat-header-cell>
+                  <mat-cell *matCellDef="let membership">
+                    <button mat-icon-button color="warn" (click)="deleteMembership(membership)"><mat-icon>delete</mat-icon></button>
+                  </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;" class="animate"></mat-row>
+
+              </mat-table>
+
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

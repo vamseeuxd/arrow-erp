@@ -31,6 +31,25 @@ export const ROUTES: RouteInfo[] = [
   },
   {
     path: "",
+    title: "Memberships",
+    iconType: "material-icons-two-tone",
+    icon: "airline_seat_individual_suite",
+    class: "menu-toggle",
+    groupTitle: false,
+    submenu: [
+      {
+        path: "/memberships/all",
+        title: "All Memberships",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        submenu: [],
+      },
+    ],
+  },
+  {
+    path: "",
     title: "Professors",
     iconType: "material-icons-two-tone",
     icon: "person",

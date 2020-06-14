@@ -13,7 +13,7 @@ const maskConfig: Partial<IConfig> = {
 @NgModule({
   imports: [
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
+    AngularFirestoreModule.enablePersistence(),
     NgxLoaderIndicatorModule.forRoot({}),
     AngularFireStorageModule,
     NgxMaskModule.forRoot(maskConfig),

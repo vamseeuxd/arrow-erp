@@ -9,7 +9,6 @@ import {
 } from "@angular/core";
 import { RightSidebarService } from "../../shared/utilities/rightsidebar.service";
 import { MatDialog } from "@angular/material/dialog";
-import { AddDynamicFormComponent } from "../add-dynamic-form/add-dynamic-form.component";
 
 const document: any = window.document;
 
@@ -163,17 +162,5 @@ export class HeaderComponent implements OnInit {
       (this.dataService.currentStatus._isScalar = !this.dataService
         .currentStatus._isScalar)
     );
-  }
-
-  addDynamicForm() {
-    const dialogRef = this.dialog.open(AddDynamicFormComponent, {
-      minWidth: "90vw",
-      minHeight: "90vh",
-      hasBackdrop: false,
-      disableClose: true,
-    });
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
-    });
   }
 }
