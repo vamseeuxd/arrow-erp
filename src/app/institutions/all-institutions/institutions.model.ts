@@ -1,4 +1,4 @@
-import {formatDate} from '@angular/common';
+import { formatDate } from "@angular/common";
 
 export interface InstitutionsInterface {
   id?: string;
@@ -13,4 +13,3 @@ export interface InstitutionsInterface {
   createdOn?: any;
   updatedOn?: any;
 }
-

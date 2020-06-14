@@ -1,34 +1,34 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { DepartmentService } from './department.service';
-import { HttpClient } from '@angular/common/http';
-import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { Department } from './department.model';
-import { DataSource } from '@angular/cdk/collections';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { FormDialogComponent } from './dialogs/form-dialog/form-dialog.component';
-import { DeleteDialogComponent } from './dialogs/delete/delete.component';
-import { MatMenuTrigger } from '@angular/material/menu';
-import { SelectionModel } from '@angular/cdk/collections';
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { DepartmentService } from "./department.service";
+import { HttpClient } from "@angular/common/http";
+import { MatDialog } from "@angular/material/dialog";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort } from "@angular/material/sort";
+import { Department } from "./department.model";
+import { DataSource } from "@angular/cdk/collections";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { BehaviorSubject, fromEvent, merge, Observable } from "rxjs";
+import { map } from "rxjs/operators";
+import { FormDialogComponent } from "./dialogs/form-dialog/form-dialog.component";
+import { DeleteDialogComponent } from "./dialogs/delete/delete.component";
+import { MatMenuTrigger } from "@angular/material/menu";
+import { SelectionModel } from "@angular/cdk/collections";
 
 @Component({
-  selector: 'app-all-departments',
-  templateUrl: './all-departments.component.html',
-  styleUrls: ['./all-departments.component.sass']
+  selector: "app-all-departments",
+  templateUrl: "./all-departments.component.html",
+  styleUrls: ["./all-departments.component.sass"],
 })
 export class AllDepartmentsComponent implements OnInit {
   displayedColumns = [
-    'select',
-    'dName',
-    'hod',
-    'phone',
-    'email',
-    'sYear',
-    'sCapacity',
-    'actions'
+    "select",
+    "dName",
+    "hod",
+    "phone",
+    "email",
+    "sYear",
+    "sCapacity",
+    "actions",
   ];
   exampleDatabase: DepartmentService | null;
   dataSource: ExampleDataSource | null;
@@ -40,13 +40,13 @@ export class AllDepartmentsComponent implements OnInit {
     public dialog: MatDialog,
     public departmentService: DepartmentService,
     private snackBar: MatSnackBar
-  ) { }
+  ) {}
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild('filter', { static: true }) filter: ElementRef;
+  @ViewChild("filter", { static: true }) filter: ElementRef;
   @ViewChild(MatMenuTrigger)
   contextMenu: MatMenuTrigger;
-  contextMenuPosition = { x: '0px', y: '0px' };
+  contextMenuPosition = { x: "0px", y: "0px" };
 
   ngOnInit() {
     this.loadData();
@@ -58,10 +58,10 @@ export class AllDepartmentsComponent implements OnInit {
     const dialogRef = this.dialog.open(FormDialogComponent, {
       data: {
         department: this.department,
-        action: 'add'
-      }
+        action: "add",
+      },
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result === 1) {
         // After dialog is closed we're doing frontend updates
         // For add we're just pushing a new row inside DataService
@@ -70,10 +70,10 @@ export class AllDepartmentsComponent implements OnInit {
         );
         this.refreshTable();
         this.showNotification(
-          'snackbar-success',
-          'Add Record Successfully...!!!',
-          'bottom',
-          'center'
+          "snackbar-success",
+          "Add Record Successfully...!!!",
+          "bottom",
+          "center"
         );
       }
     });
@@ -83,14 +83,14 @@ export class AllDepartmentsComponent implements OnInit {
     const dialogRef = this.dialog.open(FormDialogComponent, {
       data: {
         department: row,
-        action: 'edit'
-      }
+        action: "edit",
+      },
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result === 1) {
         // When using an edit things are little different, firstly we find record inside DataService by id
         const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
-          x => x.id === this.id
+          (x) => x.id === this.id
         );
         // Then you update that record using data from dialogData (values you enetered)
         this.exampleDatabase.dataChange.value[
@@ -99,10 +99,10 @@ export class AllDepartmentsComponent implements OnInit {
         // And lastly refresh table
         this.refreshTable();
         this.showNotification(
-          'black',
-          'Edit Record Successfully...!!!',
-          'bottom',
-          'center'
+          "black",
+          "Edit Record Successfully...!!!",
+          "bottom",
+          "center"
         );
       }
     });
@@ -110,21 +110,21 @@ export class AllDepartmentsComponent implements OnInit {
   deleteItem(row) {
     this.id = row.id;
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
-      data: row
+      data: row,
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result === 1) {
         const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
-          x => x.id === this.id
+          (x) => x.id === this.id
         );
         // for delete we use splice in order to remove single object from DataService
         this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
         this.refreshTable();
         this.showNotification(
-          'snackbar-danger',
-          'Delete Record Successfully...!!!',
-          'bottom',
-          'center'
+          "snackbar-danger",
+          "Delete Record Successfully...!!!",
+          "bottom",
+          "center"
         );
       }
     });
@@ -144,8 +144,8 @@ export class AllDepartmentsComponent implements OnInit {
     this.isAllSelected()
       ? this.selection.clear()
       : this.dataSource.renderedData.forEach((row) =>
-        this.selection.select(row)
-      );
+          this.selection.select(row)
+        );
   }
   removeSelectedRows() {
     const totalSelect = this.selection.selected.length;
@@ -159,10 +159,10 @@ export class AllDepartmentsComponent implements OnInit {
       this.selection = new SelectionModel<Department>(true, []);
     });
     this.showNotification(
-      'snackbar-danger',
-      totalSelect + ' Record Delete Successfully...!!!',
-      'bottom',
-      'center'
+      "snackbar-danger",
+      totalSelect + " Record Delete Successfully...!!!",
+      "bottom",
+      "center"
     );
   }
   public loadData() {
@@ -172,7 +172,7 @@ export class AllDepartmentsComponent implements OnInit {
       this.paginator,
       this.sort
     );
-    fromEvent(this.filter.nativeElement, 'keyup')
+    fromEvent(this.filter.nativeElement, "keyup")
       // .debounceTime(150)
       // .distinctUntilChanged()
       .subscribe(() => {
@@ -183,25 +183,25 @@ export class AllDepartmentsComponent implements OnInit {
       });
   }
   showNotification(colorName, text, placementFrom, placementAlign) {
-    this.snackBar.open(text, '', {
+    this.snackBar.open(text, "", {
       duration: 2000,
       verticalPosition: placementFrom,
       horizontalPosition: placementAlign,
-      panelClass: colorName
+      panelClass: colorName,
     });
   }
   // context menu
   onContextMenu(event: MouseEvent, item: Department) {
     event.preventDefault();
-    this.contextMenuPosition.x = event.clientX + 'px';
-    this.contextMenuPosition.y = event.clientY + 'px';
+    this.contextMenuPosition.x = event.clientX + "px";
+    this.contextMenuPosition.y = event.clientY + "px";
     this.contextMenu.menuData = { item: item };
-    this.contextMenu.menu.focusFirstItem('mouse');
+    this.contextMenu.menu.focusFirstItem("mouse");
     this.contextMenu.openMenu();
   }
 }
 export class ExampleDataSource extends DataSource<Department> {
-  _filterChange = new BehaviorSubject('');
+  _filterChange = new BehaviorSubject("");
   get filter(): string {
     return this._filterChange.value;
   }
@@ -226,7 +226,7 @@ export class ExampleDataSource extends DataSource<Department> {
       this._exampleDatabase.dataChange,
       this._sort.sortChange,
       this._filterChange,
-      this._paginator.page
+      this._paginator.page,
     ];
     this._exampleDatabase.getAllDepartments();
     return merge(...displayDataChanges).pipe(
@@ -255,37 +255,37 @@ export class ExampleDataSource extends DataSource<Department> {
       })
     );
   }
-  disconnect() { }
+  disconnect() {}
   /** Returns a sorted copy of the database data. */
   sortData(data: Department[]): Department[] {
-    if (!this._sort.active || this._sort.direction === '') {
+    if (!this._sort.active || this._sort.direction === "") {
       return data;
     }
     return data.sort((a, b) => {
-      let propertyA: number | string = '';
-      let propertyB: number | string = '';
+      let propertyA: number | string = "";
+      let propertyB: number | string = "";
       switch (this._sort.active) {
-        case 'id':
+        case "id":
           [propertyA, propertyB] = [a.id, b.id];
           break;
-        case 'dName':
+        case "dName":
           [propertyA, propertyB] = [a.dName, b.dName];
           break;
-        case 'hod':
+        case "hod":
           [propertyA, propertyB] = [a.hod, b.hod];
           break;
         // case 'date': [propertyA, propertyB] = [a.date, b.date]; break;
-        case 'phone':
+        case "phone":
           [propertyA, propertyB] = [a.phone, b.phone];
           break;
-        case 'email':
+        case "email":
           [propertyA, propertyB] = [a.email, b.email];
           break;
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
       return (
-        (valueA < valueB ? -1 : 1) * (this._sort.direction === 'asc' ? 1 : -1)
+        (valueA < valueB ? -1 : 1) * (this._sort.direction === "asc" ? 1 : -1)
       );
     });
   }

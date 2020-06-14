@@ -1,59 +1,59 @@
-import { Component, ViewChild } from '@angular/core';
-import { FullCalendarComponent } from '@fullcalendar/angular';
-import { EventInput } from '@fullcalendar/core';
-import dayGridPlugin from '@fullcalendar/daygrid';
+import { Component, ViewChild } from "@angular/core";
+import { FullCalendarComponent } from "@fullcalendar/angular";
+import { EventInput } from "@fullcalendar/core";
+import dayGridPlugin from "@fullcalendar/daygrid";
 const d = new Date();
 const date = d.getDate();
 const month = d.getMonth();
 const year = d.getFullYear();
 @Component({
-  selector: 'app-calendar',
-  templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss']
+  selector: "app-calendar",
+  templateUrl: "./calendar.component.html",
+  styleUrls: ["./calendar.component.scss"],
 })
 export class CalendarComponent {
-  @ViewChild('calendar', { static: false })
+  @ViewChild("calendar", { static: false })
   calendarComponent: FullCalendarComponent; // the #calendar in the template
   calendarVisible = true;
   calendarPlugins = [dayGridPlugin];
   calendarWeekends = true;
   calendarEvents: EventInput[] = [
     {
-      title: 'Conference',
+      title: "Conference",
       start: new Date(year, month, date - 5, 0, 0),
       end: new Date(year, month, date - 2, 0, 0),
-      backgroundColor: '#00FFFF'
+      backgroundColor: "#00FFFF",
     },
     {
-      title: 'Holiday',
+      title: "Holiday",
       start: new Date(year, month, date - 10, 9, 0),
       end: new Date(year, month, date - 8, 0, 0),
-      backgroundColor: '#F3565D'
+      backgroundColor: "#F3565D",
     },
     {
-      title: 'Repeating Event',
+      title: "Repeating Event",
       start: new Date(year, month, date + 5, 16, 0),
       allDay: !1,
-      backgroundColor: '#1bbc9b'
+      backgroundColor: "#1bbc9b",
     },
     {
-      title: 'Meeting',
+      title: "Meeting",
       start: new Date(year, month, date, 10, 30),
-      allDay: !1
+      allDay: !1,
     },
     {
-      title: 'Result Day',
+      title: "Result Day",
       start: new Date(year, month, date + 7, 19, 0),
       end: new Date(year, month, date + 1, 22, 30),
-      backgroundColor: '#DC35A9',
-      allDay: !1
+      backgroundColor: "#DC35A9",
+      allDay: !1,
     },
     {
-      title: 'Click for Google',
+      title: "Click for Google",
       start: new Date(year, month, 29),
       end: new Date(year, month, 30),
-      backgroundColor: '#9b59b6',
-      url: 'http://google.com/'
-    }
+      backgroundColor: "#9b59b6",
+      url: "http://google.com/",
+    },
   ];
 }

@@ -1,0 +1,95 @@
+<h1 mat-dialog-title>{{ modalTile }}</h1>
+<mat-dialog-content class="mat-typography">
+  <form #arrowForm="ngForm" class="row">
+    <!--Image Title-->
+    <div class="col-md-6">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>{{ modalType }} Title</mat-label>
+        <span matPrefix
+          ><mat-icon class="mr-2">format_color_text</mat-icon></span
+        >
+        <input
+          [ngModel]="data?.mediaDetails?.mediaTitle"
+          required
+          autocomplete="off"
+          name="mediaTitle"
+          matInput
+          placeholder="{{ modalType }} Title"
+          type="text"
+        />
+        <mat-error>Provide valid Media Title</mat-error>
+      </mat-form-field>
+    </div>
+
+    <!--Teacher-->
+    <div class="col-md-6">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>{{ modalType }} URL</mat-label>
+        <span matPrefix><mat-icon class="mr-2">link</mat-icon></span>
+        <input
+          [ngModel]="data?.mediaDetails?.mediaUrl"
+          required
+          autocomplete="off"
+          name="mediaUrl"
+          #mediaLink
+          matInput
+          placeholder="{{ modalType }} URL"
+          type="url"
+        />
+        <mat-error>Provide valid Media URL</mat-error>
+      </mat-form-field>
+    </div>
+
+    <!--Transcript-->
+    <div class="col-md-12">
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Transcript</mat-label>
+        <span matPrefix><mat-icon class="mr-2">speaker_notes</mat-icon></span>
+        <textarea
+          [ngModel]="data?.mediaDetails?.transcript"
+          autocomplete="off"
+          name="transcript"
+          matInput
+          placeholder="Transcript"
+        ></textarea>
+      </mat-form-field>
+    </div>
+
+    <div class="col-12">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-subtitle>{{ modalType }} Preview</mat-card-subtitle>
+        </mat-card-header>
+        <div mat-card-image class="text-center">
+          <img
+            width="420"
+            height="315"
+            *ngIf="
+              mediaLink.value &&
+              (data.action == OnlineClassAction.ADD_IMAGE ||
+                data.action == OnlineClassAction.UPDATE_IMAGE)
+            "
+            [src]="mediaLink.value"
+          />
+          <!--<iframe #youtubePlayer
+                  class="d-none"
+                  [class.inline-block]="mediaLink.value && data.action==OnlineClassAction.ADD_VIDEO"
+                  src="https://www.youtube.com/embed/6wYyJvXTifE"
+                  width="420" height="315"></iframe>-->
+        </div>
+      </mat-card>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button color="warn" type="button" mat-button mat-dialog-close>Cancel</button>
+  <button
+    color="primary"
+    type="button"
+    mat-button
+    (click)="saveMedialDetails(arrowForm)"
+    [disabled]="arrowForm.invalid"
+  >
+    Save
+  </button>
+</mat-dialog-actions>

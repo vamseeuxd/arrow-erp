@@ -1,0 +1,225 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="block-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <ul class="breadcrumb breadcrumb-style">
+            <li class="breadcrumb-item">
+              <h4 class="page-title">Start Online Class</h4>
+            </li>
+            <li class="breadcrumb-item bcrumb-1">
+              <a routerLink="/dashboard/main">
+                <i class="fas fa-home"></i> Home</a
+              >
+            </li>
+            <li class="breadcrumb-item bcrumb-2">
+              <a href="#" onClick="return false;">online-class</a>
+            </li>
+            <li class="breadcrumb-item active">start-online-classes</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <app-online-classes-list></app-online-classes-list>
+      </div>
+    </div>
+  </div>
+</section>
+<!--
+<section class="content">
+  <div class="container-fluid">
+    <ng-container *ngIf="!selectedClass">
+      <h6 class="text-muted">Start Online Class</h6>
+      <label>Test : <pre>{{onlineClassesService.x$|async|json}}</pre></label>
+      <ul
+        class="list-group mt-3"
+        *ngIf="filteredClasses | async as filteredClasses"
+      >
+        <li *ngFor="let onlineClass of filteredClasses" class="list-group-item">
+          <div class="w-100">
+            <h5 class="mb-1 float-left">
+              {{ onlineClass.classTitle }}
+              <span
+                class="blink text-success"
+                style="font-size: 0.75rem"
+                *ngIf="onlineClass.startTime && !onlineClass.endTime"
+              >
+                Started at {{ onlineClass.startTime.seconds * 1000 | date : 'medium' }}
+              </span>
+            </h5>
+
+            <button
+              *ngIf="onlineClass.startTime || onlineClass.endTime"
+              class="btn-sm btn btn-dark float-right"
+              (click)="resetClass(onlineClass)"
+            >
+              Reset Class
+            </button>
+
+            <button
+              *ngIf="!onlineClass.startTime"
+              class="btn-sm btn btn-primary float-right"
+              (click)="updateSelectedOnlineClass(onlineClass)"
+            >
+              Start Class
+            </button>
+
+            <span
+              class="float-right badge badge-pill badge-danger"
+              *ngIf="onlineClass.startTime && onlineClass.endTime"
+            >
+              Ended
+            </span>
+
+            <div class="clearfix"></div>
+          </div>
+          <p class="mb-1">
+            Date :
+            <code>
+              {{ onlineClass.classDate }} </code
+            >, Time :
+            <code>
+              {{ onlineClass.classTime | date: "HH:mm" }}
+            </code>
+          </p>
+          <small
+            >Teacher : <code>{{ onlineClass.teacher }}</code></small
+          >
+        </li>
+      </ul>
+    </ng-container>
+    <ng-container *ngIf="selectedClass">
+      <div
+        class="w-100 example-boundary position-relative"
+        style="height: calc(100vh - 100px);"
+        [class.full-screen]="fullScreen"
+        [class.hide-paint-tool]="showPaintTool"
+        [class.landscape-primary]="
+          window$.screen.orientation.type === 'landscape-primary'
+        "
+      >
+        <mat-tab-group class="w-100" style="height: calc(100vh - 100px);">
+          <mat-tab label="WhiteBoard" class="h-100">
+            <div
+              class="w-100 p-3 border position-relative tab-content"
+              style="height: calc(100vh - 150px);"
+            >
+              <div class="w-100 h-100 shadow-sm">
+                <app-online-class-white-board
+                  [imageUrl]="whiteBoardImageUrl"
+                ></app-online-class-white-board>
+              </div>
+            </div>
+          </mat-tab>
+          <mat-tab label="Document">
+            <div
+              class="w-100 p-3 border position-relative tab-content"
+              style="height: calc(100vh - 150px);"
+            >
+              <div class="w-100 h-100 shadow-sm position-relative p-3"></div>
+            </div>
+          </mat-tab>
+          <mat-tab label="Screen Sharing">
+            <div
+              class="w-100 p-3 border position-relative tab-content"
+              style="height: calc(100vh - 150px);"
+            >
+              <div class="w-100 h-100 shadow-sm position-relative p-3">
+                <h1>{{ window$.screen.orientation.type }}</h1>
+              </div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+
+        <app-online-class-video-call
+          [hidden]="isChatOpen || !showMyVideo"
+          #onlineVideoChat
+          (updateTeacherVideoChatId)="updateTeacherVideoChatId($event)"
+          *ngIf="selectedClass"
+          boundary=".example-boundary"
+        ></app-online-class-video-call>
+
+        <app-online-class-chat
+          #onLineClassChat
+          (isOpenSidebarChange)="isChatOpen = $event"
+        ></app-online-class-chat>
+
+        &lt;!&ndash;  ************************************************* &ndash;&gt;
+        <div
+          *ngIf="showImageGallery"
+          class="card position-absolute image-gallery list-group list-group-horizontal"
+        >
+          <div
+            (click)="whiteBoardImageUrl = image.mediaUrl"
+            class="list-group-item mr-2 p-0"
+            *ngFor="let image of selectedClass.mediaGallery"
+          >
+            <img [src]="image.mediaUrl" />
+            <label>{{ image.mediaTitle }}</label>
+          </div>
+        </div>
+        &lt;!&ndash;  ************************************************* &ndash;&gt;
+
+        <div
+          class="btn-group full-screen-button"
+          [hidden]="isChatOpen"
+          (cdkDragEnded)="onFullScreenDragEnd($event)"
+          cdkDrag
+          [cdkDragBoundary]="'.example-boundary'"
+        >
+          <button
+            (click)="callOnlineClassFullscreen(stopClassConfirmation)"
+            type="button"
+            title="Stop Online Class"
+            class="btn btn-danger"
+          >
+            <i class="fa fa-stop-circle"></i>
+          </button>
+          <button
+            (click)="toggleMyVideo()"
+            type="button"
+            class="btn btn-primary"
+          >
+            <i class="fa fa-video"></i>
+          </button>
+          <button
+            (click)="toggleChat(onLineClassChat)"
+            type="button"
+            class="btn btn-success"
+          >
+            <i class="fa fa-comments"></i>
+          </button>
+          <button
+            (click)="showPaintTool = !showPaintTool"
+            type="button"
+            class="btn btn-warning"
+          >
+            <i class="fa fa-paint-brush"></i>
+          </button>
+          <button
+            (click)="showImageGallery = !showImageGallery"
+            type="button"
+            class="btn btn-info"
+          >
+            <i class="fa fa-file-image"></i>
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</section>
+
+<ng-template #stopClassConfirmation>
+  <h4 class="p-0 m-0" mat-dialog-title>Confirmation</h4>
+  <div mat-dialog-content>Are you Sure! Do you want to Stop Class</div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close>No</button>
+    <button mat-button mat-dialog-close (click)="endOnlineClass()">
+      Yes
+    </button>
+  </div>
+</ng-template>
+-->

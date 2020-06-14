@@ -1,10 +1,14 @@
 <div class="limiter">
   <div class="container-login100">
     <div class="wrap-login100">
-      <form class="login100-form validate-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <form
+        class="login100-form validate-form"
+        [formGroup]="loginForm"
+        (ngSubmit)="onSubmit()"
+      >
         <div class="login100-form-logo">
           <div class="image">
-            <img src="assets/images/usrbig.jpg" alt="User">
+            <img src="assets/images/usrbig.jpg" alt="User" />
           </div>
         </div>
         <span class="login100-form-title p-b-34 p-t-27">
@@ -18,9 +22,15 @@
         <div class="form-group mb-3">
           <mat-form-field class="example-full-width" appearance="outline">
             <mat-label>Password</mat-label>
-            <input matInput formControlName="password" [type]="hide ? 'password' : 'text'" required>
+            <input
+              matInput
+              formControlName="password"
+              [type]="hide ? 'password' : 'text'"
+              required
+            />
             <mat-icon matSuffix (click)="hide = !hide">
-              {{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              {{ hide ? "visibility_off" : "visibility" }}</mat-icon
+            >
             <mat-error *ngIf="loginForm.get('password').hasError('required')">
               Password is required
             </mat-error>
@@ -39,8 +49,10 @@
           </div>
         </div>
       </form>
-      <div class="login100-more" style="background-image: url('assets/images/pages/bg-01.png');">
-      </div>
+      <div
+        class="login100-more"
+        style="background-image: url('assets/images/pages/bg-01.png');"
+      ></div>
     </div>
   </div>
 </div>

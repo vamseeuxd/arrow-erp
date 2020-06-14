@@ -1,11 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Page404Component } from './page404.component';
-describe('Page404Component', () => {
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { Page404Component } from "./page404.component";
+describe("Page404Component", () => {
   let component: Page404Component;
   let fixture: ComponentFixture<Page404Component>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [Page404Component]
+      declarations: [Page404Component],
     }).compileComponents();
   }));
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('Page404Component', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

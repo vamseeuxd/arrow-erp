@@ -1,0 +1,267 @@
+<form #myForm="ngForm" [class]="formClass">
+  <div class="row">
+    <div
+      [class]="control.columnClass ? control.columnClass : defaultColumnClass"
+      *ngFor="let control of getFormControls()"
+    >
+      <ng-container [ngSwitch]="true">
+        <ng-container
+          *ngSwitchCase="
+            (control.type == 'email' ||
+              control.type == 'color' ||
+              control.type == 'date' ||
+              control.type == 'datetime-local' ||
+              control.type == 'month' ||
+              control.type == 'number' ||
+              control.type == 'password' ||
+              control.type == 'search' ||
+              control.type == 'tel' ||
+              control.type == 'text' ||
+              control.type == 'time' ||
+              control.type == 'url' ||
+              control.type == 'week') &&
+            !control.hide
+          "
+        >
+          <mat-form-field [class]="control.controllerClass">
+            <mat-label>{{ control.label }}</mat-label>
+
+            <input
+              matInput
+              [(ngModel)]="control.value"
+              autocomplete="off"
+              [email]="control?.type == 'email'"
+              [name]="control.name"
+              [disabled]="control?.disabled"
+              [required]="control?.required"
+              [minlength]="control?.minlength"
+              [maxlength]="control?.maxlength"
+              [min]="control?.min"
+              (change)="change.emit({ control: control, form: myForm })"
+              [max]="control?.max"
+              [pattern]="control?.pattern"
+              [type]="control?.type"
+              [placeholder]="control?.placeholder"
+            />
+
+            <!-- Required Error -->
+            <mat-error
+              *ngIf="(myForm?.controls)[control.name]?.errors?.required"
+            >
+              <span *ngIf="control.requiredError">{{
+                control.requiredError
+              }}</span>
+              <span *ngIf="!control.requiredError"
+                >{{ control.label }} is required</span
+              >
+            </mat-error>
+
+            <!-- Email Error -->
+            <mat-error *ngIf="(myForm?.controls)[control.name]?.errors?.email">
+              <span *ngIf="control.emailError">{{ control.emailError }}</span>
+              <span *ngIf="!control.emailError"
+                >provide valid {{ control.label }}</span
+              >
+            </mat-error>
+
+            <!-- Min Error -->
+            <mat-error *ngIf="(myForm?.controls)[control.name]?.errors?.min">
+              <span *ngIf="control.minError">{{ control.minError }}</span>
+              <span *ngIf="!control.minError"
+                >Minimum {{ control.min }} {{ control.label }}(s) required</span
+              >
+            </mat-error>
+            <mat-error *ngIf="(myForm?.controls)[control.name]?.errors?.max">
+              <span *ngIf="control.maxError">{{ control.maxError }}</span>
+              <span *ngIf="!control.maxError"
+                >Maximum {{ control.max }} {{ control.label }}(s) only
+                required</span
+              >
+            </mat-error>
+
+            <!-- Min length Error -->
+            <mat-error
+              *ngIf="(myForm?.controls)[control.name]?.errors?.minlength"
+            >
+              <span *ngIf="control.minlengthError">{{
+                control.minlengthError
+              }}</span>
+              <span *ngIf="!control.minlengthError"
+                >Minimum {{ control.minlength }} characters reuired for
+                {{ control.label }}</span
+              >
+            </mat-error>
+
+            <!-- Max Length Error -->
+            <mat-error
+              *ngIf="(myForm?.controls)[control.name]?.errors?.maxlength"
+            >
+              <span *ngIf="control.maxlengthError">{{
+                control.maxlengthError
+              }}</span>
+              <span *ngIf="!control.maxlengthError"
+                >Minimum {{ control.maxlength }} characters only reuired for
+                {{ control.label }}</span
+              >
+            </mat-error>
+
+            <!-- Pattern Error -->
+            <mat-error
+              *ngIf="(myForm?.controls)[control.name]?.errors?.pattern"
+            >
+              <span *ngIf="control.patternError">{{
+                control.patternError
+              }}</span>
+              <span *ngIf="!control.patternError"
+                >Invalid {{ control.label }} pattern</span
+              >
+            </mat-error>
+          </mat-form-field>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="control.type == 'select' && !control.hide">
+          <mat-form-field [class]="control.controllerClass">
+            <mat-label>{{ control.label }}</mat-label>
+
+            <mat-select
+              [(ngModel)]="control.value"
+              [disabled]="control?.disabled"
+              (selectionChange)="
+                change.emit({ control: control, form: myForm })
+              "
+              autocomplete="off"
+              [name]="control.name"
+              [multiple]="control.multiple"
+              [required]="control?.required"
+            >
+              <ng-container
+                *ngIf="control?.dataProvider && control.dataProvider.length > 0"
+              >
+                <!--<mat-option disabled class="select-all-option">
+                  <mat-checkbox color="primary">Select All</mat-checkbox>
+                </mat-option>-->
+                <mat-option
+                  *ngFor="let option of control.dataProvider"
+                  [value]="option[control.identifyBy]"
+                >
+                  {{ option[control.displayBy] }}
+                </mat-option>
+              </ng-container>
+            </mat-select>
+
+            <!-- Required Error -->
+            <mat-error
+              *ngIf="(myForm?.controls)[control.name]?.errors?.required"
+            >
+              <span *ngIf="control.requiredError">{{
+                control.requiredError
+              }}</span>
+              <span *ngIf="!control.requiredError"
+                >{{ control.label }} is required</span
+              >
+            </mat-error>
+          </mat-form-field>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="control.type == 'radio' && !control.hide">
+          <div [class]="control.controllerClass">
+            <mat-label
+              style="font-size: 11px; margin-bottom: 4px;"
+              class="d-block"
+              >{{ control.label }}</mat-label
+            >
+
+            <mat-radio-group
+              (change)="change.emit({ control: control, form: myForm })"
+              [(ngModel)]="control.value"
+              [disabled]="control?.disabled"
+              [name]="control.name"
+              [required]="control?.required"
+            >
+              <ng-container
+                *ngIf="control?.dataProvider && control.dataProvider.length > 0"
+              >
+                <mat-radio-button
+                  *ngFor="let option of control.dataProvider"
+                  class="mr-3 ml-0 mb-3"
+                  [value]="option[control.identifyBy]"
+                >
+                  {{ option[control.displayBy] }}
+                </mat-radio-button>
+              </ng-container>
+            </mat-radio-group>
+
+            <!-- Required Error -->
+            <mat-error
+              *ngIf="(myForm?.controls)[control.name]?.errors?.required"
+            >
+              <span *ngIf="control.requiredError">{{
+                control.requiredError
+              }}</span>
+              <span *ngIf="!control.requiredError"
+                >{{ control.label }} is required</span
+              >
+            </mat-error>
+          </div>
+        </ng-container>
+
+        <ng-container
+          class="chips-component"
+          *ngSwitchCase="control.type == 'chips' && !control.hide"
+        >
+          <div
+            [class]="control.controllerClass"
+            [class.show-error]="
+              (myForm?.controls)[control.name]?.errors?.required
+            "
+          >
+            <mat-label
+              style="
+                color: #ababab;
+                margin-top: 10px;
+                font-size: 11px;
+                margin-bottom: 4px;
+              "
+              class="d-block"
+              >{{ control.label }}</mat-label
+            >
+            <tag-input
+              [(ngModel)]="control.value"
+              [disabled]="control?.disabled"
+              [name]="control.name"
+              theme="bootstrap"
+              [required]="control?.required"
+              [identifyBy]="
+                control?.dataProvider?.identifyBy
+                  ? control.dataProvider.identifyBy
+                  : 'id'
+              "
+              style="margin-top: -13px;"
+              [maxItems]="control?.maxlength"
+              (ngModelChange)="change.emit({ control: control, form: myForm })"
+              [displayBy]="
+                control?.dataProvider?.displayBy
+                  ? control.dataProvider.displayBy
+                  : 'name'
+              "
+            ></tag-input>
+            <!-- Required Error -->
+            <mat-error
+              *ngIf="
+                (myForm?.controls)[control.name]?.dirty &&
+                (myForm?.controls)[control.name]?.errors?.required
+              "
+            >
+              <span style="font-size: 75%;" *ngIf="control.requiredError">{{
+                control.requiredError
+              }}</span>
+              <span style="font-size: 75%;" *ngIf="!control.requiredError"
+                >{{ control.label }} is required</span
+              >
+            </mat-error>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+</form>

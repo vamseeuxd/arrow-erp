@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { DynamicScriptLoaderService } from '../../shared/services/dynamic-script-loader.service';
+import { Component, OnInit } from "@angular/core";
+import { DynamicScriptLoaderService } from "../../shared/utilities/dynamic-script-loader.service";
 declare const $: any;
 @Component({
-  selector: 'app-gallery',
-  templateUrl: './gallery.component.html',
-  styleUrls: ['./gallery.component.scss']
+  selector: "app-gallery",
+  templateUrl: "./gallery.component.html",
+  styleUrls: ["./gallery.component.scss"],
 })
 export class GalleryComponent implements OnInit {
   constructor(private dynamicScriptLoader: DynamicScriptLoaderService) {}
@@ -13,16 +13,16 @@ export class GalleryComponent implements OnInit {
   }
   async startScript() {
     await this.dynamicScriptLoader
-      .load('lightgallery')
-      .then(data => {
+      .load("lightgallery")
+      .then((data) => {
         this.loadData();
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   }
   private loadData() {
-    $('#aniimated-thumbnials').lightGallery({
+    $("#aniimated-thumbnials").lightGallery({
       thumbnail: true,
-      selector: 'a'
+      selector: "a",
     });
   }
 }

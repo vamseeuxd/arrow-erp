@@ -1,4 +1,4 @@
-import { DOCUMENT } from '@angular/common';
+import { DOCUMENT } from "@angular/common";
 import {
   Component,
   Inject,
@@ -6,96 +6,108 @@ import {
   OnInit,
   Renderer2,
   HostListener,
-} from '@angular/core';
-import { RightSidebarService } from '../../shared/services/rightsidebar.service';
+} from "@angular/core";
+import { RightSidebarService } from "../../shared/utilities/rightsidebar.service";
+import { MatDialog } from "@angular/material/dialog";
+
 const document: any = window.document;
+
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.sass'],
+  selector: "app-header",
+  templateUrl: "./header.component.html",
+  styleUrls: ["./header.component.sass"],
 })
 export class HeaderComponent implements OnInit {
   constructor(
+    public dialog: MatDialog,
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2,
     public elementRef: ElementRef,
-    private dataService: RightSidebarService
-  ) { }
+    public dataService: RightSidebarService
+  ) {}
+
   notifications: any[] = [
     {
-      userImg: 'assets/images/user/user1.jpg',
-      userName: 'Sarah Smith',
-      time: '14 mins ago',
-      message: 'Please check your mail',
+      userImg: "assets/images/user/user1.jpg",
+      userName: "Sarah Smith",
+      time: "14 mins ago",
+      message: "Please check your mail",
     },
     {
-      userImg: 'assets/images/user/user2.jpg',
-      userName: 'Airi Satou',
-      time: '22 mins ago',
-      message: 'Work Completed !!!',
+      userImg: "assets/images/user/user2.jpg",
+      userName: "Airi Satou",
+      time: "22 mins ago",
+      message: "Work Completed !!!",
     },
     {
-      userImg: 'assets/images/user/user3.jpg',
-      userName: 'John Doe',
-      time: '3 hours ago',
-      message: 'kindly help me for code.',
+      userImg: "assets/images/user/user3.jpg",
+      userName: "John Doe",
+      time: "3 hours ago",
+      message: "kindly help me for code.",
     },
     {
-      userImg: 'assets/images/user/user4.jpg',
-      userName: 'Ashton Cox',
-      time: '5 hours ago',
-      message: 'Lets break for lunch...',
+      userImg: "assets/images/user/user4.jpg",
+      userName: "Ashton Cox",
+      time: "5 hours ago",
+      message: "Lets break for lunch...",
     },
     {
-      userImg: 'assets/images/user/user5.jpg',
-      userName: 'Sarah Smith',
-      time: '14 mins ago',
-      message: 'Please check your mail',
+      userImg: "assets/images/user/user5.jpg",
+      userName: "Sarah Smith",
+      time: "14 mins ago",
+      message: "Please check your mail",
     },
     {
-      userImg: 'assets/images/user/user6.jpg',
-      userName: 'Airi Satou',
-      time: '22 mins ago',
-      message: 'Work Completed !!!',
+      userImg: "assets/images/user/user6.jpg",
+      userName: "Airi Satou",
+      time: "22 mins ago",
+      message: "Work Completed !!!",
     },
     {
-      userImg: 'assets/images/user/user7.jpg',
-      userName: 'John Doe',
-      time: '3 hours ago',
-      message: 'kindly help me for code.',
+      userImg: "assets/images/user/user7.jpg",
+      userName: "John Doe",
+      time: "3 hours ago",
+      message: "kindly help me for code.",
     },
   ];
+
   ngOnInit() {
     this.setStartupStyles();
+    // this.addDynamicForm();
   }
+
   setStartupStyles() {
     // set theme on startup
-    if (localStorage.getItem('theme2')) {
-      this.renderer.removeClass(this.document.body, 'dark');
-      this.renderer.removeClass(this.document.body, 'light');
-      this.renderer.addClass(this.document.body, localStorage.getItem('theme2'));
+    if (localStorage.getItem("theme2")) {
+      this.renderer.removeClass(this.document.body, "dark");
+      this.renderer.removeClass(this.document.body, "light");
+      this.renderer.addClass(
+        this.document.body,
+        localStorage.getItem("theme2")
+      );
     } else {
-      this.renderer.addClass(this.document.body, 'dark');
+      this.renderer.addClass(this.document.body, "dark");
     }
     // set light sidebar menu on startup
-    if (localStorage.getItem('menuOption2')) {
+    if (localStorage.getItem("menuOption2")) {
       this.renderer.addClass(
         this.document.body,
-        localStorage.getItem('menuOption2')
+        localStorage.getItem("menuOption2")
       );
     } else {
-      this.renderer.addClass(this.document.body, 'menu_dark');
+      this.renderer.addClass(this.document.body, "menu_dark");
     }
     // set logo color on startup
-    if (localStorage.getItem('choose_logoheader2')) {
+    if (localStorage.getItem("choose_logoheader2")) {
       this.renderer.addClass(
         this.document.body,
-        localStorage.getItem('choose_logoheader2')
+        localStorage.getItem("choose_logoheader2")
       );
     } else {
-      this.renderer.addClass(this.document.body, 'logo-black');
+      this.renderer.addClass(this.document.body, "logo-black");
     }
   }
+
   callFullscreen() {
     if (
       !document.fullscreenElement &&
@@ -124,6 +136,7 @@ export class HeaderComponent implements OnInit {
       }
     }
   }
+
   mobileMenuSidebarOpen(event: any, className: string) {
     const hasClass = event.target.classList.contains(className);
     if (hasClass) {
@@ -132,16 +145,18 @@ export class HeaderComponent implements OnInit {
       this.renderer.addClass(this.document.body, className);
     }
   }
+
   callSidemenuCollapse() {
-    const hasClass = this.document.body.classList.contains('side-closed');
+    const hasClass = this.document.body.classList.contains("side-closed");
     if (hasClass) {
-      this.renderer.removeClass(this.document.body, 'side-closed');
-      this.renderer.removeClass(this.document.body, 'submenu-closed');
+      this.renderer.removeClass(this.document.body, "side-closed");
+      this.renderer.removeClass(this.document.body, "submenu-closed");
     } else {
-      this.renderer.addClass(this.document.body, 'side-closed');
-      this.renderer.addClass(this.document.body, 'submenu-closed');
+      this.renderer.addClass(this.document.body, "side-closed");
+      this.renderer.addClass(this.document.body, "submenu-closed");
     }
   }
+
   public toggleRightSidebar(): void {
     this.dataService.changeMsg(
       (this.dataService.currentStatus._isScalar = !this.dataService

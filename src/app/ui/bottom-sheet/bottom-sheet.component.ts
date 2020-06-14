@@ -1,12 +1,12 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 import {
   MatBottomSheet,
-  MatBottomSheetRef
-} from '@angular/material/bottom-sheet';
+  MatBottomSheetRef,
+} from "@angular/material/bottom-sheet";
 @Component({
-  selector: 'app-bottom-sheet',
-  templateUrl: './bottom-sheet.component.html',
-  styleUrls: ['./bottom-sheet.component.sass']
+  selector: "app-bottom-sheet",
+  templateUrl: "./bottom-sheet.component.html",
+  styleUrls: ["./bottom-sheet.component.sass"],
 })
 export class BottomSheetComponent {
   constructor(private _bottomSheet: MatBottomSheet) {}
@@ -15,8 +15,8 @@ export class BottomSheetComponent {
   }
 }
 @Component({
-  selector: 'bottom-sheet-overview-example-sheet',
-  templateUrl: 'bottom-sheet-overview-example-sheet.html'
+  selector: "bottom-sheet-overview-example-sheet",
+  templateUrl: "bottom-sheet-overview-example-sheet.html",
 })
 export class BottomSheetOverviewExampleSheet {
   constructor(

@@ -1,35 +1,32 @@
 /*! lg-fullscreen - v1.0.1 - 2016-09-30
-* http://sachinchoolur.github.io/lightGallery
-* Copyright (c) 2016 Sachin N; Licensed GPLv3 */
+ * http://sachinchoolur.github.io/lightGallery
+ * Copyright (c) 2016 Sachin N; Licensed GPLv3 */
 
 (function (root, factory) {
-    if (typeof define === 'function' && define.amd) {
+    if (typeof define === "function" && define.amd) {
         // AMD. Register as an anonymous module unless amdModuleId is set
-        define(['jquery'], function (a0) {
-            return (factory(a0));
+        define(["jquery"], function (a0) {
+            return factory(a0);
         });
-    } else if (typeof exports === 'object') {
+    } else if (typeof exports === "object") {
         // Node. Does not work with strict CommonJS, but
         // only CommonJS-like environments that support module.exports,
         // like Node.
-        module.exports = factory(require('jquery'));
+        module.exports = factory(require("jquery"));
     } else {
         factory(jQuery);
     }
-}(this, function ($) {
-
+})(this, function ($) {
     (function () {
-
-        'use strict';
+        "use strict";
 
         var defaults = {
-            fullScreen: true
+            fullScreen: true,
         };
 
         var Fullscreen = function (element) {
-
             // get lightGallery core plugin data
-            this.core = $(element).data('lightGallery');
+            this.core = $(element).data("lightGallery");
 
             this.$el = $(element);
 
@@ -42,16 +39,19 @@
         };
 
         Fullscreen.prototype.init = function () {
-            var fullScreen = '';
+            var fullScreen = "";
             if (this.core.s.fullScreen) {
-
                 // check for fullscreen browser support
-                if (!document.fullscreenEnabled && !document.webkitFullscreenEnabled &&
-                    !document.mozFullScreenEnabled && !document.msFullscreenEnabled) {
+                if (
+                    !document.fullscreenEnabled &&
+                    !document.webkitFullscreenEnabled &&
+                    !document.mozFullScreenEnabled &&
+                    !document.msFullscreenEnabled
+                ) {
                     return;
                 } else {
                     fullScreen = '<span class="lg-fullscreen lg-icon"></span>';
-                    this.core.$outer.find('.lg-toolbar').append(fullScreen);
+                    this.core.$outer.find(".lg-toolbar").append(fullScreen);
                     this.fullScreen();
                 }
             }
@@ -86,31 +86,36 @@
         Fullscreen.prototype.fullScreen = function () {
             var _this = this;
 
-            $(document).on('fullscreenchange.lg webkitfullscreenchange.lg mozfullscreenchange.lg MSFullscreenChange.lg', function () {
-                _this.core.$outer.toggleClass('lg-fullscreen-on');
-            });
+            $(document).on(
+                "fullscreenchange.lg webkitfullscreenchange.lg mozfullscreenchange.lg MSFullscreenChange.lg",
+                function () {
+                    _this.core.$outer.toggleClass("lg-fullscreen-on");
+                }
+            );
 
-            this.core.$outer.find('.lg-fullscreen').on('click.lg', function () {
-                if (!document.fullscreenElement &&
-                    !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+            this.core.$outer.find(".lg-fullscreen").on("click.lg", function () {
+                if (
+                    !document.fullscreenElement &&
+                    !document.mozFullScreenElement &&
+                    !document.webkitFullscreenElement &&
+                    !document.msFullscreenElement
+                ) {
                     _this.requestFullscreen();
                 } else {
                     _this.exitFullscreen();
                 }
             });
-
         };
 
         Fullscreen.prototype.destroy = function () {
-
             // exit from fullscreen if activated
             this.exitFullscreen();
 
-            $(document).off('fullscreenchange.lg webkitfullscreenchange.lg mozfullscreenchange.lg MSFullscreenChange.lg');
+            $(document).off(
+                "fullscreenchange.lg webkitfullscreenchange.lg mozfullscreenchange.lg MSFullscreenChange.lg"
+            );
         };
 
         $.fn.lightGallery.modules.fullscreen = Fullscreen;
-
     })();
-
-}));
+});

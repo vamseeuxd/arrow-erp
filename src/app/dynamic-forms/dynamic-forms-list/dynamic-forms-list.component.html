@@ -1,0 +1,137 @@
+<div class="card">
+  <div class="header">
+    <h2>List Of Dynamic Forms</h2>
+    <ul class="header-dropdown m-r--5">
+      <li class="dropdown">
+        <a
+          href="#"
+          onClick="return false;"
+          data-toggle="dropdown"
+          role="button"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <i class="material-icons">more_vert</i>
+        </a>
+        <ul class="dropdown-menu pull-right">
+          <li>
+            <a
+              href="#"
+              onClick="return false;"
+              (click)="startAddForm(addNewDynamicFormTemplate)"
+            >
+              Add New Form
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <div class="body">
+    <mat-accordion
+      style="display: block; margin-top: -12px;"
+      *ngIf="dynamicFormList | async as dynamicFormList"
+    >
+      <mat-expansion-panel
+        (afterExpand)="formControlsList.getFormControlDetails(dynamicForm)"
+        *ngFor="let dynamicForm of dynamicFormList"
+        class="position-relative"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ dynamicForm.name }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <!-- Actions Buttons -->
+        <ul class="top-right" style="right: 3em;">
+          <li class="dropdown">
+            <a
+              href="#"
+              onClick="return false;"
+              data-toggle="dropdown"
+              role="button"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <i class="material-icons">more_vert</i>
+            </a>
+            <ul class="dropdown-menu pull-right">
+              <!-- Add New Form Control -->
+              <li>
+                <a
+                  href="#"
+                  onClick="return false;"
+                  (click)="formControlsList.addNewControl(dynamicForm)"
+                >
+                  <i class="material-icons">add</i>
+                  Add Control
+                </a>
+              </li>
+              <!-- Delete Form -->
+              <li>
+                <a
+                  href="#"
+                  onClick="return false;"
+                  (click)="deleteForm(dynamicForm.id, formControlsList)"
+                >
+                  <i class="material-icons">delete</i>
+                  Delete Form
+                </a>
+              </li>
+              <!-- Edit Form -->
+              <li>
+                <a
+                  href="#"
+                  onClick="return false;"
+                  (click)="
+                    startEditForm(dynamicForm, addNewDynamicFormTemplate)
+                  "
+                >
+                  <i class="material-icons">edit</i>
+                  Edit Form
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <!-- **************** -->
+
+        <!-- <pre>{{ dynamicForm | json }}</pre> -->
+        <app-dynamic-form-controls-list
+          #formControlsList
+        ></app-dynamic-form-controls-list>
+      </mat-expansion-panel>
+      <!--  -->
+    </mat-accordion>
+  </div>
+</div>
+
+<ng-template #addNewDynamicFormTemplate>
+  <div>
+    <h2 mat-dialog-title>{{ formTittle }}</h2>
+    <div mat-dialog-content>
+      <app-dynamic-form
+        (change)="onFormChange($event)"
+        (init)="onEditFormInit($event)"
+        #myForm
+        formClass="ml-4 mr-4"
+        [formControls]="basicFormConfig"
+      ></app-dynamic-form>
+    </div>
+    <div mat-dialog-actions>
+      <button
+        class="mr-3 mb-3"
+        [disabled]="!isFormValid"
+        (click)="saveForm(myForm)"
+        mat-raised-button
+        color="primary"
+      >
+        Save
+      </button>
+      <button class="mb-3" type="button" mat-button mat-dialog-close>
+        Cancel
+      </button>
+    </div>
+  </div>
+</ng-template>

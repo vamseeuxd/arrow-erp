@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { Holiday } from './holiday.model';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
+import { Holiday } from "./holiday.model";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 @Injectable()
 export class HolidayService {
-  private readonly API_URL = 'assets/data/holiday.json';
+  private readonly API_URL = "assets/data/holiday.json";
   dataChange: BehaviorSubject<Holiday[]> = new BehaviorSubject<Holiday[]>([]);
   // Temporarily stores data from dialogs
   dialogData: any;
@@ -18,11 +18,11 @@ export class HolidayService {
   /** CRUD METHODS */
   getAllHolidays(): void {
     this.httpClient.get<Holiday[]>(this.API_URL).subscribe(
-      data => {
+      (data) => {
         this.dataChange.next(data);
       },
       (error: HttpErrorResponse) => {
-        console.log(error.name + ' ' + error.message);
+        console.log(error.name + " " + error.message);
       }
     );
   }

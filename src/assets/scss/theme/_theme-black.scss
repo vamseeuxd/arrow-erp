@@ -11,7 +11,11 @@
   }
   .navbar.active {
     background: #485563; /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #29323c, #485563); /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(
+      to right,
+      #29323c,
+      #485563
+    ); /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(
       to right,
       #29323c,
@@ -30,7 +34,7 @@
     .collapse-menu-icon .mat-icon {
       color: #fff;
     }
-  .navbar-right .nav-notification-icons .mat-icon {
+    .navbar-right .nav-notification-icons .mat-icon {
       color: #fff;
     }
   }

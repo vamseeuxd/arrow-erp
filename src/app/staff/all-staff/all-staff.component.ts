@@ -1,35 +1,35 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { StaffService } from './staff.service';
-import { HttpClient } from '@angular/common/http';
-import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { Staff } from './staff.model';
-import { DataSource } from '@angular/cdk/collections';
-import { FormDialogComponent } from './dialog/form-dialog/form-dialog.component';
-import { DeleteDialogComponent } from './dialog/delete/delete.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { BehaviorSubject, fromEvent, merge, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { MatMenuTrigger } from '@angular/material/menu';
-import { SelectionModel } from '@angular/cdk/collections';
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { StaffService } from "./staff.service";
+import { HttpClient } from "@angular/common/http";
+import { MatDialog } from "@angular/material/dialog";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatSort } from "@angular/material/sort";
+import { Staff } from "./staff.model";
+import { DataSource } from "@angular/cdk/collections";
+import { FormDialogComponent } from "./dialog/form-dialog/form-dialog.component";
+import { DeleteDialogComponent } from "./dialog/delete/delete.component";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { BehaviorSubject, fromEvent, merge, Observable } from "rxjs";
+import { map } from "rxjs/operators";
+import { MatMenuTrigger } from "@angular/material/menu";
+import { SelectionModel } from "@angular/cdk/collections";
 
 @Component({
-  selector: 'app-all-staff',
-  templateUrl: './all-staff.component.html',
-  styleUrls: ['./all-staff.component.sass']
+  selector: "app-all-staff",
+  templateUrl: "./all-staff.component.html",
+  styleUrls: ["./all-staff.component.sass"],
 })
 export class AllstaffComponent implements OnInit {
   displayedColumns = [
-    'select',
-    'img',
-    'name',
-    'designation',
-    'mobile',
-    'email',
-    'date',
-    'address',
-    'actions'
+    "select",
+    "img",
+    "name",
+    "designation",
+    "mobile",
+    "email",
+    "date",
+    "address",
+    "actions",
   ];
   exampleDatabase: StaffService | null;
   dataSource: ExampleDataSource | null;
@@ -41,13 +41,13 @@ export class AllstaffComponent implements OnInit {
     public dialog: MatDialog,
     public staffService: StaffService,
     private snackBar: MatSnackBar
-  ) { }
+  ) {}
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild('filter', { static: true }) filter: ElementRef;
+  @ViewChild("filter", { static: true }) filter: ElementRef;
   @ViewChild(MatMenuTrigger)
   contextMenu: MatMenuTrigger;
-  contextMenuPosition = { x: '0px', y: '0px' };
+  contextMenuPosition = { x: "0px", y: "0px" };
 
   ngOnInit() {
     this.loadData();
@@ -59,10 +59,10 @@ export class AllstaffComponent implements OnInit {
     const dialogRef = this.dialog.open(FormDialogComponent, {
       data: {
         staff: this.staff,
-        action: 'add'
-      }
+        action: "add",
+      },
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result === 1) {
         // After dialog is closed we're doing frontend updates
         // For add we're just pushing a new row inside DataService
@@ -71,10 +71,10 @@ export class AllstaffComponent implements OnInit {
         );
         this.refreshTable();
         this.showNotification(
-          'snackbar-success',
-          'Add Record Successfully...!!!',
-          'bottom',
-          'center'
+          "snackbar-success",
+          "Add Record Successfully...!!!",
+          "bottom",
+          "center"
         );
       }
     });
@@ -84,14 +84,14 @@ export class AllstaffComponent implements OnInit {
     const dialogRef = this.dialog.open(FormDialogComponent, {
       data: {
         staff: row,
-        action: 'edit'
-      }
+        action: "edit",
+      },
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result === 1) {
         // When using an edit things are little different, firstly we find record inside DataService by id
         const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
-          x => x.id === this.id
+          (x) => x.id === this.id
         );
         // Then you update that record using data from dialogData (values you enetered)
         this.exampleDatabase.dataChange.value[
@@ -100,10 +100,10 @@ export class AllstaffComponent implements OnInit {
         // And lastly refresh table
         this.refreshTable();
         this.showNotification(
-          'black',
-          'Edit Record Successfully...!!!',
-          'bottom',
-          'center'
+          "black",
+          "Edit Record Successfully...!!!",
+          "bottom",
+          "center"
         );
       }
     });
@@ -111,21 +111,21 @@ export class AllstaffComponent implements OnInit {
   deleteItem(row) {
     this.id = row.id;
     const dialogRef = this.dialog.open(DeleteDialogComponent, {
-      data: row
+      data: row,
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result === 1) {
         const foundIndex = this.exampleDatabase.dataChange.value.findIndex(
-          x => x.id === this.id
+          (x) => x.id === this.id
         );
         // for delete we use splice in order to remove single object from DataService
         this.exampleDatabase.dataChange.value.splice(foundIndex, 1);
         this.refreshTable();
         this.showNotification(
-          'snackbar-danger',
-          'Delete Record Successfully...!!!',
-          'bottom',
-          'center'
+          "snackbar-danger",
+          "Delete Record Successfully...!!!",
+          "bottom",
+          "center"
         );
       }
     });
@@ -145,8 +145,8 @@ export class AllstaffComponent implements OnInit {
     this.isAllSelected()
       ? this.selection.clear()
       : this.dataSource.renderedData.forEach((row) =>
-        this.selection.select(row)
-      );
+          this.selection.select(row)
+        );
   }
   removeSelectedRows() {
     const totalSelect = this.selection.selected.length;
@@ -160,10 +160,10 @@ export class AllstaffComponent implements OnInit {
       this.selection = new SelectionModel<Staff>(true, []);
     });
     this.showNotification(
-      'snackbar-danger',
-      totalSelect + ' Record Delete Successfully...!!!',
-      'bottom',
-      'center'
+      "snackbar-danger",
+      totalSelect + " Record Delete Successfully...!!!",
+      "bottom",
+      "center"
     );
   }
   public loadData() {
@@ -173,7 +173,7 @@ export class AllstaffComponent implements OnInit {
       this.paginator,
       this.sort
     );
-    fromEvent(this.filter.nativeElement, 'keyup')
+    fromEvent(this.filter.nativeElement, "keyup")
       // .debounceTime(150)
       // .distinctUntilChanged()
       .subscribe(() => {
@@ -184,25 +184,25 @@ export class AllstaffComponent implements OnInit {
       });
   }
   showNotification(colorName, text, placementFrom, placementAlign) {
-    this.snackBar.open(text, '', {
+    this.snackBar.open(text, "", {
       duration: 2000,
       verticalPosition: placementFrom,
       horizontalPosition: placementAlign,
-      panelClass: colorName
+      panelClass: colorName,
     });
   }
   // context menu
   onContextMenu(event: MouseEvent, item: Staff) {
     event.preventDefault();
-    this.contextMenuPosition.x = event.clientX + 'px';
-    this.contextMenuPosition.y = event.clientY + 'px';
+    this.contextMenuPosition.x = event.clientX + "px";
+    this.contextMenuPosition.y = event.clientY + "px";
     this.contextMenu.menuData = { item: item };
-    this.contextMenu.menu.focusFirstItem('mouse');
+    this.contextMenu.menu.focusFirstItem("mouse");
     this.contextMenu.openMenu();
   }
 }
 export class ExampleDataSource extends DataSource<Staff> {
-  _filterChange = new BehaviorSubject('');
+  _filterChange = new BehaviorSubject("");
   get filter(): string {
     return this._filterChange.value;
   }
@@ -227,7 +227,7 @@ export class ExampleDataSource extends DataSource<Staff> {
       this._exampleDatabase.dataChange,
       this._sort.sortChange,
       this._filterChange,
-      this._paginator.page
+      this._paginator.page,
     ];
     this._exampleDatabase.getAllStaffs();
     return merge(...displayDataChanges).pipe(
@@ -258,39 +258,39 @@ export class ExampleDataSource extends DataSource<Staff> {
       })
     );
   }
-  disconnect() { }
+  disconnect() {}
   /** Returns a sorted copy of the database data. */
   sortData(data: Staff[]): Staff[] {
-    if (!this._sort.active || this._sort.direction === '') {
+    if (!this._sort.active || this._sort.direction === "") {
       return data;
     }
     return data.sort((a, b) => {
-      let propertyA: number | string = '';
-      let propertyB: number | string = '';
+      let propertyA: number | string = "";
+      let propertyB: number | string = "";
       switch (this._sort.active) {
-        case 'id':
+        case "id":
           [propertyA, propertyB] = [a.id, b.id];
           break;
-        case 'name':
+        case "name":
           [propertyA, propertyB] = [a.name, b.name];
           break;
-        case 'email':
+        case "email":
           [propertyA, propertyB] = [a.email, b.email];
           break;
-        case 'date':
+        case "date":
           [propertyA, propertyB] = [a.date, b.date];
           break;
-        case 'address':
+        case "address":
           [propertyA, propertyB] = [a.address, b.address];
           break;
-        case 'mobile':
+        case "mobile":
           [propertyA, propertyB] = [a.mobile, b.mobile];
           break;
       }
       const valueA = isNaN(+propertyA) ? propertyA : +propertyA;
       const valueB = isNaN(+propertyB) ? propertyB : +propertyB;
       return (
-        (valueA < valueB ? -1 : 1) * (this._sort.direction === 'asc' ? 1 : -1)
+        (valueA < valueB ? -1 : 1) * (this._sort.direction === "asc" ? 1 : -1)
       );
     });
   }

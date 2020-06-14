@@ -1,0 +1,20 @@
+:host {
+  ::ng-deep input.ng2-tag-input__text-input {
+    background-color: transparent;
+    height: 20px !important;
+  }
+
+  ::ng-deep .mat-form-field-infix {
+    margin-top: 15px;
+  }
+
+  .show-error {
+    mat-label {
+      color: red !important;
+    }
+
+    tag-input {
+      border-bottom: 1px solid red !important;
+    }
+  }
+}

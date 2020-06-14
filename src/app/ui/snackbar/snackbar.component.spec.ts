@@ -1,11 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { SnackbarComponent } from './snackbar.component';
-describe('SnackbarComponent', () => {
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { SnackbarComponent } from "./snackbar.component";
+describe("SnackbarComponent", () => {
   let component: SnackbarComponent;
   let fixture: ComponentFixture<SnackbarComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [SnackbarComponent]
+      declarations: [SnackbarComponent],
     }).compileComponents();
   }));
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('SnackbarComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

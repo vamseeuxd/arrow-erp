@@ -1,0 +1,16 @@
+:host {
+  ::ng-deep .canvas_whiteboard_buttons {
+    left: 30px;
+    top: 30px;
+    width: 70px !important;
+    ms-flex-direction: column !important;
+    flex-direction: column !important;
+    display: flex !important;
+    background-color: rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+  }
+
+  ::ng-deep .canvas-whiteboard-shape-selector-wrapper {
+    width: 60px;
+  }
+}

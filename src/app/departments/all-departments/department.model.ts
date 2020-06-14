@@ -9,12 +9,12 @@ export class Department {
   constructor(department) {
     {
       this.id = department.id || this.getRandomID();
-      this.dName = department.dName || '';
-      this.hod = department.hod || '';
-      this.phone = department.phone || '';
-      this.email = department.email || '';
-      this.sYear = department.sYear || '';
-      this.sCapacity = department.sCapacity || '';
+      this.dName = department.dName || "";
+      this.hod = department.hod || "";
+      this.phone = department.phone || "";
+      this.email = department.email || "";
+      this.sYear = department.sYear || "";
+      this.sCapacity = department.sCapacity || "";
     }
   }
   public getRandomID(): string {

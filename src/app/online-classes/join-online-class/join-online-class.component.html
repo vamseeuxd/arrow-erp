@@ -1,0 +1,152 @@
+<section class="content">
+  <div class="container-fluid" id="joinOnlineClassContainer">
+    <ng-container *ngIf="!selectedClass">
+      <h6 class="text-muted">Join Online Class</h6>
+      <ul
+        class="list-group mt-3"
+        *ngIf="filteredClasses | async as filteredClasses"
+      >
+        <li *ngFor="let onlineClass of filteredClasses" class="list-group-item">
+          <div class="w-100">
+            <h5 class="mb-1 float-left">
+              {{ onlineClass.classTitle }}
+              <span
+                class="blink text-success"
+                style="font-size: 0.75rem;"
+                *ngIf="onlineClass.startTime && !onlineClass.endTime"
+              >
+                Started at
+                {{ onlineClass.startTime.seconds * 1000 | date: "medium" }}
+              </span>
+            </h5>
+
+            <button
+              *ngIf="onlineClass.startTime && !onlineClass.endTime"
+              class="float-right btn-sm btn btn-primary"
+              (click)="
+                updateSelectedOnlineClass(onlineClass, onlineClassNotStarted)
+              "
+            >
+              Start Class
+            </button>
+
+            <label
+              class="float-right badge badge-pill badge-danger"
+              *ngIf="onlineClass.startTime && onlineClass.endTime"
+            >
+              Ended
+            </label>
+
+            <label
+              class="float-right badge badge-pill badge-warning"
+              *ngIf="!onlineClass.startTime && !onlineClass.endTime"
+            >
+              Not Started
+            </label>
+
+            <div class="clearfix"></div>
+          </div>
+          <p class="mb-1">
+            Date : <code>{{ onlineClass.classDate }}</code
+            >, Time : <code>{{ onlineClass.classTime | date: "HH:mm" }}</code>
+          </p>
+          <small
+            >Teacher : <code>{{ onlineClass.teacher }}</code></small
+          >
+        </li>
+      </ul>
+    </ng-container>
+
+    <ng-container *ngIf="selectedClass">
+      <div
+        class="w-100 example-boundary position-relative"
+        style="height: calc(100vh - 100px);"
+        [class.full-screen]="fullScreen"
+        [class.landscape-primary]="
+          window$.screen.orientation.type === 'landscape-primary'
+        "
+      >
+        <pre>{{ selectedClass.chatMembers | json }}</pre>
+
+        <video
+          class="white-board-video-player"
+          autoplay
+          src="http://techslides.com/demos/sample-videos/small.mp4"
+        ></video>
+
+        <div
+          class="teacher-video-player"
+          cdkDrag
+          [cdkDragBoundary]="'.example-boundary'"
+        >
+          <label class="teacher-video-label">Teacher Video</label>
+          <video
+            class="w-100 h-100"
+            controls
+            #teacherVideo
+            autoplay
+            src="http://techslides.com/demos/sample-videos/small.mp4"
+          ></video>
+        </div>
+
+        <app-online-class-chat
+          #onLineClassChat
+          (isOpenSidebarChange)="isChatOpen = $event"
+        ></app-online-class-chat>
+
+        <div
+          class="btn-group full-screen-button"
+          [hidden]="isChatOpen"
+          (cdkDragEnded)="onFullScreenDragEnd($event)"
+          cdkDrag
+          [cdkDragBoundary]="'.example-boundary'"
+        >
+          <button
+            (click)="callOnlineClassFullscreen(stopClassConfirmation)"
+            type="button"
+            title="Stop Online Class"
+            class="btn btn-danger"
+          >
+            <i class="fa fa-stop-circle"></i>
+          </button>
+
+          <button
+            (click)="toggleChat(onLineClassChat)"
+            type="button"
+            class="btn btn-success"
+          >
+            <i class="fa fa-comments"></i>
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</section>
+
+<ng-template #onlineClassNotStarted>
+  <h4 class="p-0 m-0" mat-dialog-title>Online Class Not Started</h4>
+  <div mat-dialog-content>
+    <p class="m-3">
+      Online class is not yet started, please contact your Teacher for more
+      details
+    </p>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close>Ok</button>
+  </div>
+</ng-template>
+
+<ng-template #stopClassConfirmation>
+  <h4 class="p-0 m-0" mat-dialog-title>Confirmation</h4>
+  <div mat-dialog-content>Are you Sure! Do you want to Stop Class</div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close>No</button>
+    <button
+      mat-button
+      mat-dialog-close
+      (click)="callOnlineClassFullscreen(null)"
+    >
+      Yes
+    </button>
+  </div>
+</ng-template>

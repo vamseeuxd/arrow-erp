@@ -1,0 +1,6 @@
+export enum ONLINE_CLASS_ACTION {
+  ADD_VIDEO = 0,
+  ADD_IMAGE = 1,
+  UPDATE_VIDEO = 2,
+  UPDATE_IMAGE = 3,
+}

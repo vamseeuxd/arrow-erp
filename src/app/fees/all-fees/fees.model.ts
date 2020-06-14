@@ -1,4 +1,4 @@
-import { formatDate } from '@angular/common';
+import { formatDate } from "@angular/common";
 export class Fees {
   id: number;
   rollNo: string;
@@ -15,14 +15,14 @@ export class Fees {
   constructor(fees) {
     {
       this.id = fees.id || this.getRandomID();
-      this.rollNo = fees.rollNo || '';
-      this.sName = fees.sName || '';
-      this.fType = fees.fType || '';
-      this.date = formatDate(new Date(), 'yyyy-MM-dd', 'en') || '';
-      this.invoiceNo = fees.invoiceNo || '';
-      this.pType = fees.pType || '';
-      this.status = fees.status || '';
-      this.amount = fees.amount || '';
+      this.rollNo = fees.rollNo || "";
+      this.sName = fees.sName || "";
+      this.fType = fees.fType || "";
+      this.date = formatDate(new Date(), "yyyy-MM-dd", "en") || "";
+      this.invoiceNo = fees.invoiceNo || "";
+      this.pType = fees.pType || "";
+      this.status = fees.status || "";
+      this.amount = fees.amount || "";
     }
   }
   public getRandomID(): string {

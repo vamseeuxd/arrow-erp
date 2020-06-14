@@ -1,0 +1,225 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div class="card shadow-sm">
+          <div class="body">
+            <table
+              class="table display product-overview mb-30"
+              id="support_table"
+              *ngIf="
+                onlineClassesService.onlineClassesList
+                  | async as onlineClassesList
+              "
+            >
+              <thead>
+                <tr>
+                  <th>Class Title</th>
+                  <th>Teacher</th>
+                  <th>Scheduled Date</th>
+                  <th>Scheduled Time</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let _onlineClass of onlineClassesList">
+                  <td>{{ _onlineClass.classTitle }}</td>
+                  <td>
+                    <div class="badge col-green">
+                      {{ _onlineClass.teacher }}
+                    </div>
+                  </td>
+                  <td>{{ _onlineClass.classDate }}</td>
+                  <td>{{ _onlineClass.classTime | date: "HH:mm" }}</td>
+                  <td>
+                    <button
+                      mat-icon-button
+                      (click)="
+                        editOnlineClass(onlineClassFormTemplate, _onlineClass)
+                      "
+                    >
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button>
+                      <mat-icon class="col-orange">delete</mat-icon>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <ng-template #onlineClassFormTemplate>
+        <div>
+          <h2 mat-dialog-title>{{ onlineClassFormTitle }}</h2>
+          <div mat-dialog-content class="online-class-form">
+            <form #arrowForm="ngForm">
+              <mat-tab-group>
+                <mat-tab label="Basic Details">
+                  <!--Class Title-->
+                  <div class="col-md-12">
+                    <mat-form-field
+                      class="example-full-width"
+                      appearance="fill"
+                    >
+                      <mat-label>Class Title</mat-label>
+                      <span matPrefix
+                        ><mat-icon class="mr-2"
+                          >format_color_text</mat-icon
+                        ></span
+                      >
+                      <input
+                        name="classTitle"
+                        required
+                        [ngModel]="onlineClass?.classTitle"
+                        matInput
+                        placeholder="Class Title"
+                        type="text"
+                      />
+                    </mat-form-field>
+                  </div>
+
+                  <!--Teacher-->
+                  <div class="col-md-12">
+                    <mat-form-field
+                      class="example-full-width"
+                      appearance="fill"
+                    >
+                      <mat-label>Teacher</mat-label>
+                      <span matPrefix
+                        ><mat-icon class="mr-2">person_add</mat-icon></span
+                      >
+                      <mat-select
+                        name="teacher"
+                        required
+                        [ngModel]="onlineClass?.teacher"
+                        placeholder="Teacher"
+                      >
+                        <mat-option [value]="'teacher1'">Teacher 1</mat-option>
+                        <mat-option [value]="'teacher2'">Teacher 2</mat-option>
+                        <mat-option [value]="'teacher3'">Teacher 3</mat-option>
+                        <mat-option [value]="'teacher4'">Teacher 4</mat-option>
+                        <mat-option [value]="'teacher5'">Teacher 5</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+
+                  <!--Students-->
+                  <div class="col-md-12">
+                    <mat-form-field
+                      class="example-full-width"
+                      appearance="fill"
+                    >
+                      <mat-label
+                        >Students ({{
+                          arrowForm?.value?.students?.length
+                        }}
+                        selected)</mat-label
+                      >
+                      <span matPrefix
+                        ><mat-icon class="mr-2">group_add</mat-icon></span
+                      >
+                      <mat-select
+                        multiple
+                        name="students"
+                        required
+                        [ngModel]="onlineClass?.students"
+                        placeholder="Students"
+                      >
+                        <mat-option [value]="'student1'">Student 1</mat-option>
+                        <mat-option [value]="'student2'">Student 2</mat-option>
+                        <mat-option [value]="'student3'">Student 3</mat-option>
+                        <mat-option [value]="'student4'">Student 4</mat-option>
+                        <mat-option [value]="'student5'">Student 5</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+
+                  <!--class Date-->
+                  <div class="col-md-12">
+                    <mat-form-field
+                      class="example-full-width"
+                      appearance="fill"
+                    >
+                      <mat-label>Class Date</mat-label>
+                      <input
+                        matInput
+                        name="classDate"
+                        required
+                        [ngModel]="onlineClass?.classDate"
+                        [min]="minDate"
+                        [max]="maxDate"
+                        [matDatepicker]="classDate"
+                      />
+                      <mat-datepicker-toggle
+                        matSuffix
+                        [for]="classDate"
+                      ></mat-datepicker-toggle>
+                      <mat-datepicker
+                        [dateClass]="dateClass"
+                        #classDate
+                      ></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+
+                  <!--Class Time-->
+                  <div class="col-md-12">
+                    <mat-form-field
+                      class="example-full-width"
+                      appearance="fill"
+                    >
+                      <mat-label>Class Time</mat-label>
+                      <span matPrefix
+                        ><mat-icon class="mr-2"
+                          >format_color_text</mat-icon
+                        ></span
+                      >
+                      <input
+                        name="classTime"
+                        required
+                        [ngModel]="onlineClass?.classTime"
+                        matTimepicker
+                        placeholder="Class Time"
+                      />
+                    </mat-form-field>
+                  </div>
+                </mat-tab>
+                <mat-tab label="Images for Online Class">
+                  <app-online-classes-media-gallery
+                    name="mediaGallery"
+                    [ngModel]="onlineClass?.mediaGallery"
+                  ></app-online-classes-media-gallery>
+                </mat-tab>
+              </mat-tab-group>
+              <div
+                class="col-12 text-right"
+                style="position: absolute; right: 0px; bottom: 15px;"
+              >
+                <button
+                  class="mt-3 mr-3"
+                  color="warn"
+                  type="reset"
+                  mat-raised-button
+                  mat-dialog-close
+                >
+                  Cancel
+                </button>
+                <button
+                  class="mt-3 mr-3"
+                  color="primary"
+                  mat-raised-button
+                  (click)="saveOnlineClass(arrowForm)"
+                  [disabled]="arrowForm.invalid"
+                  cdkFocusInitial
+                >
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</section>

@@ -1,11 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { SparklineComponent } from './sparkline.component';
-describe('SparklineComponent', () => {
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { SparklineComponent } from "./sparkline.component";
+describe("SparklineComponent", () => {
   let component: SparklineComponent;
   let fixture: ComponentFixture<SparklineComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [SparklineComponent]
+      declarations: [SparklineComponent],
     }).compileComponents();
   }));
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('SparklineComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

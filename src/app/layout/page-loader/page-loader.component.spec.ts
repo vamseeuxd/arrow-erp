@@ -1,11 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { PageLoaderComponent } from './page-loader.component';
-describe('PageLoaderComponent', () => {
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { PageLoaderComponent } from "./page-loader.component";
+describe("PageLoaderComponent", () => {
   let component: PageLoaderComponent;
   let fixture: ComponentFixture<PageLoaderComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [PageLoaderComponent]
+      declarations: [PageLoaderComponent],
     }).compileComponents();
   }));
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('PageLoaderComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

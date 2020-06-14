@@ -1,57 +1,57 @@
-import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
-import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { Component, OnInit, ViewChild, TemplateRef } from "@angular/core";
+import { DatatableComponent } from "@swimlane/ngx-datatable";
 import {
   FormGroup,
   FormBuilder,
   FormControl,
-  Validators
-} from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+  Validators,
+} from "@angular/forms";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 interface Gender {
   id: string;
   value: string;
 }
 @Component({
-  selector: 'app-ngx-datatable',
-  templateUrl: './ngx-datatable.component.html',
-  styleUrls: ['./ngx-datatable.component.sass']
+  selector: "app-ngx-datatable",
+  templateUrl: "./ngx-datatable.component.html",
+  styleUrls: ["./ngx-datatable.component.sass"],
 })
 export class NgxDatatableComponent implements OnInit {
-  @ViewChild('roleTemplate', { static: true }) roleTemplate: TemplateRef<any>;
+  @ViewChild("roleTemplate", { static: true }) roleTemplate: TemplateRef<any>;
   @ViewChild(DatatableComponent, { static: false }) table: DatatableComponent;
-  @ViewChild('closeAddModal', { static: false }) closeAddModal;
-  @ViewChild('closeEditModal', { static: false }) closeEditModal;
+  @ViewChild("closeAddModal", { static: false }) closeAddModal;
+  @ViewChild("closeEditModal", { static: false }) closeEditModal;
   rows = [];
   selectedRowData: selectRowInterface;
-  newUserImg = 'assets/images/user/user1.jpg';
+  newUserImg = "assets/images/user/user1.jpg";
   data = [];
   filteredData = [];
   editForm: FormGroup;
   register: FormGroup;
   selectedOption: string;
   columns = [
-    { name: 'First Name' },
-    { name: 'Last Name' },
-    { name: 'Gender' },
-    { name: 'Phone' },
-    { name: 'Email' },
-    { name: 'Address' }
+    { name: "First Name" },
+    { name: "Last Name" },
+    { name: "Gender" },
+    { name: "Phone" },
+    { name: "Email" },
+    { name: "Address" },
   ];
   genders = [
-    { id: '1', value: 'Male' },
-    { id: '2', value: 'Female' }
+    { id: "1", value: "Male" },
+    { id: "2", value: "Female" },
   ];
   foods = [
-    { value: 'steak-0', viewValue: 'Steak' },
-    { value: 'pizza-1', viewValue: 'Pizza' },
-    { value: 'tacos-2', viewValue: 'Tacos' }
+    { value: "steak-0", viewValue: "Steak" },
+    { value: "pizza-1", viewValue: "Pizza" },
+    { value: "tacos-2", viewValue: "Tacos" },
   ];
   // Table 2
   tb2columns = [
-    { name: 'First Name' },
-    { name: 'Last Name' },
-    { name: 'Address' }
+    { name: "First Name" },
+    { name: "Last Name" },
+    { name: "Address" },
   ];
   tb2data = [];
   tb2filteredData = [];
@@ -64,36 +64,36 @@ export class NgxDatatableComponent implements OnInit {
       lastName: new FormControl(),
       phone: new FormControl(),
       email: new FormControl(),
-      address: new FormControl()
+      address: new FormControl(),
     });
   }
   ngOnInit() {
-    this.fetch(data => {
+    this.fetch((data) => {
       this.data = data;
       this.filteredData = data;
     });
     // Table 2
-    this.tb2fetch(data => {
+    this.tb2fetch((data) => {
       this.tb2data = data;
       this.tb2filteredData = data;
     });
     this.register = this.fb.group({
-      id: [''],
-      img: [''],
-      firstName: ['', [Validators.required, Validators.pattern('[a-zA-Z]+')]],
-      lastName: [''],
-      phone: ['', [Validators.required]],
-      gender: ['', [Validators.required]],
+      id: [""],
+      img: [""],
+      firstName: ["", [Validators.required, Validators.pattern("[a-zA-Z]+")]],
+      lastName: [""],
+      phone: ["", [Validators.required]],
+      gender: ["", [Validators.required]],
       email: [
-        '',
-        [Validators.required, Validators.email, Validators.minLength(5)]
+        "",
+        [Validators.required, Validators.email, Validators.minLength(5)],
       ],
-      address: ['']
+      address: [""],
     });
   }
   fetch(cb) {
     const req = new XMLHttpRequest();
-    req.open('GET', 'assets/data/adv-tbl-data.json');
+    req.open("GET", "assets/data/adv-tbl-data.json");
     req.onload = () => {
       const data = JSON.parse(req.response);
       cb(data);
@@ -103,7 +103,7 @@ export class NgxDatatableComponent implements OnInit {
   // Table 2
   tb2fetch(cb) {
     const req = new XMLHttpRequest();
-    req.open('GET', 'assets/data/ngx-data.json');
+    req.open("GET", "assets/data/ngx-data.json");
     req.onload = () => {
       const data = JSON.parse(req.response);
       cb(data);
@@ -119,15 +119,12 @@ export class NgxDatatableComponent implements OnInit {
     // get the key names of each column in the dataset
     const keys = Object.keys(this.tb2filteredData[0]);
     // assign filtered matches to the active datatable
-    this.tb2data = this.tb2filteredData.filter(function(item) {
+    this.tb2data = this.tb2filteredData.filter(function (item) {
       // iterate through each row's column data
       for (let i = 0; i < colsAmt; i++) {
         // check for a match
         if (
-          item[keys[i]]
-            .toString()
-            .toLowerCase()
-            .indexOf(val) !== -1 ||
+          item[keys[i]].toString().toLowerCase().indexOf(val) !== -1 ||
           !val
         ) {
           // found match, return true to add to result set
@@ -146,27 +143,27 @@ export class NgxDatatableComponent implements OnInit {
       phone: row.phone,
       email: row.email,
       address: row.address,
-      img: row.img
+      img: row.img,
     });
     this.selectedRowData = row;
   }
   addRow() {
     this.register.patchValue({
       id: this.getId(10, 100),
-      img: this.newUserImg
+      img: this.newUserImg,
     });
   }
   deleteRow(row) {
     this.data = this.arrayRemove(this.data, row.id);
     this.showNotification(
-      'bg-red',
-      'Delete Record Successfully',
-      'bottom',
-      'right'
+      "bg-red",
+      "Delete Record Successfully",
+      "bottom",
+      "right"
     );
   }
   arrayRemove(array, id) {
-    return array.filter(function(element) {
+    return array.filter(function (element) {
       return element.id != id;
     });
   }
@@ -184,10 +181,10 @@ export class NgxDatatableComponent implements OnInit {
       return true;
     });
     this.showNotification(
-      'bg-black',
-      'Edit Record Successfully',
-      'bottom',
-      'right'
+      "bg-black",
+      "Edit Record Successfully",
+      "bottom",
+      "right"
     );
   }
   onAddRowSave(form: FormGroup) {
@@ -197,10 +194,10 @@ export class NgxDatatableComponent implements OnInit {
     form.reset();
     this.closeAddModal.nativeElement.click();
     this.showNotification(
-      'bg-green',
-      'Add Record Successfully',
-      'bottom',
-      'right'
+      "bg-green",
+      "Add Record Successfully",
+      "bottom",
+      "right"
     );
   }
   filterDatatable(event) {
@@ -211,15 +208,12 @@ export class NgxDatatableComponent implements OnInit {
     // get the key names of each column in the dataset
     const keys = Object.keys(this.filteredData[0]);
     // assign filtered matches to the active datatable
-    this.data = this.filteredData.filter(function(item) {
+    this.data = this.filteredData.filter(function (item) {
       // iterate through each row's column data
       for (let i = 0; i < colsAmt; i++) {
         // check for a match
         if (
-          item[keys[i]]
-            .toString()
-            .toLowerCase()
-            .indexOf(val) !== -1 ||
+          item[keys[i]].toString().toLowerCase().indexOf(val) !== -1 ||
           !val
         ) {
           // found match, return true to add to result set
@@ -235,19 +229,19 @@ export class NgxDatatableComponent implements OnInit {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
   openSnackBar(message: string) {
-    this._snackBar.open(message, '', {
+    this._snackBar.open(message, "", {
       duration: 2000,
-      verticalPosition: 'bottom',
-      horizontalPosition: 'right',
-      panelClass: ['bg-red']
+      verticalPosition: "bottom",
+      horizontalPosition: "right",
+      panelClass: ["bg-red"],
     });
   }
   showNotification(colorName, text, placementFrom, placementAlign) {
-    this._snackBar.open(text, '', {
+    this._snackBar.open(text, "", {
       duration: 2000,
       verticalPosition: placementFrom,
       horizontalPosition: placementAlign,
-      panelClass: colorName
+      panelClass: colorName,
     });
   }
 }

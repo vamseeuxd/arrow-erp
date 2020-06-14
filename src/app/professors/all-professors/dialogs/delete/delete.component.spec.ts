@@ -1,11 +1,11 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { DeleteDialogComponent } from './delete.component';
-describe('DeleteComponent', () => {
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { DeleteDialogComponent } from "./delete.component";
+describe("DeleteComponent", () => {
   let component: DeleteDialogComponent;
   let fixture: ComponentFixture<DeleteDialogComponent>;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [DeleteDialogComponent]
+      declarations: [DeleteDialogComponent],
     }).compileComponents();
   }));
   beforeEach(() => {
@@ -13,7 +13,7 @@ describe('DeleteComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

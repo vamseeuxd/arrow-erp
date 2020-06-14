@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from "@angular/core";
 @Component({
-  selector: 'app-gauge',
-  templateUrl: './gauge.component.html',
-  styleUrls: ['./gauge.component.sass']
+  selector: "app-gauge",
+  templateUrl: "./gauge.component.html",
+  styleUrls: ["./gauge.component.sass"],
 })
 export class GaugeComponent implements OnInit, OnDestroy {
   percentageValue: (value: number) => string;
@@ -13,12 +13,12 @@ export class GaugeComponent implements OnInit, OnDestroy {
     4: 50,
     5: 50,
     6: 50,
-    7: 50
+    7: 50,
   };
   interval: any;
   constructor() {
-    this.percentageValue = function(value: number): string {
-      return `${Math.round(value)} / ${this['max']}`;
+    this.percentageValue = function (value: number): string {
+      return `${Math.round(value)} / ${this["max"]}`;
     };
   }
   ngOnInit(): void {
@@ -30,7 +30,7 @@ export class GaugeComponent implements OnInit, OnDestroy {
         4: Math.round(Math.random() * 100),
         5: Math.round(Math.random() * 200),
         6: Math.round(Math.random() * 100),
-        7: Math.round(Math.random() * 100)
+        7: Math.round(Math.random() * 100),
       };
     };
     const INTERVAL: number = 3000;

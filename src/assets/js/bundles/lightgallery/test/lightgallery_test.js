@@ -1,6 +1,5 @@
 (function ($) {
-
-    module('lightGallery');
+    module("lightGallery");
 
     /*test('should be chainable', function() {
         var elem = document.createElement('div');
@@ -8,9 +7,7 @@
         equal($(elem).attr('class'), 'testing', 'class was added correctly from chaining');
     });*/
 
-    test('$item should take corrent value', function () {
-        ok($.fn.lightGallery, 'options set up correctly');
+    test("$item should take corrent value", function () {
+        ok($.fn.lightGallery, "options set up correctly");
     });
-
-}(jQuery));
-
+})(jQuery);

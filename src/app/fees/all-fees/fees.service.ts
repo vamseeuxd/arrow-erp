@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { Fees } from './fees.model';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
+import { Fees } from "./fees.model";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 @Injectable()
 export class FeesService {
-  private readonly API_URL = 'assets/data/fees.json';
+  private readonly API_URL = "assets/data/fees.json";
   dataChange: BehaviorSubject<Fees[]> = new BehaviorSubject<Fees[]>([]);
   // Temporarily stores data from dialogs
   dialogData: any;
@@ -18,11 +18,11 @@ export class FeesService {
   /** CRUD METHODS */
   getAllFeess(): void {
     this.httpClient.get<Fees[]>(this.API_URL).subscribe(
-      data => {
+      (data) => {
         this.dataChange.next(data);
       },
       (error: HttpErrorResponse) => {
-        console.log(error.name + ' ' + error.message);
+        console.log(error.name + " " + error.message);
       }
     );
   }
