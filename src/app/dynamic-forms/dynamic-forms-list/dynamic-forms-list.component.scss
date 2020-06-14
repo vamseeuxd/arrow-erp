@@ -1,0 +1,11 @@
+:host {
+  .add-new-dynamic-form {
+    position: fixed;
+    z-index: 100000000000000000;
+    top: calc(50% - 200px);
+    left: calc(50% - (90vw / 2));
+    max-width: 500px;
+    width: 90vw;
+    height: 400px;
+  }
+}

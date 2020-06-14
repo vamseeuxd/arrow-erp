@@ -1,0 +1,123 @@
+<mat-tab-group
+  style="margin-top: -25px;"
+  *ngIf="formControlList$ | async as formControlList"
+>
+  <!-- **************************************************   List of Controls   ************************************************** -->
+  <mat-tab label="List of Controls">
+    <ul
+      cdkDropList
+      class="form-controller-list"
+      (cdkDropListDropped)="drop($event)"
+    >
+      <li
+        class="form-controller-box"
+        *ngFor="let formControl of formControlList; let index$ = index"
+        cdkDrag
+      >
+        <!-- <pre>{{ formControl | json }}</pre> -->
+        {{ formControl.label }}
+        <!-- **************************************************   Actions Buttons ************************************************** -->
+        <ul class="top-right">
+          <li class="dropdown">
+            <a
+              href="#"
+              onClick="return false;"
+              data-toggle="dropdown"
+              role="button"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <i class="material-icons">more_vert</i>
+            </a>
+            <ul class="dropdown-menu pull-right">
+              <li>
+                <a
+                  class="text-nowrap"
+                  href="#"
+                  onClick="return false;"
+                  (click)="deleteForm(formControl.id)"
+                  style="padding: 7px 55px 7px 18px;"
+                >
+                  <i class="material-icons">delete</i>
+                  Delete Form Control
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-nowrap"
+                  href="#"
+                  onClick="return false;"
+                  (click)="cloneFormController(formControl, index$)"
+                  style="padding: 7px 55px 7px 18px;"
+                >
+                  <i class="material-icons">file_copy</i>
+                  Clone Form Control
+                </a>
+              </li>
+              <li>
+                <a
+                  class="text-nowrap"
+                  href="#"
+                  onClick="return false;"
+                  (click)="editFormController(formControl, index$)"
+                  style="padding: 7px 55px 7px 18px;"
+                >
+                  <i class="material-icons">edit</i>
+                  Edit Form Control
+                </a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <!-- **************************************************   Actions Buttons ************************************************** -->
+      </li>
+    </ul>
+  </mat-tab>
+  <!-- **************************************************   List of Controls   ************************************************** -->
+
+  <!-- **************************************************   Preview Form   ************************************************** -->
+  <mat-tab label="Preview Form">
+    <div class="form-controller-list">
+      <app-dynamic-form
+        formClass="ml-4 mr-4"
+        [formControls]="formControlList"
+      ></app-dynamic-form>
+    </div>
+  </mat-tab>
+  <!-- **************************************************   Preview Form   ************************************************** -->
+</mat-tab-group>
+
+<ng-template #addNewControlTemplate>
+  <!-- **************************************************   Add New Control Template   ************************************************** -->
+  <div>
+    <h2 mat-dialog-title class="mb-0">{{ formTittle }}</h2>
+    <p class="text-mute m-0 p-0">{{ formDetails.id }}</p>
+    <div mat-dialog-content>
+      <!-- <pre>{{ editDynamicFormConfig | json }}</pre> -->
+      <app-dynamic-form
+        (change)="onEditDynamicFormChangeBefore($event)"
+        #myForm
+        formClass="ml-4 mr-4"
+        [formControls]="editDynamicFormConfig"
+      ></app-dynamic-form>
+    </div>
+    <div mat-dialog-actions>
+      <button
+        class="mr-3 mb-3"
+        [disabled]="!isFormValid || dulicateName"
+        (click)="saveForm(myForm.form)"
+        mat-raised-button
+        color="primary"
+      >
+        Save
+      </button>
+      <button class="mb-3" type="button" mat-button mat-dialog-close>
+        Cancel
+      </button>
+      <p class="text-danger" *ngIf="this.dulicateName">
+        Duplicate Name, Please provide unique name
+      </p>
+    </div>
+  </div>
+  <!-- **************************************************   Add New Control Template   ************************************************** -->
+</ng-template>

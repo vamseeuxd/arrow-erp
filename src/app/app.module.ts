@@ -48,6 +48,8 @@ import { HttpClientModule } from "@angular/common/http";
 import { ArrowFirebaseModule } from "./shared/arrow-firebase.module";
 import { SharedModule } from "./shared/shared.module";
 import { TagInputModule } from "ngx-chips";
+import { MatBottomSheetModule } from "@angular/material/bottom-sheet";
+import { MatTabsModule } from "@angular/material/tabs";
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -85,6 +87,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     MatSidenavModule,
     MatButtonToggleModule,
     MatCheckboxModule,
+    MatTabsModule,
     MatSlideToggleModule,
     MatMenuModule,
     ClickOutsideModule,
@@ -95,6 +98,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ArrowFirebaseModule.forRoot(),
     SharedModule,
     TagInputModule,
+    MatBottomSheetModule,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },

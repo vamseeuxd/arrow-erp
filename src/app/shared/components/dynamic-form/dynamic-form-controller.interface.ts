@@ -1,7 +1,9 @@
 export interface DynamicFormControllerInterface {
   type: string;
   hide: boolean;
+  showInGrid: boolean;
   controllerClass: string;
+  columnClass: string;
   label: string;
   value: string;
   name: string;

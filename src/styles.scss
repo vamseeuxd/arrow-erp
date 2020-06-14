@@ -23,11 +23,39 @@
   z-index: 1000 !important;
 }
 
-.cdk-overlay-transparent-backdrop,
+/* .cdk-overlay-transparent-backdrop,
 .cdk-overlay-transparent-backdrop.cdk-overlay-backdrop-showing {
   z-index: 1051;
-}
+} */
 
 .select-all-option mat-pseudo-checkbox.mat-pseudo-checkbox {
   display: none;
+}
+
+.top-right {
+  display: inline-block;
+  position: absolute;
+  top: 1em;
+  right: 1em;
+}
+
+.top-left {
+  display: inline-block;
+  position: absolute;
+  top: 1em;
+  right: 1em;
+}
+
+.bottom-right {
+  display: inline-block;
+  position: absolute;
+  bottom: 1em;
+  right: 1em;
+}
+
+.bottom-left {
+  display: inline-block;
+  position: absolute;
+  bottom: 1em;
+  left: 1em;
 }

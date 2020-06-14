@@ -1,42 +1,21 @@
 <h4 mat-dialog-title class="p-0 m-0">
-  <button mat-icon-button (click)="drawer.toggle()">
+  <button
+    mat-icon-button
+    (click)="drawer.toggle()"
+    [disabled]="editControlIndex >= 0"
+  >
     <mat-icon>menu</mat-icon>
   </button>
   {{ drawer.opened ? "Dynamic Forms List" : "Manage Dynamic Forms" }}
 </h4>
-<mat-dialog-content class="mat-typography">
+<mat-dialog-content class="mat-typography bg-white">
   <mat-drawer-container
     autosize
     hasBackdrop="true"
     style="min-height: calc(90vh - 90px);"
   >
     <mat-drawer #drawer mode="over" opened style="width: 250px;">
-      <ul class="list-group mr-3">
-        <li class="list-group-item">Form One</li>
-        <li class="list-group-item">Form Two</li>
-        <li class="list-group-item">Form Three</li>
-        <li class="list-group-item">Form Four</li>
-        <li class="list-group-item">Form Five</li>
-        <li class="list-group-item">Form Five</li>
-        <li class="list-group-item">Form Five</li>
-        <li class="list-group-item">Form Five</li>
-        <li class="list-group-item">Form Five</li>
-        <li class="list-group-item">Form Five</li>
-        <li class="list-group-item">Form Five</li>
-        <li class="list-group-item">Form Five</li>
-        <li class="list-group-item">Form Five</li>
-        <li class="list-group-item">Form Five</li>
-        <li class="list-group-item">Form Five</li>
-        <li class="list-group-item">Form Five</li>
-        <li class="list-group-item">Form Five</li>
-        <li class="list-group-item">Form Five</li>
-        <li class="list-group-item">Form Five</li>
-        <li class="list-group-item">Form Five</li>
-        <li class="list-group-item">Form Five</li>
-        <li class="list-group-item">Form Five</li>
-        <li class="list-group-item">Form Five</li>
-        <li class="list-group-item">Form Five</li>
-      </ul>
+      <!-- <app-dynamic-forms-list></app-dynamic-forms-list> -->
     </mat-drawer>
     <mat-drawer-content>
       <mat-tab-group #formTabGroup [(selectedIndex)]="selectedIndex">
@@ -198,18 +177,10 @@
     </mat-drawer-content>
   </mat-drawer-container>
 </mat-dialog-content>
-<mat-dialog-actions align="end">
-  <!--<mat-form-field class="mt-1 mr-4">
-    <mat-label>Favorite food</mat-label>
-    <input matInput placeholder="Ex. Pizza" value="Sushi">
-  </mat-form-field>-->
-
-  <label
-    *ngIf="selectedIndex == 0"
-    class="mt-2 text-muted text-left float-left"
+<mat-dialog-actions align="start">
+  <label *ngIf="selectedIndex == 0" class="mt-2 text-muted text-left float-left"
+    >Drag and Drop Form Controls to Create a Dynamic Form</label
   >
-    Drag and Drop Form Controls to Create a Dynamic Form
-  </label>
   <button mat-button mat-dialog-close>Cancel</button>
   <button mat-button [mat-dialog-close]="true" cdkFocusInitial>
     Create Dynamic Form

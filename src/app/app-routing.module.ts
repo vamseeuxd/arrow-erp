@@ -30,6 +30,13 @@ const routes: Routes = [
       import("./students/students.module").then((m) => m.StudentsModule),
   },
   {
+    path: "dynamic-forms",
+    loadChildren: () =>
+      import("./dynamic-forms/dynamic-forms.module").then(
+        (m) => m.DymamicFormsModule
+      ),
+  },
+  {
     path: "courses",
     loadChildren: () =>
       import("./courses/courses.module").then((m) => m.CoursesModule),

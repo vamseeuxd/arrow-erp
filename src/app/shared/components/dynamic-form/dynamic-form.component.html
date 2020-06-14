@@ -2,7 +2,7 @@
   <div class="row">
     <div
       [class]="control.columnClass ? control.columnClass : defaultColumnClass"
-      *ngFor="let control of formControls"
+      *ngFor="let control of getFormControls()"
     >
       <ng-container [ngSwitch]="true">
         <ng-container
@@ -135,19 +135,16 @@
               [required]="control?.required"
             >
               <ng-container
-                *ngIf="
-                  control?.dataProvider?.data &&
-                  control.dataProvider.data.length > 0
-                "
+                *ngIf="control?.dataProvider && control.dataProvider.length > 0"
               >
                 <!--<mat-option disabled class="select-all-option">
                   <mat-checkbox color="primary">Select All</mat-checkbox>
                 </mat-option>-->
                 <mat-option
-                  *ngFor="let option of control.dataProvider.data"
-                  [value]="option[control.dataProvider.identifyBy]"
+                  *ngFor="let option of control.dataProvider"
+                  [value]="option[control.identifyBy]"
                 >
-                  {{ option[control.dataProvider.displayBy] }}
+                  {{ option[control.displayBy] }}
                 </mat-option>
               </ng-container>
             </mat-select>
@@ -182,17 +179,14 @@
               [required]="control?.required"
             >
               <ng-container
-                *ngIf="
-                  control?.dataProvider?.data &&
-                  control.dataProvider.data.length > 0
-                "
+                *ngIf="control?.dataProvider && control.dataProvider.length > 0"
               >
                 <mat-radio-button
-                  *ngFor="let option of control.dataProvider.data"
+                  *ngFor="let option of control.dataProvider"
                   class="mr-3 ml-0 mb-3"
-                  [value]="option[control.dataProvider.identifyBy]"
+                  [value]="option[control.identifyBy]"
                 >
-                  {{ option[control.dataProvider.displayBy] }}
+                  {{ option[control.displayBy] }}
                 </mat-radio-button>
               </ng-container>
             </mat-radio-group>

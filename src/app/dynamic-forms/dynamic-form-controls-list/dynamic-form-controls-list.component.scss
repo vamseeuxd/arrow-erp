@@ -1,34 +1,10 @@
-mat-dialog-content.mat-typography {
-  min-height: calc(90vh - 90px);
-  display: block;
-}
-
-.menu-toggle {
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 1000;
-}
-
-.action-bar {
-  position: absolute;
-  top: -5px;
-  right: 10px;
-}
-
-.form-controller-container {
-  display: inline-block;
-  vertical-align: top;
-}
-
 .form-controller-list {
   border: solid 1px #ccc;
-  min-height: 60px;
   background: white;
   border-radius: 4px;
   display: block;
-  max-height: calc(90vh - 220px);
-  min-height: calc(90vh - 220px);
+  max-height: calc(90vh - 360px);
+  min-height: calc(90vh - 360px);
   overflow-y: auto;
   overflow-x: hidden;
 }
@@ -40,6 +16,8 @@ mat-dialog-content.mat-typography {
   cursor: move;
   background: white;
   font-size: 14px;
+  position: relative;
+  list-style: none;
 }
 
 .cdk-drag-preview {

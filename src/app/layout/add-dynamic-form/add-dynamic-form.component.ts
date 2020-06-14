@@ -409,7 +409,7 @@ export class AddDynamicFormComponent {
     },
   ];
   done = [];
-  private editControlIndex: number;
+  editControlIndex: number;
 
   drop(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {

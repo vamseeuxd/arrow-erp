@@ -74,7 +74,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.setStartupStyles();
-    this.addDynamicForm();
+    // this.addDynamicForm();
   }
 
   setStartupStyles() {

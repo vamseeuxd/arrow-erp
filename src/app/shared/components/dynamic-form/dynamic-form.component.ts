@@ -47,6 +47,10 @@ export class DynamicFormComponent {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   fruits: string[] = ["Lemon"];
 
+  getFormControls() {
+    return this.formControls.filter((d) => !d.hide);
+  }
+
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;

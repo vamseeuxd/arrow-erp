@@ -77,6 +77,25 @@ export const ROUTES: RouteInfo[] = [
   },
   {
     path: "",
+    title: "Dynamic Forms",
+    iconType: "material-icons-two-tone",
+    icon: "tv",
+    class: "menu-toggle",
+    groupTitle: false,
+    submenu: [
+      {
+        path: "/dynamic-forms",
+        title: "Manage Dynamic Forms",
+        iconType: "",
+        icon: "",
+        class: "ml-menu",
+        groupTitle: false,
+        submenu: [],
+      },
+    ],
+  },
+  {
+    path: "",
     title: "Online Classes",
     iconType: "material-icons-two-tone",
     icon: "tv",
