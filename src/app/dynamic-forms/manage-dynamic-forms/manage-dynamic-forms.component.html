@@ -27,6 +27,7 @@
             <div *ngIf="form$ | async as form">
               <h4>{{ form.addFormPageTitle }}</h4>
               <app-dynamic-form
+                (change)="handleFormChange(form.formControls, $event.control)"
                 [formControls]="form.formControls"
               ></app-dynamic-form>
             </div>

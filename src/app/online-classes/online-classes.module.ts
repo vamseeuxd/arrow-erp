@@ -23,7 +23,6 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
 import { MatCardModule } from "@angular/material/card";
 import { OnlineClassesAddMediaComponent } from "./manage-online-classes/online-classes-add-media/online-classes-add-media.component";
 import { MatDialogModule } from "@angular/material/dialog";
-import { YouTubePlayerModule } from "@angular/youtube-player";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatAutocompleteModule } from "@angular/material/autocomplete";
 import { OnlineClassesService } from "./online-classes.service";
@@ -88,7 +87,6 @@ export const MY_FORMATS = {
     DragDropModule,
     MatCardModule,
     MatDialogModule,
-    YouTubePlayerModule,
     MatChipsModule,
     MatAutocompleteModule,
     ArrowFirebaseModule,

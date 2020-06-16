@@ -71,7 +71,7 @@ export class DynamicFormControlsListComponent implements OnInit {
       switchMap((formDetails: any) =>
         afs
           .collection("dynamic-form-controls", (ref) =>
-            ref.where("formId", "==", formDetails.id)
+            ref.where("formId", "==", formDetails.id).orderBy('position')
           )
           .valueChanges()
           .pipe(map((things) => things.sort(compareFn)))
@@ -159,11 +159,6 @@ export class DynamicFormControlsListComponent implements OnInit {
   async cloneFormController(formControl, index$) {
     const formData = JSON.parse(JSON.stringify(formControl));
     formData.name = formData.name + 0;
-    /*formData.position = index$ + 1;
-    this.updatePositionAfterUpdate = false;
-    const busyIndicatorId = this.busyIndicator.show();
-    await this.addFormControl(formData);
-    this.busyIndicator.hide(busyIndicatorId);*/
     this.dataToClone = formData;
     this.addNewControl(this.formDetails, formData.type);
   }

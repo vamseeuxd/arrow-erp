@@ -5,10 +5,10 @@ import {
   Observable,
   of,
   Subject,
-} from "rxjs";
-import { AngularFirestore } from "@angular/fire/firestore";
-import { map, switchMap, tap } from "rxjs/operators";
-import { hasOwnProperty } from "tslint/lib/utils";
+} from 'rxjs';
+import {AngularFirestore} from '@angular/fire/firestore';
+import {map, switchMap, tap} from 'rxjs/operators';
+import {hasOwnProperty} from 'tslint/lib/utils';
 
 export const sortFunction = (a: any, b: any) => {
   if (a.position < b.position) {
@@ -24,17 +24,36 @@ export const getFormDetails = (
   afs: AngularFirestore
 ): Observable<FormDetails> => {
   return afs
-    .collection("dynamic-forms", (ref) => ref.where("formID", "==", formId))
+    .collection(
+      'dynamic-forms',
+      (ref) => ref.where('formID', '==', formId)
+    )
     .valueChanges()
     .pipe(
       switchMap((value: any[]) => {
         return combineLatest([
           of(value[0]),
           afs
-            .collection("dynamic-form-controls", (ref) =>
-              ref.where("formId", "==", value[0].id)
+            .collection('dynamic-form-controls', (ref) =>
+              ref.where('formId', '==', value[0].id).orderBy('position')
             )
-            .valueChanges(),
+            .valueChanges()
+            .pipe(
+              mapDataProviders(afs),
+              map(
+                (things: any) => things.sort(
+                  (a: any, b: any) => {
+                    if (a.position < b.position) {
+                      return -1;
+                    }
+                    if (a.position > b.position) {
+                      return 1;
+                    }
+                    return 0;
+                  }
+                )
+              ),
+            )
         ]);
       }),
       switchMap(([formDetails, formControls]) => {
@@ -63,47 +82,51 @@ export const mapDataProviders = (afs: AngularFirestore) => {
           if (data && data.length > 0) {
             for (const doc of collectionData) {
               if (
-                doc.hasOwnProperty("dataProviderCollectionName") &&
+                doc.hasOwnProperty('dataProviderCollectionName') &&
                 doc.dataProviderCollectionName.length > 0
               ) {
-                if (doc.hasOwnProperty("filterBy") && doc.filterBy.length > 0) {
+                if (doc.hasOwnProperty('filterBy') && doc.filterBy.length > 0) {
                   const action$ = new Subject<string>();
                   const data$ = action$.pipe(
                     switchMap((value) =>
                       afs
                         .collection(doc.dataProviderCollectionName, (ref) =>
-                          ref.where(doc.filterBy, "==", value)
+                          ref.where(doc.filterBy, '==', value).orderBy(doc.displayBy)
                         )
                         .valueChanges()
                     )
                   );
-                  reads$.push(of({ action: action$, data: data$ }));
+                  reads$.push(of({action: action$, data: data$}));
                   // reads$.push(afs.collection(doc.dataProviderCollectionName).valueChanges());
-                } else {
+                }
+                else {
                   reads$.push(
                     afs
                       .collection(doc.dataProviderCollectionName)
                       .valueChanges()
                   );
                 }
-              } else {
-                reads$.push(of("ignore"));
+              }
+              else {
+                reads$.push(of('ignore'));
               }
             }
             return combineLatest(reads$);
-          } else {
+          }
+          else {
             return of([]);
           }
         }),
         map((joins) => {
           return collectionData.map((v, i) => {
             totalJoins += joins[i].length;
-            if (joins[i] !== "ignore") {
-              if (joins[i].hasOwnProperty("action")) {
+            if (joins[i] !== 'ignore') {
+              if (joins[i].hasOwnProperty('action')) {
                 v.action$ = joins[i].action;
                 v.data$ = joins[i].data;
                 v.dataProvider = [];
-              } else {
+              }
+              else {
                 v.dataProvider = joins[i];
               }
             }
@@ -120,14 +143,11 @@ export const mapDataProviders = (afs: AngularFirestore) => {
     });
 };
 export const handleFormChange = (formControls: any[], changeControl: any) => {
-  console.clear();
-  console.log(changeControl);
-  console.log("---------------------");
-  console.log(formControls);
   formControls.forEach((value) => {
     if (changeControl.name === value.filterValueControl && value.action$) {
       const y$ = value.data$.subscribe((x) => {
         value.dataProvider = x;
+        debugger;
         y$.unsubscribe();
       });
       value.action$.next(changeControl.value);
