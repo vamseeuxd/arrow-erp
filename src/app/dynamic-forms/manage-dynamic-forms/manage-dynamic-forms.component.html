@@ -22,7 +22,22 @@
 
     <div class="row clearfix">
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
-        <app-dynamic-forms-list></app-dynamic-forms-list>
+        <mat-tab-group>
+          <mat-tab label="Form Preview">
+            <div *ngIf="form$ | async as form">
+              <h4>{{ form.addFormPageTitle }}</h4>
+              <app-dynamic-form
+                [formControls]="form.formControls"
+              ></app-dynamic-form>
+            </div>
+          </mat-tab>
+          <mat-tab label="Config Form">
+            <app-dynamic-forms-list></app-dynamic-forms-list>
+          </mat-tab>
+        </mat-tab-group>
+        <!--<pre *ngIf="form$ | async as form">{{form|json}}</pre>-->
+        <!--<pre *ngIf="result$ | async as res">{{res|json}}</pre>-->
+        <!--<app-dynamic-forms-list></app-dynamic-forms-list>-->
       </div>
     </div>
   </div>

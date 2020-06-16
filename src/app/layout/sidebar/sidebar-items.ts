@@ -159,17 +159,8 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     submenu: [
       {
-        path: "/institutions/all-institutions",
+        path: "/institutions/all",
         title: "All Institutions",
-        iconType: "",
-        icon: "",
-        class: "ml-menu",
-        groupTitle: false,
-        submenu: [],
-      },
-      {
-        path: "/institutions/add-institution",
-        title: "Add Institution",
         iconType: "",
         icon: "",
         class: "ml-menu",

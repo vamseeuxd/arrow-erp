@@ -25,9 +25,7 @@ const routes: Routes = [
   {
     path: "institutions",
     loadChildren: () =>
-      import("./institutions/institutions.module").then(
-        (m) => m.InstitutionsModule
-      ),
+      import("./institutions/items.module").then((m) => m.ItemsModule),
   },
   {
     path: "students",

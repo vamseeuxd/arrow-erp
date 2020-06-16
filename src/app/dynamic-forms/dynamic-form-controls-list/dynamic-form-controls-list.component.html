@@ -11,9 +11,16 @@
     >
       <li
         class="form-controller-box"
-        *ngFor="let formControl of formControlList; let index$ = index"
+        *ngFor="let formControl of selectedFormControls; let index$ = index"
         cdkDrag
       >
+        <button
+          mat-icon-button
+          cdkDragHandle
+          class="form-controller-drag-handle"
+        >
+          <mat-icon>zoom_out_map</mat-icon>
+        </button>
         <!-- <pre>{{ formControl | json }}</pre> -->
         {{ formControl.label }}
         <!-- **************************************************   Actions Buttons ************************************************** -->
@@ -78,10 +85,18 @@
   <!-- **************************************************   Preview Form   ************************************************** -->
   <mat-tab label="Preview Form">
     <div class="form-controller-list">
+      <!--<pre *ngIf="getFormConfig(formControlList,afs) | async as data">
+        {{data|json}}
+      </pre>-->
       <app-dynamic-form
+        #previewForm
         formClass="ml-4 mr-4"
+        (change)="previewFormChange($event, formControlList)"
+        (init)="previewFormInit($event)"
         [formControls]="formControlList"
       ></app-dynamic-form>
+      Test :
+      <pre *ngIf="previewNgForm">Test {{ previewNgForm?.value | json }}</pre>
     </div>
   </mat-tab>
   <!-- **************************************************   Preview Form   ************************************************** -->
@@ -97,6 +112,7 @@
       <app-dynamic-form
         (change)="onEditDynamicFormChangeBefore($event)"
         #myForm
+        (init)="onAddControlFormInit($event)"
         formClass="ml-4 mr-4"
         [formControls]="editDynamicFormConfig"
       ></app-dynamic-form>
@@ -104,7 +120,7 @@
     <div mat-dialog-actions>
       <button
         class="mr-3 mb-3"
-        [disabled]="!isFormValid || dulicateName"
+        [disabled]="!isFormValid || duplicateName"
         (click)="saveForm(myForm.form)"
         mat-raised-button
         color="primary"
@@ -114,7 +130,7 @@
       <button class="mb-3" type="button" mat-button mat-dialog-close>
         Cancel
       </button>
-      <p class="text-danger" *ngIf="this.dulicateName">
+      <p class="text-danger" *ngIf="this.duplicateName">
         Duplicate Name, Please provide unique name
       </p>
     </div>

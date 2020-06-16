@@ -3,7 +3,7 @@
   background: white;
   border-radius: 4px;
   display: block;
-  max-height: calc(90vh - 360px);
+  max-height: calc(90vh - 160px);
   min-height: calc(90vh - 360px);
   overflow-y: auto;
   overflow-x: hidden;
@@ -13,11 +13,14 @@
   padding: 10px;
   border-bottom: solid 1px #ccc;
   color: rgba(0, 0, 0, 0.87);
-  cursor: move;
   background: white;
   font-size: 14px;
   position: relative;
   list-style: none;
+}
+
+.form-controller-drag-handle {
+  cursor: move;
 }
 
 .cdk-drag-preview {

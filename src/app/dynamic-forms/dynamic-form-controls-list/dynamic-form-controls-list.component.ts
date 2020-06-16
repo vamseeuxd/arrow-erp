@@ -8,6 +8,7 @@ import {
 } from "@angular/fire/firestore";
 import { Observable, Subject } from "rxjs";
 import * as firebase from "firebase/app";
+import * as _ from "lodash";
 import "firebase/firestore";
 import {
   FormControlsConfigList,
@@ -16,7 +17,10 @@ import {
 } from "./dynamic-form-controls-configs";
 import { NgForm } from "@angular/forms";
 import { switchMap, tap, map } from "rxjs/operators";
-import { async } from "@angular/core/testing";
+import {
+  handleFormChange,
+  mapDataProviders,
+} from "../../shared/utilities/get-from-config";
 
 @Component({
   selector: "app-dynamic-form-controls-list",
@@ -28,7 +32,7 @@ export class DynamicFormControlsListComponent implements OnInit {
   addNewControlTemplate: TemplateRef<any>;
   formTittle = "Add New Form Control";
   isFormValid = false;
-  dulicateName = false;
+  duplicateName = false;
   updatePositionAfterUpdate = false;
   formDetails;
   defaultColumnWidth = "";
@@ -37,23 +41,29 @@ export class DynamicFormControlsListComponent implements OnInit {
 
   editDynamicFormConfig: any[] = FormControlsConfigList;
 
-  selectedFormControls = [];
+  selectedFormControls: any[] = [];
 
   formDetails$ = new Subject<string>();
   formDetailsBusyIndicator;
   formControlCollection: AngularFirestoreCollection<any>;
   formControlList$: Observable<any[]>;
+  private arrowForm: NgForm;
+  private dataToClone: any;
+  private previewNgForm: NgForm;
 
   constructor(
     private dialogModel: MatDialog,
     private busyIndicator: BusyIndicatorService,
-    private afs: AngularFirestore
+    public afs: AngularFirestore
   ) {
     this.formControlCollection = afs.collection<any>("dynamic-form-controls");
-    // this.formControlList$ = this.formControlCollection.valueChanges();
     const compareFn = (a, b) => {
-      if (a.position < b.position) return -1;
-      if (a.position > b.position) return 1;
+      if (a.position < b.position) {
+        return -1;
+      }
+      if (a.position > b.position) {
+        return 1;
+      }
       return 0;
     };
 
@@ -66,8 +76,13 @@ export class DynamicFormControlsListComponent implements OnInit {
           .valueChanges()
           .pipe(map((things) => things.sort(compareFn)))
       ),
-      tap((value) => {
-        this.selectedFormControls = value;
+      mapDataProviders(this.afs),
+      tap((value: any[]) => {
+        const clonedValue = _.clone(value);
+        clonedValue.forEach((x) => {
+          delete x.action;
+        });
+        this.selectedFormControls = clonedValue;
         this.busyIndicator.hide(this.formDetailsBusyIndicator);
         if (this.updatePositionAfterUpdate) {
           this.updatePositionAfterUpdate = false;
@@ -91,12 +106,15 @@ export class DynamicFormControlsListComponent implements OnInit {
   ngOnInit(): void {}
 
   drop(event: CdkDragDrop<string[]>) {
-    moveItemInArray(
-      this.selectedFormControls,
-      event.previousIndex,
-      event.currentIndex
-    );
-    this.updateControlIndexes();
+    // alert(`${event.previousIndex} / ${event.currentIndex}`);
+    if (event.previousIndex !== event.currentIndex) {
+      moveItemInArray(
+        this.selectedFormControls,
+        event.previousIndex,
+        event.currentIndex
+      );
+      this.updateControlIndexes();
+    }
   }
 
   updateControlIndexes() {
@@ -125,32 +143,29 @@ export class DynamicFormControlsListComponent implements OnInit {
     this.formDetails$.next(this.formDetails);
   }
 
-  addNewControl(formDetails: any) {
+  addNewControl(formDetails: any, controlType = "email") {
     this.formDetails = formDetails;
     this.formDetails$.next(this.formDetails);
     this.defaultColumnWidth = formDetails.defaultColumnClass;
-    this.editDynamicFormConfig[EDIT_CONFIG.COLUM_CLASS].value =
+    this.editDynamicFormConfig[EDIT_CONFIG.COLUMN_CLASS].value =
       formDetails.defaultColumnClass;
     this.editDynamicFormConfig[EDIT_CONFIG.CONTROLLER_CLASS].value = "w-100";
     this.formToEdit = null;
     this.formToEditIndex = -1;
     this.openDialog(this.addNewControlTemplate);
-    this.editDynamicFormConfig[EDIT_CONFIG.TYPE].value = "text";
-    this.editDynamicFormConfig[EDIT_CONFIG.LABEL].value =
-      "Test " + this.selectedFormControls.length;
-    this.editDynamicFormConfig[EDIT_CONFIG.NAME].value =
-      "test" + this.selectedFormControls.length;
-    this.onEditDynamicFormChange("email");
+    this.onEditDynamicFormChange(controlType);
   }
 
   async cloneFormController(formControl, index$) {
     const formData = JSON.parse(JSON.stringify(formControl));
-    formData.name = formData.name + new Date().getTime();
-    formData.position = index$ + 1;
+    formData.name = formData.name + 0;
+    /*formData.position = index$ + 1;
     this.updatePositionAfterUpdate = false;
     const busyIndicatorId = this.busyIndicator.show();
     await this.addFormControl(formData);
-    this.busyIndicator.hide(busyIndicatorId);
+    this.busyIndicator.hide(busyIndicatorId);*/
+    this.dataToClone = formData;
+    this.addNewControl(this.formDetails, formData.type);
   }
 
   editFormController(formControl, index$) {
@@ -274,6 +289,7 @@ export class DynamicFormControlsListComponent implements OnInit {
             ...formData,
             formId: this.formDetails.id,
             updatedOn: this.getServerTime(),
+            position: this.formToEditIndex,
             id,
             createdOn,
           });
@@ -291,11 +307,13 @@ export class DynamicFormControlsListComponent implements OnInit {
 
   onEditDynamicFormChange(type: string) {
     this.resetEditDynamicForm();
-    this.editDynamicFormConfig[EDIT_CONFIG.VALUE].type = type;
+    // this.editDynamicFormConfig[EDIT_CONFIG.VALUE].type = type;
     switch (type) {
       case CONTROL_TYPE.EMAIL:
         this.editDynamicFormConfig[EDIT_CONFIG.DATA_PROVIDER].hide = true;
         this.editDynamicFormConfig[EDIT_CONFIG.IDENTIFY_BY].hide = true;
+        this.editDynamicFormConfig[EDIT_CONFIG.FILTER_BY].hide = true;
+        this.editDynamicFormConfig[EDIT_CONFIG.FILTER_VALUE].hide = true;
         this.editDynamicFormConfig[EDIT_CONFIG.MULTIPLE].hide = true;
         this.editDynamicFormConfig[EDIT_CONFIG.MIN].hide = true;
         this.editDynamicFormConfig[EDIT_CONFIG.MAX].hide = true;
@@ -310,6 +328,8 @@ export class DynamicFormControlsListComponent implements OnInit {
       case CONTROL_TYPE.COLOR:
         this.editDynamicFormConfig[EDIT_CONFIG.DATA_PROVIDER].hide = true;
         this.editDynamicFormConfig[EDIT_CONFIG.IDENTIFY_BY].hide = true;
+        this.editDynamicFormConfig[EDIT_CONFIG.FILTER_BY].hide = true;
+        this.editDynamicFormConfig[EDIT_CONFIG.FILTER_VALUE].hide = true;
         this.editDynamicFormConfig[EDIT_CONFIG.DISPLAY_BY].hide = true;
         this.editDynamicFormConfig[EDIT_CONFIG.MULTIPLE].hide = true;
         this.editDynamicFormConfig[EDIT_CONFIG.MIN_LENGTH].hide = true;
@@ -331,6 +351,8 @@ export class DynamicFormControlsListComponent implements OnInit {
       case CONTROL_TYPE.TEL:
         this.editDynamicFormConfig[EDIT_CONFIG.DATA_PROVIDER].hide = true;
         this.editDynamicFormConfig[EDIT_CONFIG.IDENTIFY_BY].hide = true;
+        this.editDynamicFormConfig[EDIT_CONFIG.FILTER_BY].hide = true;
+        this.editDynamicFormConfig[EDIT_CONFIG.FILTER_VALUE].hide = true;
         this.editDynamicFormConfig[EDIT_CONFIG.MULTIPLE].hide = true;
         this.editDynamicFormConfig[EDIT_CONFIG.MIN].hide = true;
         this.editDynamicFormConfig[EDIT_CONFIG.MAX].hide = true;
@@ -349,6 +371,8 @@ export class DynamicFormControlsListComponent implements OnInit {
       case CONTROL_TYPE.WEEK:
         this.editDynamicFormConfig[EDIT_CONFIG.DATA_PROVIDER].hide = true;
         this.editDynamicFormConfig[EDIT_CONFIG.IDENTIFY_BY].hide = true;
+        this.editDynamicFormConfig[EDIT_CONFIG.FILTER_BY].hide = true;
+        this.editDynamicFormConfig[EDIT_CONFIG.FILTER_VALUE].hide = true;
         this.editDynamicFormConfig[EDIT_CONFIG.MULTIPLE].hide = true;
         this.editDynamicFormConfig[EDIT_CONFIG.MIN_LENGTH].hide = true;
         this.editDynamicFormConfig[EDIT_CONFIG.MAX_LENGTH].hide = true;
@@ -410,62 +434,30 @@ export class DynamicFormControlsListComponent implements OnInit {
     if ($event && $event.control && $event.control.name === "type") {
       this.onEditDynamicFormChange($event.control.value);
     }
-    if (
-      $event &&
-      $event.control &&
-      ($event.control.name === "identifyBy" ||
-        $event.control.name === "displayBy")
-    ) {
-      const dataProvider: any = this.editDynamicFormConfig[
-        EDIT_CONFIG.DATA_PROVIDER
-      ].value;
-      const data = dataProvider.map((value: any) => {
-        const returnData: any = {};
-        if ($event.control.name === "displayBy") {
-          const disBy = this.editDynamicFormConfig[EDIT_CONFIG.DISPLAY_BY]
-            .oldValue;
-          const idBy = this.editDynamicFormConfig[
-            EDIT_CONFIG.IDENTIFY_BY
-          ].value.toString();
-          returnData[$event.control.value] = value[disBy];
-          returnData[idBy] = value[idBy];
-        } else if ($event.control.name === "identifyBy") {
-          const disBy = this.editDynamicFormConfig[
-            EDIT_CONFIG.DISPLAY_BY
-          ].value.toString();
-          const idBy = this.editDynamicFormConfig[
-            EDIT_CONFIG.IDENTIFY_BY
-          ].oldValue.toString();
-          returnData[$event.control.value] = value[idBy];
-          returnData[disBy] = value[disBy];
-        }
-        return returnData;
-      });
-      this.editDynamicFormConfig[EDIT_CONFIG.DATA_PROVIDER].dataProvider = {
-        identifyBy:
-          $event.control.name === "identifyBy"
-            ? $event.control.value
-            : this.editDynamicFormConfig[EDIT_CONFIG.IDENTIFY_BY].oldValue,
-        displayBy:
-          $event.control.name === "displayBy"
-            ? $event.control.value
-            : this.editDynamicFormConfig[EDIT_CONFIG.DISPLAY_BY].oldValue,
-        data,
-      };
-      if ($event.control.name === "displayBy") {
-        this.editDynamicFormConfig[EDIT_CONFIG.DISPLAY_BY].oldValue =
-          $event.control.value;
-      }
-      if ($event.control.name === "identifyBy") {
-        this.editDynamicFormConfig[EDIT_CONFIG.IDENTIFY_BY].oldValue =
-          $event.control.value;
-      }
-      this.editDynamicFormConfig[EDIT_CONFIG.DATA_PROVIDER].value = data;
-    }
     if ($event.control && $event.control.name === "name") {
-      this.dulicateName =
+      this.duplicateName =
         this.selectedFormControls.filter((d) => d.name === $event.control.value)
           .length > 0;
     }
+  }
+
+  onAddControlFormInit($event: NgForm) {
+    this.arrowForm = $event;
+    setTimeout(() => {
+      if (this.dataToClone) {
+        this.arrowForm.resetForm(this.dataToClone);
+        this.dataToClone = null;
+      }
+    });
+  }
+
+  previewFormInit($event: NgForm) {
+    setTimeout(() => {
+      this.previewNgForm = $event;
+    });
+  }
+
+  previewFormChange($event: any, formControlList: any[]) {
+    handleFormChange(formControlList, $event.control);
   }
 }
