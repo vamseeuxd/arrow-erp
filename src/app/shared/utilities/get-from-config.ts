@@ -4,12 +4,22 @@ import {
   defer,
   Observable,
   of,
+  pipe,
   Subject,
-} from 'rxjs';
-import {AngularFirestore} from '@angular/fire/firestore';
-import {map, switchMap, tap} from 'rxjs/operators';
-import {hasOwnProperty} from 'tslint/lib/utils';
+} from "rxjs";
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+} from "@angular/fire/firestore";
+import { map, switchMap, tap } from "rxjs/operators";
+import { hasOwnProperty } from "tslint/lib/utils";
+import * as firebase from "firebase/app";
+import * as _ from "lodash";
+import { leftJoin } from "./collectionJoin";
 
+export const getServerTime = (): any => {
+  return firebase.firestore.FieldValue.serverTimestamp();
+};
 export const sortFunction = (a: any, b: any) => {
   if (a.position < b.position) {
     return -1;
@@ -23,43 +33,26 @@ export const getFormDetails = (
   formId,
   afs: AngularFirestore
 ): Observable<FormDetails> => {
+  const query = (ref) => ref.where("formID", "==", formId);
   return afs
-    .collection(
-      'dynamic-forms',
-      (ref) => ref.where('formID', '==', formId)
-    )
+    .collection("dynamic-forms", query)
     .valueChanges()
     .pipe(
       switchMap((value: any[]) => {
         return combineLatest([
           of(value[0]),
           afs
-            .collection('dynamic-form-controls', (ref) =>
-              ref.where('formId', '==', value[0].id).orderBy('position')
+            .collection("dynamic-form-controls", (ref) =>
+              ref.where("formId", "==", value[0].id).orderBy("position")
             )
             .valueChanges()
-            .pipe(
-              mapDataProviders(afs),
-              map(
-                (things: any) => things.sort(
-                  (a: any, b: any) => {
-                    if (a.position < b.position) {
-                      return -1;
-                    }
-                    if (a.position > b.position) {
-                      return 1;
-                    }
-                    return 0;
-                  }
-                )
-              ),
-            )
+            .pipe(mapDataProviders(afs)),
         ]);
       }),
       switchMap(([formDetails, formControls]) => {
         delete formDetails.updatedOn;
         delete formDetails.createdOn;
-        formControls.forEach((d: any) => {
+        (formControls as any[]).forEach((d: any) => {
           delete d.updatedOn;
           delete d.createdOn;
         });
@@ -82,51 +75,49 @@ export const mapDataProviders = (afs: AngularFirestore) => {
           if (data && data.length > 0) {
             for (const doc of collectionData) {
               if (
-                doc.hasOwnProperty('dataProviderCollectionName') &&
+                doc.hasOwnProperty("dataProviderCollectionName") &&
                 doc.dataProviderCollectionName.length > 0
               ) {
-                if (doc.hasOwnProperty('filterBy') && doc.filterBy.length > 0) {
+                if (doc.hasOwnProperty("filterBy") && doc.filterBy.length > 0) {
                   const action$ = new Subject<string>();
                   const data$ = action$.pipe(
                     switchMap((value) =>
                       afs
                         .collection(doc.dataProviderCollectionName, (ref) =>
-                          ref.where(doc.filterBy, '==', value).orderBy(doc.displayBy)
+                          ref
+                            .where(doc.filterBy, "==", value)
+                            .orderBy(doc.displayBy)
                         )
                         .valueChanges()
                     )
                   );
-                  reads$.push(of({action: action$, data: data$}));
+                  reads$.push(of({ action: action$, data: data$ }));
                   // reads$.push(afs.collection(doc.dataProviderCollectionName).valueChanges());
-                }
-                else {
+                } else {
                   reads$.push(
                     afs
                       .collection(doc.dataProviderCollectionName)
                       .valueChanges()
                   );
                 }
-              }
-              else {
-                reads$.push(of('ignore'));
+              } else {
+                reads$.push(of("ignore"));
               }
             }
             return combineLatest(reads$);
-          }
-          else {
+          } else {
             return of([]);
           }
         }),
         map((joins) => {
           return collectionData.map((v, i) => {
             totalJoins += joins[i].length;
-            if (joins[i] !== 'ignore') {
-              if (joins[i].hasOwnProperty('action')) {
+            if (joins[i] !== "ignore") {
+              if (joins[i].hasOwnProperty("action")) {
                 v.action$ = joins[i].action;
                 v.data$ = joins[i].data;
                 v.dataProvider = [];
-              }
-              else {
+              } else {
                 v.dataProvider = joins[i];
               }
             }
@@ -134,9 +125,6 @@ export const mapDataProviders = (afs: AngularFirestore) => {
           });
         }),
         tap((final) => {
-          console.log(
-            `Queried ${(final as any).length}, Joined ${totalJoins} docs`
-          );
           totalJoins = 0;
         })
       );
@@ -144,15 +132,96 @@ export const mapDataProviders = (afs: AngularFirestore) => {
 };
 export const handleFormChange = (formControls: any[], changeControl: any) => {
   formControls.forEach((value) => {
-    if (changeControl.name === value.filterValueControl && value.action$) {
+    if (
+      changeControl &&
+      changeControl.name === value.filterValueControl &&
+      value.action$
+    ) {
       const y$ = value.data$.subscribe((x) => {
         value.dataProvider = x;
-        debugger;
         y$.unsubscribe();
       });
       value.action$.next(changeControl.value);
     }
   });
+};
+export const handleFormSave = (
+  afs: AngularFirestore,
+  formData: any,
+  formId: string
+): Promise<any> => {
+  const formControlCollection = afs.collection<any>(formId);
+  Object.keys(formData).forEach(
+    (key) => formData[key] === undefined && delete formData[key]
+  );
+  return new Promise(async (resolve, reject) => {
+    try {
+      const response = await formControlCollection.add({
+        ...formData,
+        createdOn: getServerTime(),
+      });
+      const docRef = await formControlCollection.doc(response.id);
+      const doc = await docRef.get().toPromise();
+      await docRef.set({ ...doc.data(), id: response.id });
+      resolve(response.id);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+export const getGridDetails = (
+  formId,
+  afs: AngularFirestore,
+  formControls: any[]
+): Observable<any> => {
+  const relationShips = [
+    /*leftJoin(afs, 'id', 'country', 'countries'),
+    leftJoin(afs, 'id', 'state', 'states'),
+    leftJoin(afs, 'id', 'city', 'cities'),
+    leftJoin(afs, 'id', 'membership', 'memberships')*/
+  ];
+
+  formControls.forEach((ctrl) => {
+    if (ctrl.hasOwnProperty("dataProviderCollectionName")) {
+      relationShips.push(
+        leftJoin(
+          afs,
+          ctrl.identifyBy,
+          ctrl.name,
+          ctrl.dataProviderCollectionName
+        )
+      );
+    }
+  });
+
+  return afs
+    .collection(formId)
+    .valueChanges()
+    .pipe(
+      pipe.apply(this, relationShips),
+      map((controls: any[]) => {
+        const optionsToReturn = [];
+        controls.forEach((masterCtrl) => {
+          const optionToAdd: any = {};
+          optionToAdd.id = masterCtrl.id;
+          formControls.forEach((ctrl) => {
+            if (ctrl.hasOwnProperty("dataProviderCollectionName")) {
+              if (masterCtrl[ctrl.dataProviderCollectionName].length > 0) {
+                optionToAdd[ctrl.name] = _.clone(
+                  masterCtrl[ctrl.dataProviderCollectionName][0][ctrl.displayBy]
+                );
+              } else {
+                optionToAdd[ctrl.name] = "";
+              }
+            } else {
+              optionToAdd[ctrl.name] = masterCtrl[ctrl.name];
+            }
+          });
+          optionsToReturn.push(optionToAdd);
+        });
+        return optionsToReturn;
+      })
+    );
 };
 
 export interface FormDetails {

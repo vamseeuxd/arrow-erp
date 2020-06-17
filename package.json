@@ -80,6 +80,7 @@
     "ngx-mask": "^9.0.2",
     "ngx-material-file-input": "^2.1.1",
     "ngx-perfect-scrollbar": "^9.0.0",
+    "ngx-toastr": "^12.1.0",
     "ngx-webcam": "^0.3.0",
     "node-sass": "^4.14.0",
     "node-waves": "^0.7.6",

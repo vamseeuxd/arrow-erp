@@ -17,7 +17,7 @@ import { NgForm } from "@angular/forms";
 })
 export class DynamicFormsListComponent {
   isFormValid = false;
-  formToEdit = null;
+  formToEdit: any = {};
   formTittle = "Add New Dynamic Form";
 
   basicFormConfig = [
@@ -220,6 +220,6 @@ export class DynamicFormsListComponent {
     // debugger;
     setTimeout(() => {
       $event.resetForm(this.formToEdit);
-    });
+    }, 50);
   }
 }

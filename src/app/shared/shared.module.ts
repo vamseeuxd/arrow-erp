@@ -12,6 +12,7 @@ import { MatCardModule } from "@angular/material/card";
 import { TagInputModule } from "ngx-chips";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatIconModule } from "@angular/material/icon";
+import { ToastrModule } from "ngx-toastr";
 
 @NgModule({
   declarations: [DynamicFormComponent, MinDirective, MaxDirective],
@@ -41,6 +42,7 @@ import { MatIconModule } from "@angular/material/icon";
     TagInputModule,
     MatSidenavModule,
     MatIconModule,
+    ToastrModule.forRoot(),
   ],
   entryComponents: [DynamicFormComponent],
 })

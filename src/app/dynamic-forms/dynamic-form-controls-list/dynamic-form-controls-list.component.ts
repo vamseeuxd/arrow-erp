@@ -71,7 +71,7 @@ export class DynamicFormControlsListComponent implements OnInit {
       switchMap((formDetails: any) =>
         afs
           .collection("dynamic-form-controls", (ref) =>
-            ref.where("formId", "==", formDetails.id).orderBy('position')
+            ref.where("formId", "==", formDetails.id).orderBy("position")
           )
           .valueChanges()
           .pipe(map((things) => things.sort(compareFn)))
@@ -122,7 +122,8 @@ export class DynamicFormControlsListComponent implements OnInit {
       const lastItemIndex = this.selectedFormControls.length - 1;
       const busyIndicatorId = this.busyIndicator.show();
       this.selectedFormControls.forEach(async (d: any, ind: number) => {
-        console.log(d.label);
+        delete d.action$;
+        delete d.data$;
         const docRef = await this.formControlCollection.doc(d.id);
         const doc = await docRef.get().toPromise();
         await docRef.set({
@@ -185,6 +186,8 @@ export class DynamicFormControlsListComponent implements OnInit {
 
   async saveForm(arrowForm: NgForm) {
     const busyIndicatorId = this.busyIndicator.show();
+    delete arrowForm.value.action$;
+    delete arrowForm.value.data$;
     if (this.formToEdit) {
       await this.updateForm(
         arrowForm.value,

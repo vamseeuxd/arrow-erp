@@ -12,6 +12,8 @@ import { ArrowFirebaseModule } from "../shared/arrow-firebase.module";
 import { MatTabsModule } from "@angular/material/tabs";
 import { DynamicFormControlsListComponent } from "./dynamic-form-controls-list/dynamic-form-controls-list.component";
 import { DragDropModule } from "@angular/cdk/drag-drop";
+import { MatInputModule } from "@angular/material/input";
+import { MatTableModule } from "@angular/material/table";
 
 @NgModule({
   imports: [
@@ -25,6 +27,8 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
     SharedModule,
     ArrowFirebaseModule,
     DragDropModule,
+    MatInputModule,
+    MatTableModule,
   ],
   declarations: [
     ManageDynamicFormsComponent,

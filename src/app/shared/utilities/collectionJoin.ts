@@ -46,9 +46,6 @@ export const leftJoin = (
           });
         }),
         tap((final) => {
-          console.log(
-            `Queried ${(final as any).length}, Joined ${totalJoins} docs`
-          );
           totalJoins = 0;
         })
       );
