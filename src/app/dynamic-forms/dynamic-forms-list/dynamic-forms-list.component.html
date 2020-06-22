@@ -1,5 +1,6 @@
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pt-3">
 <div class="card">
-  <div class="header">
+  <div class="header border-bottom">
     <h2>List Of Dynamic Forms</h2>
     <ul class="header-dropdown m-r--5">
       <li class="dropdown">
@@ -27,11 +28,9 @@
       </li>
     </ul>
   </div>
-  <div class="body">
-    <mat-accordion
-      style="display: block; margin-top: -12px;"
-      *ngIf="dynamicFormList | async as dynamicFormList"
-    >
+  <div class="body" *ngIf="dynamicFormList | async as dynamicFormList">
+    <h6 *ngIf="dynamicFormList.length === 0" class="text-center text-muted">No Forms to Show</h6>
+    <mat-accordion *ngIf="dynamicFormList.length > 0" style="display: block; margin-top: -12px;">
       <mat-expansion-panel
         (afterExpand)="formControlsList.getFormControlDetails(dynamicForm)"
         *ngFor="let dynamicForm of dynamicFormList"
@@ -102,11 +101,10 @@
           #formControlsList
         ></app-dynamic-form-controls-list>
       </mat-expansion-panel>
-      <!--  -->
     </mat-accordion>
   </div>
 </div>
-
+</div>
 <ng-template #addNewDynamicFormTemplate>
   <div>
     <h2 mat-dialog-title>{{ formTittle }}</h2>

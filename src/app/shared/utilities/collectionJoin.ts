@@ -1,6 +1,6 @@
-import { combineLatest, pipe, of, defer } from "rxjs";
-import { map, switchMap, tap } from "rxjs/operators";
-import { AngularFirestore } from "@angular/fire/firestore";
+import {combineLatest, pipe, of, defer, iif} from 'rxjs';
+import {map, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {AngularFirestore} from '@angular/fire/firestore';
 
 export const leftJoin = (
   afs: AngularFirestore,
@@ -11,12 +11,10 @@ export const leftJoin = (
 ) => {
   return (source) =>
     defer(() => {
-      // Operator state
       let collectionData;
-
-      // Track total num of joined doc reads
       let totalJoins = 0;
-      return source.pipe(
+      const ifCase = of([]);
+      const elseCase = source.pipe(
         switchMap((data) => {
           // Clear mapping on each emitted val ;
 
@@ -30,9 +28,10 @@ export const leftJoin = (
             if (doc[rightField]) {
               // Perform query on join key, with optional limit
               const q = (ref) =>
-                ref.where(leftField, "==", doc[rightField]).limit(limit);
+                ref.where(leftField, '==', doc[rightField]).limit(limit);
               reads$.push(afs.collection(collection, q).valueChanges());
-            } else {
+            }
+            else {
               reads$.push(of([]));
             }
           }
@@ -42,12 +41,15 @@ export const leftJoin = (
         map((joins) => {
           return collectionData.map((v, i) => {
             totalJoins += joins[i].length;
-            return { ...v, [collection]: joins[i] || null };
+            return {...v, [collection]: joins[i] || null};
           });
         }),
         tap((final) => {
           totalJoins = 0;
         })
+      );
+      return source.pipe(
+        mergeMap((value: any[]) => iif(() => value.length === 0, ifCase, elseCase))
       );
     });
 };
@@ -88,7 +90,7 @@ export const leftJoinDocument = (afs: AngularFirestore, field, collection) => {
         map((joins) => {
           return collectionData.map((v, i) => {
             const joinIdx = cache.get(v[field]);
-            return { ...v, [field]: joins[joinIdx] || null };
+            return {...v, [field]: joins[joinIdx] || null};
           });
         }),
         tap((final) =>

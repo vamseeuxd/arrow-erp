@@ -27,7 +27,8 @@
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="card">
           <div class="body">
-            <div class="responsive_table">
+            <app-dynamic-data-grid formId="users"></app-dynamic-data-grid>
+            <!--<div class="responsive_table">
               <div class="materialTableHeader">
                 <div class="row">
                   <div class="col-8">
@@ -52,7 +53,7 @@
                       </li>
                     </ul>
                   </div>
-                  <!--<div class="col-4">
+                  &lt;!&ndash;<div class="col-4">
                     <ul class="header-buttons">
                       <li>
                         <div class="icon-button-demo">
@@ -62,7 +63,7 @@
                         </div>
                       </li>
                     </ul>
-                  </div>-->
+                  </div>&ndash;&gt;
                 </div>
               </div>
 
@@ -100,10 +101,10 @@
                       "
                     >
                       <mat-cell *matCellDef="let item">
-                        <!--{{ item[option.fieldId] | date }}-->
-                        <!--{{item[option.fieldId]|json}}-->
+                        &lt;!&ndash;{{ item[option.fieldId] | date }}&ndash;&gt;
+                        &lt;!&ndash;{{item[option.fieldId]|json}}&ndash;&gt;
                         {{ getDisplayLabel(option, item[option.fieldId]) }}
-                        <!--{{option.data|json}}-->
+                        &lt;!&ndash;{{option.data|json}}&ndash;&gt;
                       </mat-cell>
                     </ng-container>
 
@@ -122,7 +123,7 @@
                   </ng-container>
                 </ng-container>
 
-                <!--<ng-container matColumnDef="name">
+                &lt;!&ndash;<ng-container matColumnDef="name">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
                   <mat-cell *matCellDef="let item"> {{ item.name }} </mat-cell>
                 </ng-container>
@@ -149,7 +150,7 @@
                 <ng-container matColumnDef="active">
                   <mat-header-cell *matHeaderCellDef mat-sort-header> active</mat-header-cell>
                   <mat-cell *matCellDef="let item"> {{ item.active }} </mat-cell>
-                </ng-container>-->
+                </ng-container>&ndash;&gt;
 
                 <ng-container matColumnDef="Actions">
                   <mat-header-cell *matHeaderCellDef mat-sort-header
@@ -174,12 +175,12 @@
                   </mat-cell>
                 </ng-container>
 
-                <!--<ng-container matColumnDef="delete">
+                &lt;!&ndash;<ng-container matColumnDef="delete">
                   <mat-header-cell *matHeaderCellDef mat-sort-header> Delete</mat-header-cell>
                   <mat-cell *matCellDef="let item">
                     <button mat-icon-button color="warn" (click)="deleteItem(item)"><mat-icon>delete</mat-icon></button>
                   </mat-cell>
-                </ng-container>-->
+                </ng-container>&ndash;&gt;
                 <ng-container
                   *ngIf="
                     itemsService.displayedColumns$ | async as displayedColumns
@@ -194,19 +195,19 @@
                   ></mat-row>
                 </ng-container>
               </mat-table>
-            </div>
+            </div>-->
           </div>
         </div>
       </div>
     </div>
 
-    <button
+    <!--<button
       class="global-add-button"
       mat-fab
       color="primary"
       (click)="addItem()"
     >
       <mat-icon class="col-white">add</mat-icon>
-    </button>
+    </button>-->
   </div>
 </section>

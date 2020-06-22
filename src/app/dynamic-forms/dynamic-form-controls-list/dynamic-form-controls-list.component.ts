@@ -124,6 +124,7 @@ export class DynamicFormControlsListComponent implements OnInit {
       this.selectedFormControls.forEach(async (d: any, ind: number) => {
         delete d.action$;
         delete d.data$;
+        delete d.dataProvider;
         const docRef = await this.formControlCollection.doc(d.id);
         const doc = await docRef.get().toPromise();
         await docRef.set({
@@ -254,6 +255,7 @@ export class DynamicFormControlsListComponent implements OnInit {
     Object.keys(formData).forEach(
       (key) => formData[key] === undefined && delete formData[key]
     );
+    delete this.formDetails.dataProvider;
     return new Promise(
       async function (resolve, reject) {
         try {
@@ -278,6 +280,7 @@ export class DynamicFormControlsListComponent implements OnInit {
     Object.keys(formData).forEach(
       (key) => formData[key] === undefined && delete formData[key]
     );
+    delete this.formDetails.dataProvider;
     return new Promise(
       async function (resolve, reject) {
         try {

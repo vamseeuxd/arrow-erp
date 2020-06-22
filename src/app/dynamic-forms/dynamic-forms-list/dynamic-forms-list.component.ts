@@ -198,7 +198,7 @@ export class DynamicFormsListComponent {
     this.formTittle = "Add New Dynamic Form";
     this.basicFormConfig[0].value = "";
     this.basicFormConfig[1].value = "";
-    this.basicFormConfig[1].disabled = false;
+    this.basicFormConfig[3].disabled = false;
     this.basicFormConfig[2].value = "";
     this.openDialog(addNewDynamicFormTemplate);
   }
@@ -219,7 +219,7 @@ export class DynamicFormsListComponent {
   onEditFormInit($event: NgForm) {
     // debugger;
     setTimeout(() => {
-      $event.resetForm(this.formToEdit);
+      $event.resetForm(this.formToEdit ? this.formToEdit : {} );
     }, 50);
   }
 }

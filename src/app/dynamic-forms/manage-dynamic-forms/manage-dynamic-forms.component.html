@@ -13,7 +13,8 @@
               >
             </li>
             <li class="breadcrumb-item active">
-              <a href="#" onClick="return false;">Manage Dynamic Forms</a>
+              <a href="#"
+                 onClick="return false;">Manage Dynamic Forms</a>
             </li>
           </ul>
         </div>
@@ -23,185 +24,60 @@
     <div class="row clearfix">
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
         <mat-tab-group>
+
+          <!--  ****************  Grid Preview Tab  ****************   -->
           <mat-tab label="Grid Preview">
-            <ng-container *ngIf="showTable">
-              <ng-container *ngIf="selectedForm$ | async as selectedForm">
-                <div class="form-group">
-                  <label>Select Form</label>
-                  <select
-                    class="form-control"
-                    (ngModelChange)="changeFormTable($event)"
-                    [ngModel]="selectedForm"
-                    *ngIf="allForms$ | async as allForms"
-                  >
-                    <option
-                      [value]="option.formID"
-                      *ngFor="let option of allForms"
-                      >{{ option.formID }}</option
-                    >
-                  </select>
-                </div>
-              </ng-container>
-              <!--<pre *ngIf="grid$ | async as gridDetails">{{gridDetails | json}}</pre>-->
-              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="card">
-                  <div class="body">
-                    <div
-                      class="responsive_table"
-                      *ngIf="form$ | async as formDetails"
-                    >
-                      <div class="materialTableHeader">
-                        <div class="row">
-                          <div class="col-8">
-                            <ul class="header-buttons-left ml-0">
-                              <li class="dropdown">
-                                <h2>
-                                  <strong>{{
-                                    formDetails.gridPageTitle
-                                  }}</strong>
-                                </h2>
-                              </li>
-                              <li class="dropdown m-l-20">
-                                <label
-                                  ><i class="material-icons search-icon"
-                                    >search</i
-                                  ></label
-                                >
-                                <input
-                                  placeholder="Search"
-                                  type="text"
-                                  (keyup)="applyFilter($event.target.value)"
-                                  class="browser-default search-field"
-                                />
-                              </li>
-                            </ul>
-                          </div>
-                          <!--<div class="col-4">
-                            <ul class="header-buttons">
-                            <li>
-                            <div class="icon-button-demo">
-                            <button mat-mini-fab color="primary" (click)="addItem()">
-                            <mat-icon class="col-white">add</mat-icon>
-                            </button>
-                            </div>
-                            </li>
-                            </ul>
-                            </div>-->
-                        </div>
-                      </div>
-                      <mat-table
-                        #table
-                        [dataSource]="dataSource"
-                        matSort
-                        [trackBy]="trackByUid"
-                        class="mat-cell"
-                      >
-                        <ng-container
-                          *ngFor="let option of formDetails.formControls"
-                          [matColumnDef]="option.name"
-                        >
-                          <mat-header-cell *matHeaderCellDef mat-sort-header>{{
-                            option.label
-                          }}</mat-header-cell>
-                          <ng-container [ngSwitch]="true">
-                            <ng-container
-                              *ngSwitchCase="
-                                option.type == formControlType.DATE
-                              "
-                            >
-                              <mat-cell *matCellDef="let item">{{
-                                item[option.name] | date
-                              }}</mat-cell>
-                            </ng-container>
-                            <ng-container
-                              *ngSwitchCase="
-                                option.type != formControlType.DATE
-                              "
-                            >
-                              <mat-cell *matCellDef="let item">{{
-                                item[option.name]
-                              }}</mat-cell>
-                            </ng-container>
-                          </ng-container>
-                        </ng-container>
-                        <ng-container matColumnDef="Actions">
-                          <mat-header-cell *matHeaderCellDef mat-sort-header
-                            >Actions</mat-header-cell
-                          >
-                          <mat-cell *matCellDef="let item">
-                            <button
-                              mat-icon-button
-                              class="mr-3"
-                              color="primary"
-                              (click)="editItem(item)"
-                            >
-                              <mat-icon>edit</mat-icon>
-                            </button>
-                            <button
-                              mat-icon-button
-                              color="warn"
-                              (click)="deleteItem(item)"
-                            >
-                              <mat-icon>delete</mat-icon>
-                            </button>
-                          </mat-cell>
-                        </ng-container>
-                        <ng-container *ngIf="displayedColumns">
-                          <mat-header-row
-                            *matHeaderRowDef="displayedColumns"
-                          ></mat-header-row>
-                          <mat-row
-                            *matRowDef="let row; columns: displayedColumns"
-                            class="animate"
-                          ></mat-row>
-                        </ng-container>
-                      </mat-table>
-                    </div>
-                  </div>
+            <ng-container [ngTemplateOutlet]="SelectFormTemplate"></ng-container>
+            <app-dynamic-data-grid [formId]="selectedForm"></app-dynamic-data-grid>
+            <h6 class="text-muted text-center m-3" *ngIf="selectedForm === SELECTED_FORM_LABEL">
+              Select Form To Display Grid
+            </h6>
+          </mat-tab>
+          <!--  ****************  Grid Preview Tab  ****************   -->
+
+          <!--  ****************  Config Form  Tab  ****************   -->
+          <mat-tab label="Form Preview">
+            <ng-container [ngTemplateOutlet]="SelectFormTemplate"></ng-container>
+            <h6 class="text-muted text-center m-3" *ngIf="selectedForm === SELECTED_FORM_LABEL">Select Form To Display Form</h6>
+            <ng-container *ngIf="selectedForm != SELECTED_FORM_LABEL">
+              <div *ngIf="form$ | async as formDetails">
+                <h4 class="m-0 p-0 mt-2 mb-2">{{ formDetails.addFormPageTitle }}</h4>
+                <app-dynamic-form #demoForm (change)="handleFormChange(formDetails.formControls, $event.control)" (init)="onDemoFormInit($event)" [formControls]="formDetails.formControls"></app-dynamic-form>
+                <div class="text-right">
+                  <button mat-raised-button type="button" [disabled]="demoNgForm?.invalid" (click)="saveFormData(demoNgForm.value, formDetails.formID)" color="primary">Save</button>
+                  <button mat-raised-button type="button" class="ml-3" (click)="demoForm.form.resetForm({})" color="accent">Cancel</button>
                 </div>
               </div>
             </ng-container>
           </mat-tab>
-          <mat-tab label="Form Preview">
-            <div *ngIf="form$ | async as formDetails">
-              <h4 class="m-0 p-0 mt-2 mb-2">
-                {{ formDetails.addFormPageTitle }}
-              </h4>
-              <app-dynamic-form
-                #demoForm
-                (change)="
-                  handleFormChange(formDetails.formControls, $event.control)
-                "
-                (init)="onDemoFormInit($event)"
-                [formControls]="formDetails.formControls"
-              ></app-dynamic-form>
-              <div class="text-right">
-                <button
-                  mat-raised-button
-                  type="button"
-                  [disabled]="demoNgForm?.invalid"
-                  (click)="saveFormData(demoNgForm.value, formDetails.formID)"
-                  color="primary"
-                >
-                  Save
-                </button>
-                <button
-                  mat-raised-button
-                  type="button"
-                  class="ml-3"
-                  (click)="demoForm.form.resetForm({})"
-                  color="accent"
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </mat-tab>
+          <!--  ****************  Fprm Preview Tab   ****************   -->
+
+          <!--  ****************  Config Form  Tab  ****************   -->
           <mat-tab label="Config Form">
             <app-dynamic-forms-list></app-dynamic-forms-list>
           </mat-tab>
+          <!--  ****************  Config Form   ****************   -->
         </mat-tab-group>
       </div>
     </div>
   </div>
 </section>
+
+<ng-template #SelectFormTemplate>
+  <!--  **********************  Select for Selecting Different Forms  **********************  -->
+  <div class="col-4 offset-4">
+    <ng-container *ngIf="selectedForm$ | async as selectedForm">
+      <div class="form-group">
+        <label>Select Form</label>
+        <select class="form-control"
+                (ngModelChange)="changeFormTable($event)"
+                [ngModel]="selectedForm" *ngIf="allForms$ | async as allForms">
+          <option [value]="SELECTED_FORM_LABEL">Select Form To Display Grid</option>
+          <option [value]="option.formID" *ngFor="let option of allForms">{{ option.formID }}</option>
+        </select>
+        <!--<pre *ngIf="allForms$ | async as allForms">{{allForms | json}}</pre>-->
+      </div>
+    </ng-container>
+  </div>
+  <!--  **********************  Select for Selecting Different Forms  **********************  -->
+</ng-template>

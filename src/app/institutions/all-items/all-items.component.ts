@@ -13,8 +13,8 @@ import { FORM_CONTROLLER_TYPE } from "../../shared/components/dynamic-form/dynam
   templateUrl: "./all-items.component.html",
   styleUrls: ["./all-items.component.sass"],
 })
-export class AllItemsComponent implements AfterViewInit {
-  dataSource: MatTableDataSource<any>;
+export class AllItemsComponent {
+  /*dataSource: MatTableDataSource<any>;
   @ViewChild(MatSort) sort: MatSort;
   itemsCollection: AngularFirestoreCollection<any>;
   readonly formControlType = FORM_CONTROLLER_TYPE;
@@ -77,5 +77,5 @@ export class AllItemsComponent implements AfterViewInit {
         this.busyIndicator.hide(busyIndicatorId);
       }
     }
-  }
+  }*/
 }

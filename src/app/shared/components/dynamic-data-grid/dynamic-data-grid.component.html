@@ -1,0 +1,108 @@
+<ng-container *ngIf="showTable">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="card">
+      <div class="body">
+        <div class="responsive_table" *ngIf="form$ | async as formDetails">
+
+          <!--  **********************  Data Grid Header  **********************  -->
+          <div class="materialTableHeader">
+            <div class="row">
+              <div class="col-12">
+                <ul class="header-buttons-left ml-0">
+
+                  <!--  **********************  Data Grid Header - Title  **********************  -->
+                  <li class="dropdown"><h2><strong>{{formDetails.gridPageTitle}}</strong></h2></li>
+                  <!--  **********************  Data Grid Header - Title  **********************  -->
+
+                  <!--  **********************  Data Grid Header - Global Search  **********************  -->
+                  <li class="dropdown m-l-20">
+                    <label><i class="material-icons search-icon">search</i></label>
+                    <input placeholder="Search" type="text" (keyup)="applyFilter($event.target.value)" class="browser-default search-field"/>
+                  </li>
+                  <!--  **********************  Data Grid Header - Global Search  **********************  -->
+
+                  <!--  **********************  Download Excel Template  **********************  -->
+                  <li class="dropdown ml-3">
+                    <button mat-raised-button type="button" (click)="downloadExcelTemplate()">Download Excel Template</button>
+                  </li>
+                  <!--  **********************  Download Excel Template  **********************  -->
+
+                  <!--  **********************  Download Excel Template  **********************  -->
+                  <li class="dropdown ml-3">
+                    <button mat-raised-button type="button">Upload Excel</button>
+                  </li>
+                  <!--  **********************  Download Excel Template  **********************  -->
+
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!--  **********************  Data Grid Header  **********************  -->
+
+          <!--  **********************  Data Grid - Mat Table  **********************  -->
+          <mat-table #table *ngIf="showTable" [dataSource]="dataSource" matSort [trackBy]="trackByUid" class="mat-cell">
+
+            <!--  **********************  Data Grid - Looping Mat-Table rows and Columns  **********************  -->
+            <ng-container *ngFor="let option of formDetails.formControls" [matColumnDef]="option.name">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>{{option.label}}</mat-header-cell>
+              <ng-container [ngSwitch]="true">
+                <ng-container *ngSwitchCase="option.type == formControlType.DATE">
+                  <mat-cell *matCellDef="let item">{{item[option.name] | date}}</mat-cell>
+                </ng-container>
+                <ng-container *ngSwitchCase="option.type != formControlType.DATE">
+                  <mat-cell *matCellDef="let item">{{item[option.name]}}</mat-cell>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+            <!--  **********************  Data Grid - Looping Mat-Table rows and Columns  **********************  -->
+
+            <!--  **********************  Data Grid - Action row and Action Column   **********************  -->
+            <ng-container matColumnDef="Actions">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+              <mat-cell *matCellDef="let item">
+                <button mat-icon-button class="mr-3" color="primary" (click)="editItem(item)"><mat-icon>edit</mat-icon></button>
+                <button mat-icon-button color="warn" (click)="deleteItem(item.id, formId)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </mat-cell>
+            </ng-container>
+            <!--  **********************  Data Grid - Action row and Action Column   **********************  -->
+
+            <ng-container *ngIf="displayedColumns">
+              <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: displayedColumns" class="animate"></mat-row>
+            </ng-container>
+          </mat-table>
+          <h6 class="text-muted text-center p-3" *ngIf="dataSource.data.length === 0">No records found</h6>
+          <!--  **********************  Data Grid - Mat Table  **********************  -->
+
+        </div>
+
+        <!--  **********************  Add New Data Button  **********************  -->
+        <button (click)="addNewDataClick(dynamicFormTemplate)" mat-fab
+                style="position: fixed;right: 50px;bottom: 50px;" color="primary">
+          <mat-icon>add</mat-icon>
+        </button>
+        <!--  **********************  Add New Data Button  **********************  -->
+
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #dynamicFormTemplate>
+  <div *ngIf="form$ | async as formDetails">
+    <h4 class="m-0 p-0 mt-2 mb-2">
+      {{ addNewData ? formDetails.addFormPageTitle : formDetails.editFormPageTitle }}
+    </h4>
+    <app-dynamic-form #demoForm (change)="handleFormChange(formDetails.formControls, $event.control)"
+                      (init)="onDemoFormInit($event)" [formControls]="formDetails.formControls"
+    ></app-dynamic-form>
+    <div class="text-right">
+      <button mat-raised-button type="button" [disabled]="dynamicForm?.invalid"
+              (click)="saveFormData(dynamicForm.value, formDetails.formID)" color="primary">Save</button>
+      <button mat-raised-button type="button" class="ml-3"
+              (click)="cancelAddOrEditForm();" color="accent">Cancel</button>
+    </div>
+  </div>
+</ng-template>

@@ -1,6 +1,6 @@
-import { Injectable } from "@angular/core";
+import {Injectable} from '@angular/core';
 
-@Injectable({ providedIn: "root" })
+@Injectable({providedIn: 'root'})
 export class BusyIndicatorService {
   private busyIndicatorsList: number[] = [];
 
@@ -9,7 +9,9 @@ export class BusyIndicatorService {
 
   show(): number {
     const indicatorId = new Date().getTime();
-    this.busyIndicatorsList.push(indicatorId);
+    setTimeout(() => {
+      this.busyIndicatorsList.push(indicatorId);
+    });
     return indicatorId;
   }
 
