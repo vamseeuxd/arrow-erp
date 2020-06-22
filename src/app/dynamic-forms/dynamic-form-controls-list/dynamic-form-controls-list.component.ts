@@ -167,6 +167,7 @@ export class DynamicFormControlsListComponent implements OnInit {
 
   editFormController(formControl, index$) {
     this.formToEdit = formControl;
+    this.formTittle = "Edit Form Control";
     this.formToEditIndex = index$;
     this.editDynamicFormConfig.forEach((config) => {
       Object.keys(formControl).forEach((data) => {

@@ -28,7 +28,7 @@ const EXCEL_EXTENSION = '.csv';
 @Component({
   selector: 'app-dynamic-data-grid',
   templateUrl: './dynamic-data-grid.component.html',
-  styleUrls: ['./dynamic-data-grid.component.sass']
+  styleUrls: ['./dynamic-data-grid.component.scss']
 })
 export class DynamicDataGridComponent implements OnInit {
 
@@ -178,6 +178,7 @@ export class DynamicDataGridComponent implements OnInit {
       }
     );
     this.addOrEditFormDialogRef.afterOpened().subscribe(result => {
+      debugger;
       this.dynamicForm.resetForm(_.clone(data));
     });
   }

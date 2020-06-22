@@ -95,13 +95,13 @@
         <!--  **********************  Dynamic Form Template  **********************  -->
         <ng-template #dynamicFormTemplate>
           <div>
-            <h4 class="m-0 p-0 mt-2 mb-2">
+            <h4  mat-dialog-title>
               {{ addNewData ? formDetails.addFormPageTitle : formDetails.editFormPageTitle }}
             </h4>
-            <app-dynamic-form #demoForm (change)="handleFormChange(formDetails.formControls, $event.control)"
+            <app-dynamic-form class="arrow-dynamic-form" #demoForm (change)="handleFormChange(formDetails.formControls, $event.control)"
                               (init)="onDemoFormInit($event)" [formControls]="formDetails.formControls"
             ></app-dynamic-form>
-            <div class="text-right">
+            <div mat-dialog-actions class="text-right">
               <button mat-raised-button type="button" [disabled]="dynamicForm?.invalid"
                       (click)="saveFormData(dynamicForm.value, formDetails.formID)" color="primary">Save</button>
               <button mat-raised-button type="button" class="ml-3"

@@ -1,0 +1,7 @@
+::ng-deep
+.arrow-dynamic-form {
+  display: block;
+  max-height: calc(90vh - 120px);
+  overflow: auto;
+  margin-bottom: 20px;
+}
