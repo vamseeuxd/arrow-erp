@@ -35,9 +35,7 @@
                       Upload Excel
                     </button>
 
-                    <input type="file" class="d-none" #uploadExcelButton
-                           [(ngModel)]="dataSourceListData" name="dataSource_upload"
-                           id="dataSource_upload" accept=".csv" ngf-max-size="20MB"
+                    <input type="file" class="d-none" #uploadExcelButton accept=".csv" ngf-max-size="20MB"
                            fd-input (change)="uploadDataSource($event)" />
 
                     <!--<button class="position-absolute" mat-raised-button type="button">Upload Excel</button>-->

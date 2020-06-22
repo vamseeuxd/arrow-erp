@@ -72,17 +72,21 @@ export const mapDataProviders = (afs: AngularFirestore) => {
                 doc.hasOwnProperty('dataProviderCollectionName') &&
                 doc.dataProviderCollectionName.length > 0
               ) {
-                if (doc.hasOwnProperty('filterBy') && doc.filterBy.length > 0) {
+                if (doc.filterBy && doc.filterBy.length > 0) {
                   const action$ = new Subject<string>();
                   const data$ = action$.pipe(
-                    switchMap((value) =>
-                      afs
-                        .collection(doc.dataProviderCollectionName, (ref) =>
-                          ref
-                            .where(doc.filterBy, '==', value)
-                            .orderBy(doc.displayBy)
-                        )
-                        .valueChanges()
+                    switchMap((value) => {
+                        return afs
+                          .collection(doc.dataProviderCollectionName,
+                            (ref) => ref.where(doc.filterBy, '==', value).orderBy(doc.displayBy)
+                          )
+                          .valueChanges().pipe(
+                            tap(xyz => {
+                              // console.log(`collection(${doc.dataProviderCollectionName}, where(${doc.filterBy}, '==', ${value})`);
+                              // console.log(xyz);
+                            })
+                          );
+                      }
                     )
                   );
                   reads$.push(of({action: action$, data: data$}));
@@ -137,7 +141,7 @@ export const handleFormChange = (formControls: any[], changeControl: any) => {
     ) {
       const y$ = value.data$.subscribe((x) => {
         value.dataProvider = x;
-        y$.unsubscribe();
+        // y$.unsubscribe();
       });
       value.action$.next(changeControl.value);
     }

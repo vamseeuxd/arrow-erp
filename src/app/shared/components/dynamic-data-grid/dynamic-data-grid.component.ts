@@ -86,7 +86,6 @@ export class DynamicDataGridComponent implements OnInit {
     }),
     shareReplay(1),
   );
-  dataSourceListData: any;
 
   constructor(
     public afs: AngularFirestore,
@@ -138,7 +137,8 @@ export class DynamicDataGridComponent implements OnInit {
           }
           else {
             this.toaster.clear();
-            this.toaster.info(this.formId.toUpperCase() + ' Tables is Updated with new Changes', '', {positionClass: 'toast-bottom-right'});
+            // this.formId.toUpperCase() +
+            this.toaster.info('Updated with new Changes');
           }
         }
         setTimeout(() => {
@@ -148,7 +148,7 @@ export class DynamicDataGridComponent implements OnInit {
       else {
         this.dataSource = new MatTableDataSource([]);
         setTimeout(() => {
-          this.noRecordsFound = false;
+          this.noRecordsFound = true;
         });
       }
       this.busyIndicator.hide(this.busyIndicatorId);
