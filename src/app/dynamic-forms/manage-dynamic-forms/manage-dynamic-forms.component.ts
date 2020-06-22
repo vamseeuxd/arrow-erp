@@ -27,9 +27,6 @@ export class ManageDynamicFormsComponent implements OnInit {
   dataSource: MatTableDataSource<any>;
   @ViewChild(MatSort) sort: MatSort;
   displayedColumns: string[] = [];
-  readonly formControlType = FORM_CONTROLLER_TYPE;
-  showTable = false;
-
   allForms$ = this.afs.collection('dynamic-forms').valueChanges().pipe(
     tap(
       (data: any[]) => {
@@ -47,43 +44,9 @@ export class ManageDynamicFormsComponent implements OnInit {
       }
     )
   );
-
   readonly SELECTED_FORM_LABEL = 'Select Form';
   selectedForm = this.SELECTED_FORM_LABEL;
   selectedForm$: BehaviorSubject<string> = new BehaviorSubject<string>(this.selectedForm);
-  // filterValueControl
-  formDependedForms$ = this.selectedForm$.pipe(
-    switchMap(
-      (value: string) => {
-        if (value && value.length > 0) {
-          /*  ------------------------------------  */
-          return this.afs.collection(
-            'dynamic-form-controls',
-            ref => ref.where('dataProviderCollectionName', '==', value)
-          ).valueChanges()
-            .pipe(
-              leftJoin(this.afs, 'id', 'formId', 'dynamic-forms'),
-              map((response: any[]) => {
-                return response.map(d => {
-                  return {
-                    ['dataProviderCollectionName']: d.dataProviderCollectionName,
-                    ['identifyBy']: d.identifyBy,
-                    ['displayBy']: d.displayBy,
-                    ['name']: d.name,
-                    ['filterBy']: d.filterBy,
-                    ['dynamic-forms']: d['dynamic-forms'],
-                  };
-                });
-              })
-            );
-          /*  ------------------------------------  */
-        }
-        else {
-          return of([]);
-        }
-      }
-    )
-  );
   form$: Observable<FormDetails> = this.selectedForm$.pipe(
     switchMap((formId) => getFormDetails(formId, this.afs)),
     tap((data) => {
@@ -98,8 +61,6 @@ export class ManageDynamicFormsComponent implements OnInit {
       return getGridDetails(value.formID, this.afs, value.formControls);
     })
   );
-  handleFormChange = handleFormChange;
-  demoNgForm: NgForm;
   busyIndicatorId;
 
   constructor(
@@ -114,49 +75,11 @@ export class ManageDynamicFormsComponent implements OnInit {
     this.grid$.subscribe((data) => {
       this.dataSource = new MatTableDataSource(data);
       this.dataSource.sort = this.sort;
-      this.showTable = true;
       this.busyIndicator.hide(this.busyIndicatorId);
     });
   }
 
-  async saveFormData(formData: any, formId: string) {
-    const busyIndicatorId = this.busyIndicator.show();
-    try {
-      await handleFormSave(this.afs, formData, formId);
-      this.busyIndicator.hide(busyIndicatorId);
-      this.demoNgForm.resetForm({});
-      this.toaster.success(`${pluralize.singular(formId)} Added Successfully`);
-    } catch (e) {
-      this.busyIndicator.hide(busyIndicatorId);
-      alert(JSON.stringify(e));
-    }
-  }
-
-  onDemoFormInit($event: NgForm) {
-    setTimeout(() => {
-      this.demoNgForm = $event;
-    });
-  }
-
-  trackByUid(index, item) {
-    return item.id;
-  }
-
-  editItem(item: any) {
-  }
-
-  deleteItem(item: any) {
-    // this.afs.collection('test').ref.get()
-  }
-
-  applyFilter(filterValue: string) {
-    filterValue = filterValue.trim();
-    filterValue = filterValue.toLowerCase();
-    this.dataSource.filter = filterValue;
-  }
-
   changeFormTable($event: any) {
-    this.showTable = false;
     this.selectedForm$.next($event);
     this.selectedForm = $event;
   }

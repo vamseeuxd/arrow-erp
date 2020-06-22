@@ -19,8 +19,8 @@ import * as _ from 'lodash';
 import * as pluralize from 'pluralize';
 import {NgForm} from '@angular/forms';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
-import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
+import {Papa} from 'ngx-papaparse';
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.csv';
@@ -33,6 +33,8 @@ const EXCEL_EXTENSION = '.csv';
 export class DynamicDataGridComponent implements OnInit {
 
   private _formId = '';
+  private csvImportedData: any [] = [];
+
   get formId(): string {
     return this._formId;
   }
@@ -49,16 +51,17 @@ export class DynamicDataGridComponent implements OnInit {
   dynamicForm: NgForm;
   addOrEditFormDialogRef: MatDialogRef<any, any>;
   addNewData = true;
+  updatingData = null;
   handleFormChange = handleFormChange;
 
   dataSource: MatTableDataSource<any>;
+  noRecordsFound = false;
   @ViewChild(MatSort) sort: MatSort;
   displayedColumns: string[] = [];
   readonly formControlType = FORM_CONTROLLER_TYPE;
   showTable = false;
   busyIndicatorId;
   dataRefreshMessage = null;
-  dependedFormsBusyIndicatorId = null;
 
   selectedForm$: BehaviorSubject<string> = new BehaviorSubject<string>(this._formId);
 
@@ -83,11 +86,13 @@ export class DynamicDataGridComponent implements OnInit {
     }),
     shareReplay(1),
   );
+  dataSourceListData: any;
 
   constructor(
     public afs: AngularFirestore,
     private busyIndicator: BusyIndicatorService,
     public dialog: MatDialog,
+    private papa: Papa,
     private toaster: ToastrService
   ) {
   }
@@ -99,25 +104,31 @@ export class DynamicDataGridComponent implements OnInit {
   }
 
   async saveFormData(formData: any, formId: string) {
-    const busyIndicatorId = this.busyIndicator.show();
+    this.busyIndicatorId = this.busyIndicator.show();
+    if (this.updatingData) {
+      this.dataRefreshMessage = 'Updated Successfully';
+    }
+    else {
+      this.dataRefreshMessage = 'Added Successfully';
+    }
     try {
-      await handleFormSave(this.afs, formData, formId);
-      this.busyIndicator.hide(busyIndicatorId);
+      await handleFormSave(this.afs, formData, formId, this.updatingData ? this.updatingData.id : '');
       this.dynamicForm.resetForm({});
-      this.toaster.success(`${pluralize.singular(formId)} Added Successfully`);
+      this.updatingData = null;
+      this.addOrEditFormDialogRef.close();
     } catch (e) {
-      this.busyIndicator.hide(busyIndicatorId);
-      alert(JSON.stringify(e));
+      setTimeout(() => {
+        this.toaster.error('Unable to save data, please try again', 'Technical Error');
+        this.busyIndicator.hide(this.busyIndicatorId);
+      });
     }
   }
 
   ngOnInit(): void {
     this.busyIndicatorId = this.busyIndicator.show();
     this.grid$.subscribe((data) => {
-      // debugger;
       if (data && data.length > 0) {
         if (!this.dataSource || !_.isEqual(this.dataSource.data, data)) {
-          /*  --------------------------  */
           this.dataSource = new MatTableDataSource(data);
           this.dataSource.sort = this.sort;
           if (this.dataRefreshMessage) {
@@ -129,21 +140,23 @@ export class DynamicDataGridComponent implements OnInit {
             this.toaster.clear();
             this.toaster.info(this.formId.toUpperCase() + ' Tables is Updated with new Changes', '', {positionClass: 'toast-bottom-right'});
           }
-          /*  --------------------------  */
         }
+        setTimeout(() => {
+          this.noRecordsFound = false;
+        });
       }
       else {
         this.dataSource = new MatTableDataSource([]);
+        setTimeout(() => {
+          this.noRecordsFound = false;
+        });
       }
       this.busyIndicator.hide(this.busyIndicatorId);
     });
   }
 
-  changeFormTable($event: any) {
-    this.selectedForm$.next($event);
-  }
-
-  applyFilter(filterValue: string) {
+  applyFilter($event: any) {
+    let filterValue = $event.target.value;
     filterValue = filterValue.trim();
     filterValue = filterValue.toLowerCase();
     this.dataSource.filter = filterValue;
@@ -153,32 +166,33 @@ export class DynamicDataGridComponent implements OnInit {
     return item.id;
   }
 
-  editItem(item: any) {
+  editItem(dynamicFormTemplate: TemplateRef<any>, data: any) {
+    this.addNewData = false;
+    this.updatingData = _.clone(data);
+    this.addOrEditFormDialogRef = this.dialog.open(
+      dynamicFormTemplate,
+      {
+        disableClose: true,
+        maxWidth: '95vw',
+        width: '640px',
+      }
+    );
+    this.addOrEditFormDialogRef.afterOpened().subscribe(result => {
+      this.dynamicForm.resetForm(_.clone(data));
+    });
   }
 
   async deleteItem(id: string, formId: string) {
     const isConfirmed = confirm('Are you sure! Do you want to delete?');
     if (isConfirmed) {
-      this.busyIndicator.hide(this.busyIndicatorId);
       this.busyIndicatorId = this.busyIndicator.show();
       try {
-        this.dataRefreshMessage = await handleFormDelete(this.afs, id, formId);
+        this.dataRefreshMessage = 'Deleted Successfully';
+        await handleFormDelete(this.afs, id, formId);
       } catch (e) {
         this.toaster.error(e.toString());
         this.busyIndicator.hide(this.busyIndicatorId);
       }
-    }
-  }
-
-  dependedFormsLoaded(hideBusyIndicator, log = '') {
-    console.log('-------------------------------->>>', log, hideBusyIndicator);
-    if (hideBusyIndicator) {
-      this.busyIndicator.hide(this.dependedFormsBusyIndicatorId);
-      this.dependedFormsBusyIndicatorId = null;
-    }
-    else {
-      this.busyIndicator.hide(this.dependedFormsBusyIndicatorId);
-      this.dependedFormsBusyIndicatorId = this.busyIndicator.show();
     }
   }
 
@@ -215,6 +229,33 @@ export class DynamicDataGridComponent implements OnInit {
     const workBook = XLSX.utils.book_new();
     const workSheet = XLSX.utils.json_to_sheet(readyToExport);
     XLSX.utils.book_append_sheet(workBook, workSheet, this.formId);
-    const workbook = XLSX.writeFile(workBook, `${this.formId}.xlsx`);
+    const workbook = XLSX.writeFile(workBook, `${this.formId}.csv`);
+  }
+
+  uploadDataSource(evt) {
+    const files = evt.target.files; // FileList object
+    const file = files[0];
+    const reader = new FileReader();
+    reader.readAsText(file);
+    reader.onload = (event: any) => {
+      const csv = event.target.result; // Content of CSV file
+      this.papa.parse(csv, {
+        skipEmptyLines: true,
+        header: true,
+        complete: (results) => {
+          // tslint:disable-next-line:prefer-for-of
+          for (let i = 0; i < results.data.length; i++) {
+            const orderDetails = {
+              order_id: results.data[i].Address,
+              age: results.data[i].Age
+            };
+            this.csvImportedData.push(orderDetails);
+          }
+          // console.log(this.test);
+          console.log('Parsed: k', results.data);
+        }
+      });
+
+    };
   }
 }

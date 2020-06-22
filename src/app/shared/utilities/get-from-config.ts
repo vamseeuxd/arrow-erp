@@ -1,24 +1,12 @@
-import {
-  BehaviorSubject,
-  combineLatest,
-  defer,
-  Observable,
-  of,
-  pipe,
-  Subject, throwError,
-} from 'rxjs';
-import {
-  AngularFirestore,
-  AngularFirestoreCollection,
-} from '@angular/fire/firestore';
+import {combineLatest, defer, Observable, of, pipe, Subject,} from 'rxjs';
+import {AngularFirestore} from '@angular/fire/firestore';
 import {map, switchMap, tap} from 'rxjs/operators';
-import {hasOwnProperty} from 'tslint/lib/utils';
 import * as firebase from 'firebase/app';
 import * as _ from 'lodash';
 import {leftJoin} from './collectionJoin';
 
 export const getServerTime = (): any => {
-  return firebase.firestore.FieldValue.serverTimestamp();
+  return firebase.firestore.Timestamp.now().toDate();
 };
 export const sortFunction = (a: any, b: any) => {
   if (a.position < b.position) {
@@ -29,10 +17,7 @@ export const sortFunction = (a: any, b: any) => {
   }
   return 0;
 };
-export const getFormDetails = (
-  formId,
-  afs: AngularFirestore
-): Observable<FormDetails> => {
+export const getFormDetails = (formId, afs: AngularFirestore): Observable<FormDetails> => {
   const query = (ref) => ref.where('formID', '==', formId);
   const ifCase = of([]);
   return afs
@@ -158,22 +143,33 @@ export const handleFormChange = (formControls: any[], changeControl: any) => {
     }
   });
 };
-export const handleFormSave = (afs: AngularFirestore, formData: any, formId: string): Promise<any> => {
+export const handleFormSave = (afs: AngularFirestore, formData: any, formId: string, docId = ''): Promise<any> => {
   const formControlCollection = afs.collection<any>(formId);
   Object.keys(formData).forEach(
     (key) => formData[key] === undefined && delete formData[key]
   );
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await formControlCollection.add({
-        ...formData,
-        deleted: false,
-        createdOn: getServerTime(),
-      });
-      const docRef = await formControlCollection.doc(response.id);
-      const doc = await docRef.get().toPromise();
-      await docRef.set({...doc.data(), id: response.id});
-      resolve(response.id);
+      if (docId.trim().length > 0) {
+        const docRef = formControlCollection.ref.doc(docId);
+        await docRef.set({
+          id: docRef.id,
+          ...formData,
+          deleted: false,
+          updatedOn: getServerTime(),
+        });
+        resolve(docRef.id);
+      }
+      else {
+        const docRef = formControlCollection.ref.doc();
+        await docRef.set({
+          id: docRef.id,
+          ...formData,
+          deleted: false,
+          createdOn: getServerTime(),
+        });
+        resolve(docRef.id);
+      }
     } catch (e) {
       reject(e);
     }

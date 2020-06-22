@@ -36,23 +36,6 @@
           <!--  ****************  Grid Preview Tab  ****************   -->
 
           <!--  ****************  Config Form  Tab  ****************   -->
-          <mat-tab label="Form Preview">
-            <ng-container [ngTemplateOutlet]="SelectFormTemplate"></ng-container>
-            <h6 class="text-muted text-center m-3" *ngIf="selectedForm === SELECTED_FORM_LABEL">Select Form To Display Form</h6>
-            <ng-container *ngIf="selectedForm != SELECTED_FORM_LABEL">
-              <div *ngIf="form$ | async as formDetails">
-                <h4 class="m-0 p-0 mt-2 mb-2">{{ formDetails.addFormPageTitle }}</h4>
-                <app-dynamic-form #demoForm (change)="handleFormChange(formDetails.formControls, $event.control)" (init)="onDemoFormInit($event)" [formControls]="formDetails.formControls"></app-dynamic-form>
-                <div class="text-right">
-                  <button mat-raised-button type="button" [disabled]="demoNgForm?.invalid" (click)="saveFormData(demoNgForm.value, formDetails.formID)" color="primary">Save</button>
-                  <button mat-raised-button type="button" class="ml-3" (click)="demoForm.form.resetForm({})" color="accent">Cancel</button>
-                </div>
-              </div>
-            </ng-container>
-          </mat-tab>
-          <!--  ****************  Fprm Preview Tab   ****************   -->
-
-          <!--  ****************  Config Form  Tab  ****************   -->
           <mat-tab label="Config Form">
             <app-dynamic-forms-list></app-dynamic-forms-list>
           </mat-tab>
