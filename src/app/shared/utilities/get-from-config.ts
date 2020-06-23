@@ -132,13 +132,16 @@ export const mapDataProviders = (afs: AngularFirestore) => {
       );
     });
 };
-export const handleFormChange = (formControls: any[], changeControl: any) => {
+export const handleFormChange = (formControls: any[], changeControl: any, restDependentValue = true) => {
   formControls.forEach((value) => {
     if (
       changeControl &&
       changeControl.name === value.filterValueControl &&
       value.action$
     ) {
+      if (restDependentValue) {
+        value.value = '';
+      }
       const y$ = value.data$.subscribe((x) => {
         value.dataProvider = x;
         // y$.unsubscribe();
@@ -153,12 +156,17 @@ export const handleFormSave = (afs: AngularFirestore, formData: any, formId: str
     (key) => formData[key] === undefined && delete formData[key]
   );
   return new Promise(async (resolve, reject) => {
+    const trimmedFormData = _.clone(formData);
+    // tslint:disable-next-line:forin
+    for (const key in trimmedFormData) {
+      trimmedFormData[key] = trimmedFormData[key].trim();
+    }
     try {
       if (docId.trim().length > 0) {
         const docRef = formControlCollection.ref.doc(docId);
         await docRef.set({
           id: docRef.id,
-          ...formData,
+          ...trimmedFormData,
           deleted: false,
           updatedOn: getServerTime(),
         });
@@ -168,7 +176,7 @@ export const handleFormSave = (afs: AngularFirestore, formData: any, formId: str
         const docRef = formControlCollection.ref.doc();
         await docRef.set({
           id: docRef.id,
-          ...formData,
+          ...trimmedFormData,
           deleted: false,
           createdOn: getServerTime(),
         });
@@ -214,6 +222,9 @@ export const getGridDetails = (formId, afs: AngularFirestore, formControls: any[
       )
       .valueChanges()
       .pipe(
+        tap(x => {
+          // debugger;
+        }),
         pipe.apply(this, relationShips),
         map((controls: any[]) => {
           const optionsToReturn = [];
@@ -236,6 +247,7 @@ export const getGridDetails = (formId, afs: AngularFirestore, formControls: any[
                 optionToAdd[ctrl.name] = masterCtrl[ctrl.name];
               }
             });
+            optionToAdd.formData = masterCtrl;
             optionsToReturn.push(optionToAdd);
           });
           return optionsToReturn;

@@ -21,6 +21,7 @@ import {NgForm} from '@angular/forms';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import * as XLSX from 'xlsx';
 import {Papa} from 'ngx-papaparse';
+import {DynamicFormComponent} from '../dynamic-form/dynamic-form.component';
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.csv';
@@ -49,6 +50,7 @@ export class DynamicDataGridComponent implements OnInit {
   }
 
   dynamicForm: NgForm;
+  arrowDynamicForm: DynamicFormComponent;
   addOrEditFormDialogRef: MatDialogRef<any, any>;
   addNewData = true;
   updatingData = null;
@@ -69,7 +71,6 @@ export class DynamicDataGridComponent implements OnInit {
     switchMap((formId) => {
       return getFormDetails(formId, this.afs);
     }),
-    shareReplay(1),
     tap((data) => {
       if (data && data.formControls) {
         this.displayedColumns = data.formControls.map((ctrl) => ctrl.name);
@@ -84,7 +85,6 @@ export class DynamicDataGridComponent implements OnInit {
     switchMap((value: FormDetails) => {
       return getGridDetails(value.formID, this.afs, value.formControls);
     }),
-    shareReplay(1),
   );
 
   constructor(
@@ -96,9 +96,10 @@ export class DynamicDataGridComponent implements OnInit {
   ) {
   }
 
-  onDemoFormInit($event: NgForm) {
+  onDemoFormInit($event: NgForm, arrowDynamicFormRef) {
     setTimeout(() => {
       this.dynamicForm = $event;
+      this.arrowDynamicForm = arrowDynamicFormRef;
     });
   }
 
@@ -178,8 +179,13 @@ export class DynamicDataGridComponent implements OnInit {
       }
     );
     this.addOrEditFormDialogRef.afterOpened().subscribe(result => {
-      debugger;
-      this.dynamicForm.resetForm(_.clone(data));
+      this.dynamicForm.resetForm(_.clone(data.formData));
+      setTimeout(() => {
+        console.log(this.arrowDynamicForm);
+        this.arrowDynamicForm.formControls.forEach(formControl => {
+          handleFormChange(this.arrowDynamicForm.formControls, formControl, false)
+        });
+      });
     });
   }
 
