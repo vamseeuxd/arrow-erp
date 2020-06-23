@@ -8,6 +8,7 @@ import {
 } from '@angular/router';
 import {PlatformLocation} from '@angular/common';
 import {BusyIndicatorService} from './layout/busy-indicator.service';
+import { SwUpdate } from '@angular/service-worker';
 
 @Component({
     selector: 'app-root',
@@ -21,6 +22,7 @@ export class AppComponent {
     constructor(
         public _router: Router,
         public busyIndicator: BusyIndicatorService,
+        private swUpdate: SwUpdate,
         location: PlatformLocation
     ) {
         this._router.events.subscribe((routerEvent: Event) => {
@@ -42,5 +44,9 @@ export class AppComponent {
             }
             window.scrollTo(0, 0);
         });
+
+      swUpdate.available.subscribe(event => {
+        window.location.reload();
+      });
     }
 }
