@@ -59,7 +59,9 @@
                   <mat-cell *matCellDef="let item">{{item[option.name] | date}}</mat-cell>
                 </ng-container>
                 <ng-container *ngSwitchCase="option.type != formControlType.DATE">
-                  <mat-cell *matCellDef="let item">{{item[option.name]}}</mat-cell>
+                  <mat-cell *matCellDef="let item">
+                    <label class="text-truncate" [matTooltip]="item[option.name]">{{item[option.name]}}</label>
+                  </mat-cell>
                 </ng-container>
               </ng-container>
             </ng-container>

@@ -19,6 +19,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {WithLoadingPipe} from './pipes/with-loading.pipe';
 import {PageLoaderComponent} from '../layout/page-loader/page-loader.component';
 import {NgInitDirective} from './directive/ngInit.directive';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import {NgInitDirective} from './directive/ngInit.directive';
     MatIconModule,
     MatTableModule,
     MatButtonModule,
+    MatTooltipModule,
     WithLoadingPipe,
     NgInitDirective,
   ],
@@ -62,6 +64,7 @@ import {NgInitDirective} from './directive/ngInit.directive';
     MatIconModule,
     MatTableModule,
     MatButtonModule,
+    MatTooltipModule,
     ToastrModule.forRoot(),
   ],
   entryComponents: [DynamicFormComponent],
