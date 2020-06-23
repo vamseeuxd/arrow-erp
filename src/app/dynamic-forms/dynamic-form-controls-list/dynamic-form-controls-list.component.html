@@ -6,11 +6,11 @@
   <mat-tab label="List of Controls">
     <ul
       cdkDropList
-      class="form-controller-list"
+      class="form-controller-list list-group"
       (cdkDropListDropped)="drop($event)"
     >
       <li
-        class="form-controller-box"
+        class="form-controller-box list-group-item"
         *ngFor="let formControl of selectedFormControls; let index$ = index"
         cdkDrag
       >

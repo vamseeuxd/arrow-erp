@@ -50,6 +50,8 @@ import { SharedModule } from "./shared/shared.module";
 import { TagInputModule } from "ngx-chips";
 import { MatBottomSheetModule } from "@angular/material/bottom-sheet";
 import { MatTabsModule } from "@angular/material/tabs";
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -99,6 +101,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     SharedModule,
     TagInputModule,
     MatBottomSheetModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },

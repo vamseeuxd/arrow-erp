@@ -8,14 +8,14 @@
           <div class="materialTableHeader">
             <div class="row">
               <div class="col-12">
-                <ul class="header-buttons-left ml-0">
+                <ul class="header-buttons-left w-100 ml-0">
 
                   <!--  **********************  Data Grid Header - Title  **********************  -->
                   <li class="dropdown"><h2><strong>{{formDetails.gridPageTitle}}</strong></h2></li>
                   <!--  **********************  Data Grid Header - Title  **********************  -->
 
                   <!--  **********************  Data Grid Header - Global Search  **********************  -->
-                  <li class="dropdown m-l-20">
+                  <li class="dropdown ml-3">
                     <label><i class="material-icons search-icon">search</i></label>
                     <input placeholder="Search" type="text" (keyup)="applyFilter($event)" class="browser-default search-field"/>
                   </li>
@@ -23,7 +23,7 @@
 
                   <!--  **********************  Download Excel Template  **********************  -->
                   <li class="dropdown ml-3">
-                    <button mat-raised-button type="button" (click)="downloadExcelTemplate()">
+                    <button mat-stroked-button class="shadow-sm" type="button" (click)="downloadExcelTemplate()">
                       Download Excel Template
                     </button>
                   </li>
@@ -31,7 +31,7 @@
 
                   <!--  **********************  Download Excel Template  **********************  -->
                   <li class="dropdown ml-3">
-                    <button mat-raised-button type="button" (click)="uploadExcelButton.click()">
+                    <button mat-stroked-button class="shadow-sm" type="button" (click)="uploadExcelButton.click()">
                       Upload Excel
                     </button>
 
