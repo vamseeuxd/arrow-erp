@@ -23,9 +23,6 @@ import * as XLSX from 'xlsx';
 import {Papa} from 'ngx-papaparse';
 import {DynamicFormComponent} from '../dynamic-form/dynamic-form.component';
 
-const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-const EXCEL_EXTENSION = '.csv';
-
 @Component({
   selector: 'app-dynamic-data-grid',
   templateUrl: './dynamic-data-grid.component.html',
@@ -35,7 +32,7 @@ export class DynamicDataGridComponent implements OnInit {
 
   private _formId = '';
   private csvImportedData: any [] = [];
-
+  readonly SELECTED_FORM_LABEL = 'Select Form';
   get formId(): string {
     return this._formId;
   }
@@ -44,6 +41,9 @@ export class DynamicDataGridComponent implements OnInit {
   set formId(value: string) {
     if (this._formId !== value) {
       this.showTable = false;
+      if(value !== this.SELECTED_FORM_LABEL) {
+        this.busyIndicatorId = this.busyIndicator.show();
+      }
       this.selectedForm$.next(value);
     }
     this._formId = value;
