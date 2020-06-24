@@ -93,7 +93,11 @@ export const DataProviderControl = {
   required: true,
   label: "Data Reference Table",
   name: "dataProviderCollectionName",
-  type: "text",
+  type: "select",
+  multiple: false,
+  identifyBy: "id",
+  displayBy: "name",
+  dataProvider: [],
 };
 export const IdentifyByControl = {
   columnClass: "col-12 mb-1",
@@ -106,7 +110,11 @@ export const IdentifyByControl = {
   placeholder: "Data Item Identify By",
   label: "Data Item Identify By",
   name: "identifyBy",
-  type: "text",
+  type: "select",
+  multiple: false,
+  identifyBy: "id",
+  displayBy: "name",
+  dataProvider: [],
 };
 export const DisplayByControl = {
   columnClass: "col-12 mb-1",
@@ -119,7 +127,11 @@ export const DisplayByControl = {
   placeholder: "Data Item Display By",
   label: "Data Item Display By",
   name: "displayBy",
-  type: "text",
+  type: "select",
+  multiple: false,
+  identifyBy: "id",
+  displayBy: "name",
+  dataProvider: [],
 };
 export const FilterByControl = {
   columnClass: "col-12 mb-1",
@@ -132,7 +144,11 @@ export const FilterByControl = {
   placeholder: "Data Item Filter By",
   label: "Data Item Filter By",
   name: "filterBy",
-  type: "text",
+  type: "select",
+  multiple: false,
+  identifyBy: "id",
+  displayBy: "name",
+  dataProvider: [],
 };
 export const FilterValueControl = {
   columnClass: "col-12 mb-1",
@@ -145,7 +161,11 @@ export const FilterValueControl = {
   placeholder: "Data Filter Value Control",
   label: "Data Filter Value Control",
   name: "filterValueControl",
-  type: "text",
+  type: "select",
+  multiple: false,
+  identifyBy: "id",
+  displayBy: "name",
+  dataProvider: [],
 };
 export const RequiredControl = {
   columnClass: "col-md-6 mb-1",

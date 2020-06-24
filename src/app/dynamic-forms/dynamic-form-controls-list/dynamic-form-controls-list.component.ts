@@ -1,44 +1,62 @@
-import { Component, OnInit, ViewChild, TemplateRef } from "@angular/core";
-import { CdkDragDrop, moveItemInArray } from "@angular/cdk/drag-drop";
-import { MatDialog } from "@angular/material/dialog";
-import { BusyIndicatorService } from "src/app/layout/busy-indicator.service";
+import {Component, OnInit, ViewChild, TemplateRef, OnDestroy} from '@angular/core';
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import {MatDialog} from '@angular/material/dialog';
+import {BusyIndicatorService} from 'src/app/layout/busy-indicator.service';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
-} from "@angular/fire/firestore";
-import { Observable, Subject } from "rxjs";
-import * as firebase from "firebase/app";
-import * as _ from "lodash";
-import "firebase/firestore";
+} from '@angular/fire/firestore';
+import {Observable, of, Subject, Subscription} from 'rxjs';
+import * as firebase from 'firebase/app';
+import * as _ from 'lodash';
+import 'firebase/firestore';
 import {
   FormControlsConfigList,
   EDIT_CONFIG,
   CONTROL_TYPE,
-} from "./dynamic-form-controls-configs";
-import { NgForm } from "@angular/forms";
-import { switchMap, tap, map } from "rxjs/operators";
+} from './dynamic-form-controls-configs';
+import {NgForm} from '@angular/forms';
+import {switchMap, tap, map, filter} from 'rxjs/operators';
 import {
   handleFormChange,
   mapDataProviders,
-} from "../../shared/utilities/get-from-config";
+} from '../../shared/utilities/get-from-config';
 
 @Component({
-  selector: "app-dynamic-form-controls-list",
-  templateUrl: "./dynamic-form-controls-list.component.html",
-  styleUrls: ["./dynamic-form-controls-list.component.scss"],
+  selector: 'app-dynamic-form-controls-list',
+  templateUrl: './dynamic-form-controls-list.component.html',
+  styleUrls: ['./dynamic-form-controls-list.component.scss'],
 })
-export class DynamicFormControlsListComponent implements OnInit {
-  @ViewChild("addNewControlTemplate")
+export class DynamicFormControlsListComponent implements OnInit, OnDestroy {
+  @ViewChild('addNewControlTemplate')
   addNewControlTemplate: TemplateRef<any>;
-  formTittle = "Add New Form Control";
+  formTittle = 'Add New Form Control';
   isFormValid = false;
   duplicateName = false;
   updatePositionAfterUpdate = false;
   formDetails;
-  defaultColumnWidth = "";
+  defaultColumnWidth = '';
   formToEdit = null;
   formToEditIndex = -1;
-
+  allForms$: Observable<{ name: any; id: any; }[]> = this.afs.collection('dynamic-forms').valueChanges()
+    .pipe(
+      map((data: any[]) => {
+        return data.map(value => ({name: value.gridPageTitle, id: value.formID, formId: value.id}));
+      }));
+  allFormsSubscription: Subscription;
+  selectedTable$: Subject<{ name: string, id: string, formId: string }> = new Subject<{ name: string, id: string, formId: string }>();
+  selectedTableFields$ = this.selectedTable$.pipe(switchMap(
+    selectedTable => {
+      return this.afs.collection(
+        'dynamic-form-controls',
+        ref => ref.where('formId', '==', selectedTable.formId)
+      ).valueChanges().pipe(
+        map(
+          (data: any) => [{name: 'ID', id: 'id'}, ...data.map(d => ({name: d.label, id: d.name}))]
+        )
+      );
+    }
+  ));
   editDynamicFormConfig: any[] = FormControlsConfigList;
 
   selectedFormControls: any[] = [];
@@ -56,7 +74,7 @@ export class DynamicFormControlsListComponent implements OnInit {
     private busyIndicator: BusyIndicatorService,
     public afs: AngularFirestore
   ) {
-    this.formControlCollection = afs.collection<any>("dynamic-form-controls");
+    this.formControlCollection = afs.collection<any>('dynamic-form-controls');
     const compareFn = (a, b) => {
       if (a.position < b.position) {
         return -1;
@@ -70,8 +88,8 @@ export class DynamicFormControlsListComponent implements OnInit {
     this.formControlList$ = this.formDetails$.pipe(
       switchMap((formDetails: any) =>
         afs
-          .collection("dynamic-form-controls", (ref) =>
-            ref.where("formId", "==", formDetails.id).orderBy("position")
+          .collection('dynamic-form-controls', (ref) =>
+            ref.where('formId', '==', formDetails.id).orderBy('position')
           )
           .valueChanges()
           .pipe(map((things) => things.sort(compareFn)))
@@ -92,18 +110,45 @@ export class DynamicFormControlsListComponent implements OnInit {
     );
   }
 
+  ngOnDestroy(): void {
+    this.allFormsSubscription.unsubscribe();
+  }
+
   openDialog(addNewControlTemplate): void {
     const dialogRef = this.dialogModel.open(addNewControlTemplate, {
-      width: "640px",
+      width: '640px',
       disableClose: true,
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      this.formTittle = "Add New Dynamic Form";
+      this.formTittle = 'Add New Dynamic Form';
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+    this.allFormsSubscription = this.formDetails$.pipe(
+      switchMap(
+        (formDetails: any) => {
+          return this.allForms$.pipe(
+            map((data: any[]) => {
+              return data.filter(val => val.id !== formDetails.formID);
+            })
+          );
+        }
+      )
+    ).subscribe(value => {
+      this.editDynamicFormConfig[EDIT_CONFIG.DATA_PROVIDER].dataProvider = value;
+    });
+    this.selectedTableFields$.subscribe(value => {
+      this.editDynamicFormConfig[EDIT_CONFIG.DISPLAY_BY].dataProvider = value;
+      this.editDynamicFormConfig[EDIT_CONFIG.IDENTIFY_BY].dataProvider = value;
+      this.editDynamicFormConfig[EDIT_CONFIG.FILTER_BY].dataProvider = value;
+    });
+    this.formControlList$.subscribe(formControlList => {
+      this.editDynamicFormConfig[EDIT_CONFIG.FILTER_VALUE].dataProvider = formControlList.map(d=>({name:d.label,id:d.name}))
+    });
+  }
 
   drop(event: CdkDragDrop<string[]>) {
     // alert(`${event.previousIndex} / ${event.currentIndex}`);
@@ -145,13 +190,13 @@ export class DynamicFormControlsListComponent implements OnInit {
     this.formDetails$.next(this.formDetails);
   }
 
-  addNewControl(formDetails: any, controlType = "email") {
+  addNewControl(formDetails: any, controlType = 'email') {
     this.formDetails = formDetails;
     this.formDetails$.next(this.formDetails);
     this.defaultColumnWidth = formDetails.defaultColumnClass;
     this.editDynamicFormConfig[EDIT_CONFIG.COLUMN_CLASS].value =
       formDetails.defaultColumnClass;
-    this.editDynamicFormConfig[EDIT_CONFIG.CONTROLLER_CLASS].value = "w-100";
+    this.editDynamicFormConfig[EDIT_CONFIG.CONTROLLER_CLASS].value = 'w-100';
     this.formToEdit = null;
     this.formToEditIndex = -1;
     this.openDialog(this.addNewControlTemplate);
@@ -167,12 +212,17 @@ export class DynamicFormControlsListComponent implements OnInit {
 
   editFormController(formControl, index$) {
     this.formToEdit = formControl;
-    this.formTittle = "Edit Form Control";
+    this.formTittle = 'Edit Form Control';
     this.formToEditIndex = index$;
+    console.clear();
     this.editDynamicFormConfig.forEach((config) => {
       Object.keys(formControl).forEach((data) => {
         if (config.name === data) {
           config.value = formControl[data];
+          if (data === 'dataProviderCollectionName') {
+            const dataProvider = this.editDynamicFormConfig[EDIT_CONFIG.DATA_PROVIDER].dataProvider;
+            this.selectedTable$.next(dataProvider.find(d => d.id === formControl[data]));
+          }
         }
       });
     });
@@ -196,13 +246,14 @@ export class DynamicFormControlsListComponent implements OnInit {
         this.formToEdit.id,
         this.formToEdit.createdOn
       );
-    } else {
+    }
+    else {
       await this.addFormControl(arrowForm.value);
     }
     arrowForm.resetForm({
-      type: "email",
+      type: 'email',
       columnClass: this.defaultColumnWidth,
-      controllerClass: "w-100",
+      controllerClass: 'w-100',
       required: true,
       hide: false,
       disabled: false,
@@ -213,7 +264,7 @@ export class DynamicFormControlsListComponent implements OnInit {
   }
 
   async deleteForm(formId) {
-    const isConfimred = confirm("Are you sure!Do you want to Delete?");
+    const isConfimred = confirm('Are you sure!Do you want to Delete?');
     if (isConfimred) {
       const busyIndicatorId = this.busyIndicator.show();
       try {
@@ -241,7 +292,7 @@ export class DynamicFormControlsListComponent implements OnInit {
 
   deleteDynamicForm(id: string): Promise<any> {
     return new Promise(
-      async function (resolve, reject) {
+      async function(resolve, reject) {
         try {
           await this.formControlCollection.doc(id).delete();
           resolve(id);
@@ -258,7 +309,7 @@ export class DynamicFormControlsListComponent implements OnInit {
     );
     delete this.formDetails.dataProvider;
     return new Promise(
-      async function (resolve, reject) {
+      async function(resolve, reject) {
         try {
           const response = await this.formControlCollection.add({
             ...formData,
@@ -268,7 +319,7 @@ export class DynamicFormControlsListComponent implements OnInit {
           });
           const docRef = await this.formControlCollection.doc(response.id);
           const doc = await docRef.get().toPromise();
-          await docRef.set({ ...doc.data(), id: response.id });
+          await docRef.set({...doc.data(), id: response.id});
           resolve(response.id);
         } catch (e) {
           reject(e);
@@ -283,7 +334,7 @@ export class DynamicFormControlsListComponent implements OnInit {
     );
     delete this.formDetails.dataProvider;
     return new Promise(
-      async function (resolve, reject) {
+      async function(resolve, reject) {
         try {
           const docRef = await this.formControlCollection.doc(id);
           const doc = await docRef.get().toPromise();
@@ -419,7 +470,7 @@ export class DynamicFormControlsListComponent implements OnInit {
   }
 
   resetEditDynamicForm() {
-    const optionalProps = ["hide"];
+    const optionalProps = ['hide'];
     this.editDynamicFormConfig.forEach((config) => {
       optionalProps.forEach((prop) => {
         if (config && config.hasOwnProperty(prop)) {
@@ -430,16 +481,20 @@ export class DynamicFormControlsListComponent implements OnInit {
   }
 
   onEditDynamicFormChangeBefore($event: any) {
+    // selectedDataProviderTable
     if ($event && $event.form) {
       this.isFormValid = $event.form.valid;
     }
-    if ($event && $event.control && $event.control.name === "type") {
+    if ($event && $event.control && $event.control.name === 'type') {
       this.onEditDynamicFormChange($event.control.value);
     }
-    if ($event.control && $event.control.name === "name") {
+    if ($event.control && $event.control.name === 'name') {
       this.duplicateName =
         this.selectedFormControls.filter((d) => d.name === $event.control.value)
           .length > 0;
+    }
+    if ($event.control && $event.control.name === 'dataProviderCollectionName') {
+      this.selectedTable$.next($event.control.dataProvider.find(d => d.id === $event.control.value));
     }
   }
 

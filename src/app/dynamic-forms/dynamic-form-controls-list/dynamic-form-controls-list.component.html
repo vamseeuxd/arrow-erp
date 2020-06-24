@@ -85,9 +85,6 @@
   <!-- **************************************************   Preview Form   ************************************************** -->
   <mat-tab label="Preview Form">
     <div class="form-controller-list">
-      <!--<pre *ngIf="getFormConfig(formControlList,afs) | async as data">
-        {{data|json}}
-      </pre>-->
       <app-dynamic-form
         #previewForm
         formClass="ml-4 mr-4"
@@ -107,7 +104,6 @@
   <div>
     <h2 mat-dialog-title class="mb-0">{{ formTittle }}</h2>
     <div mat-dialog-content>
-      <!-- <pre>{{ editDynamicFormConfig | json }}</pre> -->
       <app-dynamic-form
         (change)="onEditDynamicFormChangeBefore($event)"
         #myForm
