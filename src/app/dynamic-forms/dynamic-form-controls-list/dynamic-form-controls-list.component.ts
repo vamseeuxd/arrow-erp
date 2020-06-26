@@ -361,6 +361,7 @@ export class DynamicFormControlsListComponent implements OnInit, OnDestroy {
   onEditDynamicFormChange(type: string) {
     this.resetEditDynamicForm();
     // this.editDynamicFormConfig[EDIT_CONFIG.VALUE].type = type;
+    // this.editDynamicFormConfig[EDIT_CONFIG.DUPLICATE_ERROR].hide = true;
     switch (type) {
       case CONTROL_TYPE.EMAIL:
         this.editDynamicFormConfig[EDIT_CONFIG.DATA_PROVIDER].hide = true;
@@ -495,6 +496,9 @@ export class DynamicFormControlsListComponent implements OnInit, OnDestroy {
     }
     if ($event.control && $event.control.name === 'dataProviderCollectionName') {
       this.selectedTable$.next($event.control.dataProvider.find(d => d.id === $event.control.value));
+    }
+    if ($event.control && $event.control.name === 'duplicate') {
+      this.editDynamicFormConfig[EDIT_CONFIG.DUPLICATE_ERROR].hide = $event.control.value;
     }
   }
 

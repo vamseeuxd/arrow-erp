@@ -223,7 +223,7 @@ export const getGridDetails = (formId, afs: AngularFirestore, formControls: any[
       .valueChanges()
       .pipe(
         tap(x => {
-          // debugger;
+          console.log('1. -------------------------->>>', x);
         }),
         pipe.apply(this, relationShips),
         map((controls: any[]) => {
@@ -250,6 +250,7 @@ export const getGridDetails = (formId, afs: AngularFirestore, formControls: any[
             optionToAdd.formData = masterCtrl;
             optionsToReturn.push(optionToAdd);
           });
+          console.log('2. -------------------------->>>', optionsToReturn);
           return optionsToReturn;
         })
       );

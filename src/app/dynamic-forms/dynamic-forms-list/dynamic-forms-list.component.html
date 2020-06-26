@@ -32,7 +32,7 @@
     <h6 *ngIf="dynamicFormList.length === 0" class="text-center text-muted">No Forms to Show</h6>
     <mat-accordion *ngIf="dynamicFormList.length > 0" style="display: block; margin-top: -12px;">
       <mat-expansion-panel
-        (afterExpand)="formControlsList.getFormControlDetails(dynamicForm)"
+        (afterExpand)="formControlsList.getFormControlDetails(dynamicForm);checkForDependencies(dynamicForm)"
         *ngFor="let dynamicForm of dynamicFormList"
         class="position-relative"
       >

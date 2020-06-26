@@ -71,6 +71,7 @@ export class DynamicDataGridComponent implements OnInit {
     switchMap((formId) => {
       return getFormDetails(formId, this.afs);
     }),
+    shareReplay(1),
     tap((data) => {
       if (data && data.formControls) {
         this.displayedColumns = data.formControls.map((ctrl) => ctrl.name);
@@ -85,6 +86,11 @@ export class DynamicDataGridComponent implements OnInit {
     switchMap((value: FormDetails) => {
       return getGridDetails(value.formID, this.afs, value.formControls);
     }),
+    tap(
+      x => {
+        debugger;
+      }
+    )
   );
 
   constructor(
