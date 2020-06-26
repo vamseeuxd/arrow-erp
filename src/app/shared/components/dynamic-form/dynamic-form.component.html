@@ -116,6 +116,10 @@
                 >Invalid {{ control.label }} pattern</span
               >
             </mat-error>
+
+            <mat-hint class="text-danger" *ngIf="control.duplicateMessage$ | async as duplicateMessage">
+              <span [innerHTML]="duplicateMessage"></span>
+            </mat-hint>
           </mat-form-field>
         </ng-container>
 
@@ -160,6 +164,11 @@
                 >{{ control.label }} is required</span
               >
             </mat-error>
+
+            <mat-hint class="text-danger" *ngIf="control.duplicateMessage$ | async as duplicateMessage">
+              <span [innerHTML]="duplicateMessage"></span>
+            </mat-hint>
+
           </mat-form-field>
         </ng-container>
 
@@ -202,6 +211,10 @@
                 >{{ control.label }} is required</span
               >
             </mat-error>
+
+            <mat-hint class="text-danger" *ngIf="control.duplicateMessage$ | async as duplicateMessage">
+              <span [innerHTML]="duplicateMessage"></span>
+            </mat-hint>
           </div>
         </ng-container>
 
@@ -259,8 +272,15 @@
                 >{{ control.label }} is required</span
               >
             </mat-error>
+
+            <mat-hint class="text-danger" *ngIf="control.duplicateMessage$ | async as duplicateMessage">
+              <span [innerHTML]="duplicateMessage"></span>
+            </mat-hint>
+
           </div>
         </ng-container>
+
+        <!--duplicateErrorMessage-->
       </ng-container>
     </div>
   </div>

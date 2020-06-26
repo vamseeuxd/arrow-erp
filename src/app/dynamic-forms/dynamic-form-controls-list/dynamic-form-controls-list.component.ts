@@ -19,8 +19,9 @@ import {NgForm} from '@angular/forms';
 import {switchMap, tap, map, filter} from 'rxjs/operators';
 import {
   handleFormChange,
-  mapDataProviders,
+  mapDataProviders, mapDuplicateValidation,
 } from '../../shared/utilities/get-from-config';
+import {leftJoin, leftJoinDocument} from '../../shared/utilities/collectionJoin';
 
 @Component({
   selector: 'app-dynamic-form-controls-list',
@@ -94,7 +95,9 @@ export class DynamicFormControlsListComponent implements OnInit, OnDestroy {
           .valueChanges()
           .pipe(map((things) => things.sort(compareFn)))
       ),
+      leftJoinDocument(this.afs, 'formId', 'dynamic-forms'),
       mapDataProviders(this.afs),
+      mapDuplicateValidation(this.afs),
       tap((value: any[]) => {
         const clonedValue = _.clone(value);
         clonedValue.forEach((x) => {
@@ -146,7 +149,7 @@ export class DynamicFormControlsListComponent implements OnInit, OnDestroy {
       this.editDynamicFormConfig[EDIT_CONFIG.FILTER_BY].dataProvider = value;
     });
     this.formControlList$.subscribe(formControlList => {
-      this.editDynamicFormConfig[EDIT_CONFIG.FILTER_VALUE].dataProvider = formControlList.map(d=>({name:d.label,id:d.name}))
+      this.editDynamicFormConfig[EDIT_CONFIG.FILTER_VALUE].dataProvider = formControlList.map(d => ({name: d.label, id: d.name}));
     });
   }
 

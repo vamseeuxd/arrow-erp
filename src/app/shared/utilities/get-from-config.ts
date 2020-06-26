@@ -3,7 +3,7 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import {map, switchMap, tap} from 'rxjs/operators';
 import * as firebase from 'firebase/app';
 import * as _ from 'lodash';
-import {leftJoin} from './collectionJoin';
+import {leftJoin, leftJoinDocument} from './collectionJoin';
 
 export const getServerTime = (): any => {
   return firebase.firestore.Timestamp.now().toDate();
@@ -33,7 +33,11 @@ export const getFormDetails = (formId, afs: AngularFirestore): Observable<FormDe
                 ref.where('formId', '==', value[0] ? value[0].id : '').orderBy('position')
               )
               .valueChanges()
-              .pipe(mapDataProviders(afs)),
+              .pipe(
+                leftJoinDocument(afs, 'formId', 'dynamic-forms'),
+                mapDataProviders(afs),
+                mapDuplicateValidation(afs),
+              ),
           ]);
         }
         else {
@@ -57,6 +61,69 @@ export const getFormDetails = (formId, afs: AngularFirestore): Observable<FormDe
       })
     );
 };
+export const mapDuplicateValidation = (afs: AngularFirestore) => {
+  return (source) =>
+    defer(() => {
+      let collectionData;
+      let totalJoins = 0;
+      return source.pipe(
+        switchMap(
+          (data: any[]) => {
+            collectionData = data;
+            const reads$ = [];
+            if (data && data.length > 0) {
+              for (const doc of collectionData) {
+                if (
+                  doc.hasOwnProperty('duplicate') &&
+                  doc.duplicate === false
+                ) {
+                  const duplicateAction$ = new Subject<string>();
+                  const duplicateMessage$ = duplicateAction$.pipe(
+                    switchMap((value) => {
+                        debugger;
+                        return afs
+                          .collection(doc.formId.formID,
+                            (ref) => ref.where(doc.name, '==', value)
+                          )
+                          .valueChanges().pipe(
+                            switchMap(x => {
+                              if (x && x.length > 0) {
+                                return of(`Duplicate Value ! already <b>${value}</b> exist in <b>${doc.formId.gridPageTitle}</b>`);
+                              }
+                              else {
+                                return of(null);
+                              }
+
+                            })
+                          );
+                      }
+                    )
+                  );
+                  reads$.push(of({duplicateAction: duplicateAction$, duplicateMessage: duplicateMessage$}));
+                }
+                else {
+                  reads$.push(of('ignore'));
+                }
+              }
+            }
+            return combineLatest(reads$);
+          }
+        ),
+        map((joins) => {
+          return collectionData.map((v, i) => {
+            totalJoins += joins[i].length;
+            if (joins[i] !== 'ignore') {
+              if (joins[i].hasOwnProperty('duplicateAction')) {
+                v.duplicateAction$ = joins[i].duplicateAction;
+                v.duplicateMessage$ = joins[i].duplicateMessage;
+              }
+            }
+            return v;
+          });
+        })
+      );
+    });
+};
 export const mapDataProviders = (afs: AngularFirestore) => {
   return (source) =>
     defer(() => {
@@ -73,24 +140,18 @@ export const mapDataProviders = (afs: AngularFirestore) => {
                 doc.dataProviderCollectionName.length > 0
               ) {
                 if (doc.filterBy && doc.filterBy.length > 0) {
-                  const action$ = new Subject<string>();
-                  const data$ = action$.pipe(
+                  const filterAction$ = new Subject<string>();
+                  const data$ = filterAction$.pipe(
                     switchMap((value) => {
                         return afs
                           .collection(doc.dataProviderCollectionName,
                             (ref) => ref.where(doc.filterBy, '==', value).orderBy(doc.displayBy)
                           )
-                          .valueChanges().pipe(
-                            tap(xyz => {
-                              // console.log(`collection(${doc.dataProviderCollectionName}, where(${doc.filterBy}, '==', ${value})`);
-                              // console.log(xyz);
-                            })
-                          );
+                          .valueChanges();
                       }
                     )
                   );
-                  reads$.push(of({action: action$, data: data$}));
-                  // reads$.push(afs.collection(doc.dataProviderCollectionName).valueChanges());
+                  reads$.push(of({filterAction: filterAction$, data: data$}));
                 }
                 else {
                   reads$.push(
@@ -114,8 +175,8 @@ export const mapDataProviders = (afs: AngularFirestore) => {
           return collectionData.map((v, i) => {
             totalJoins += joins[i].length;
             if (joins[i] !== 'ignore') {
-              if (joins[i].hasOwnProperty('action')) {
-                v.action$ = joins[i].action;
+              if (joins[i].hasOwnProperty('filterAction')) {
+                v.filterAction$ = joins[i].filterAction;
                 v.data$ = joins[i].data;
                 v.dataProvider = [];
               }
@@ -134,19 +195,28 @@ export const mapDataProviders = (afs: AngularFirestore) => {
 };
 export const handleFormChange = (formControls: any[], changeControl: any, restDependentValue = true) => {
   formControls.forEach((value) => {
-    if (
-      changeControl &&
-      changeControl.name === value.filterValueControl &&
-      value.action$
-    ) {
+    /**
+     * This logic is for Form Controller which having dataProvider
+     * if DataProvider Items as to filter based on other inputs in same form
+     * below logic will execute and get data from Database based on filters
+     * */
+    if (changeControl && changeControl.name === value.filterValueControl && value.filterAction$) {
       if (restDependentValue) {
         value.value = '';
       }
       const y$ = value.data$.subscribe((x) => {
         value.dataProvider = x;
-        // y$.unsubscribe();
       });
-      value.action$.next(changeControl.value);
+      value.filterAction$.next(changeControl.value);
+    }
+    /**
+     * This logic is for Form Controller which required duplicate validation check
+     */
+    if (changeControl && !changeControl.duplicate) {
+      const y$ = value.duplicateMessage$.subscribe((x: any[]) => {
+        console.log('duplicateErrorMessage -------------->', x);
+      });
+      value.duplicateAction$.next(changeControl.value);
     }
   });
 };
@@ -223,7 +293,7 @@ export const getGridDetails = (formId, afs: AngularFirestore, formControls: any[
       .valueChanges()
       .pipe(
         tap(x => {
-          console.log('1. -------------------------->>>', x);
+          // console.log('1. -------------------------->>>', x);
         }),
         pipe.apply(this, relationShips),
         map((controls: any[]) => {
@@ -250,7 +320,6 @@ export const getGridDetails = (formId, afs: AngularFirestore, formControls: any[
             optionToAdd.formData = masterCtrl;
             optionsToReturn.push(optionToAdd);
           });
-          console.log('2. -------------------------->>>', optionsToReturn);
           return optionsToReturn;
         })
       );

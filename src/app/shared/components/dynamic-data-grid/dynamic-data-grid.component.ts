@@ -88,7 +88,7 @@ export class DynamicDataGridComponent implements OnInit {
     }),
     tap(
       x => {
-        debugger;
+        // debugger;
       }
     )
   );
