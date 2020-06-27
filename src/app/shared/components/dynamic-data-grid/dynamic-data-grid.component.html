@@ -101,13 +101,15 @@
               {{ addNewData ? formDetails.addFormPageTitle : formDetails.editFormPageTitle }}
             </h4>
             <app-dynamic-form class="arrow-dynamic-form" #arrowDynamicFormRef
+                              [(duplicateErrors)]="duplicateErrors"
                               (change)="handleFormChange(formDetails.formControls, $event.control)"
                               (init)="onDemoFormInit($event, arrowDynamicFormRef)"
                               [formControls]="formDetails.formControls"
             ></app-dynamic-form>
+            <!--<pre>{{duplicateErrors|json}}</pre>-->
             <div mat-dialog-actions class="text-right">
-              <button mat-raised-button type="button" [disabled]="dynamicForm?.invalid"
-                      (click)="saveFormData(dynamicForm.value, formDetails.formID)" color="primary">Save</button>
+              <button mat-raised-button type="button" [disabled]="dynamicForm?.invalid || duplicateErrors.length>0"
+                      (click)="saveFormData(dynamicForm.value, formDetails.formID, formDetails.formControls)" color="primary">Save</button>
               <button mat-raised-button type="button" class="ml-3"
                       (click)="cancelAddOrEditForm();" color="accent">Cancel</button>
             </div>

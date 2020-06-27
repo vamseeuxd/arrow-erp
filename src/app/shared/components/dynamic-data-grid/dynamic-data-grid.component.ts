@@ -64,6 +64,7 @@ export class DynamicDataGridComponent implements OnInit {
   showTable = false;
   busyIndicatorId;
   dataRefreshMessage = null;
+  duplicateErrors = [];
 
   selectedForm$: BehaviorSubject<string> = new BehaviorSubject<string>(this._formId);
 
@@ -109,7 +110,7 @@ export class DynamicDataGridComponent implements OnInit {
     });
   }
 
-  async saveFormData(formData: any, formId: string) {
+  async saveFormData(formData: any, formId: string, formControls) {
     this.busyIndicatorId = this.busyIndicator.show();
     if (this.updatingData) {
       this.dataRefreshMessage = 'Updated Successfully';
@@ -118,7 +119,7 @@ export class DynamicDataGridComponent implements OnInit {
       this.dataRefreshMessage = 'Added Successfully';
     }
     try {
-      await handleFormSave(this.afs, formData, formId, this.updatingData ? this.updatingData.id : '');
+      await handleFormSave(this.afs, formData, formId, this.updatingData ? this.updatingData.id : '', formControls);
       this.dynamicForm.resetForm({});
       this.updatingData = null;
       this.addOrEditFormDialogRef.close();

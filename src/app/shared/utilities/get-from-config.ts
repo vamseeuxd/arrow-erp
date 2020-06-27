@@ -4,6 +4,7 @@ import {map, switchMap, tap} from 'rxjs/operators';
 import * as firebase from 'firebase/app';
 import * as _ from 'lodash';
 import {leftJoin, leftJoinDocument} from './collectionJoin';
+import {CONTROL_TYPE} from "../../dynamic-forms/dynamic-form-controls-list/dynamic-form-controls-configs";
 
 export const getServerTime = (): any => {
   return firebase.firestore.Timestamp.now().toDate();
@@ -39,8 +40,7 @@ export const getFormDetails = (formId, afs: AngularFirestore): Observable<FormDe
                 mapDuplicateValidation(afs),
               ),
           ]);
-        }
-        else {
+        } else {
           return of([]);
           // return throwError('No Records found with formID');
         }
@@ -79,18 +79,16 @@ export const mapDuplicateValidation = (afs: AngularFirestore) => {
                 ) {
                   const duplicateAction$ = new Subject<string>();
                   const duplicateMessage$ = duplicateAction$.pipe(
-                    switchMap((value) => {
-                        debugger;
+                    switchMap((value: string) => {
                         return afs
                           .collection(doc.formId.formID,
-                            (ref) => ref.where(doc.name, '==', value)
+                            (ref) => ref.where(doc.name + '_lowerCase', '==', value.toLowerCase())
                           )
                           .valueChanges().pipe(
                             switchMap(x => {
                               if (x && x.length > 0) {
                                 return of(`Duplicate Value ! already <b>${value}</b> exist in <b>${doc.formId.gridPageTitle}</b>`);
-                              }
-                              else {
+                              } else {
                                 return of(null);
                               }
 
@@ -100,8 +98,7 @@ export const mapDuplicateValidation = (afs: AngularFirestore) => {
                     )
                   );
                   reads$.push(of({duplicateAction: duplicateAction$, duplicateMessage: duplicateMessage$}));
-                }
-                else {
+                } else {
                   reads$.push(of('ignore'));
                 }
               }
@@ -152,22 +149,19 @@ export const mapDataProviders = (afs: AngularFirestore) => {
                     )
                   );
                   reads$.push(of({filterAction: filterAction$, data: data$}));
-                }
-                else {
+                } else {
                   reads$.push(
                     afs
                       .collection(doc.dataProviderCollectionName)
                       .valueChanges()
                   );
                 }
-              }
-              else {
+              } else {
                 reads$.push(of('ignore'));
               }
             }
             return combineLatest(reads$);
-          }
-          else {
+          } else {
             return of([]);
           }
         }),
@@ -179,8 +173,7 @@ export const mapDataProviders = (afs: AngularFirestore) => {
                 v.filterAction$ = joins[i].filterAction;
                 v.data$ = joins[i].data;
                 v.dataProvider = [];
-              }
-              else {
+              } else {
                 v.dataProvider = joins[i];
               }
             }
@@ -213,15 +206,20 @@ export const handleFormChange = (formControls: any[], changeControl: any, restDe
      * This logic is for Form Controller which required duplicate validation check
      */
     if (changeControl && !changeControl.duplicate) {
-      const y$ = value.duplicateMessage$.subscribe((x: any[]) => {
-        console.log('duplicateErrorMessage -------------->', x);
-      });
       value.duplicateAction$.next(changeControl.value);
     }
   });
 };
-export const handleFormSave = (afs: AngularFirestore, formData: any, formId: string, docId = ''): Promise<any> => {
+export const handleFormSave = (afs: AngularFirestore, formData: any, formId: string, docId = '', formControls: any[]): Promise<any> => {
   const formControlCollection = afs.collection<any>(formId);
+  const keysToLowerCases: string[] = formControls.filter(d => {
+    return (
+      d.type === CONTROL_TYPE.TEXT ||
+      d.type === CONTROL_TYPE.EMAIL ||
+      d.type === CONTROL_TYPE.SEARCH ||
+      d.type === CONTROL_TYPE.URL
+    )
+  }).map(d => d.name);
   Object.keys(formData).forEach(
     (key) => formData[key] === undefined && delete formData[key]
   );
@@ -230,6 +228,9 @@ export const handleFormSave = (afs: AngularFirestore, formData: any, formId: str
     // tslint:disable-next-line:forin
     for (const key in trimmedFormData) {
       trimmedFormData[key] = trimmedFormData[key].trim();
+      if (keysToLowerCases.indexOf(key) >= 0) {
+        trimmedFormData[key + '_lowerCase'] = trimmedFormData[key].trim().toLowerCase();
+      }
     }
     try {
       if (docId.trim().length > 0) {
@@ -241,8 +242,7 @@ export const handleFormSave = (afs: AngularFirestore, formData: any, formId: str
           updatedOn: getServerTime(),
         });
         resolve(docRef.id);
-      }
-      else {
+      } else {
         const docRef = formControlCollection.ref.doc();
         await docRef.set({
           id: docRef.id,
@@ -308,12 +308,10 @@ export const getGridDetails = (formId, afs: AngularFirestore, formControls: any[
                   optionToAdd[ctrl.name] = _.clone(
                     masterCtrl[ctrl.dataProviderCollectionName][0][ctrl.displayBy]
                   );
-                }
-                else {
+                } else {
                   optionToAdd[ctrl.name] = '';
                 }
-              }
-              else {
+              } else {
                 optionToAdd[ctrl.name] = masterCtrl[ctrl.name];
               }
             });
@@ -323,8 +321,7 @@ export const getGridDetails = (formId, afs: AngularFirestore, formControls: any[
           return optionsToReturn;
         })
       );
-  }
-  else {
+  } else {
     return of([]);
   }
 
